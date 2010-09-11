@@ -2,22 +2,14 @@ package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
-
-import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Event {
-
-	@PrimaryKey
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	private Key key;
+public class Event extends KeyBasedData {
 	
 	@Persistent
-	private String name;
+	private String name; 
 	
 	@Persistent
 	private Date publicEventStart; // When do booked people arrive?
@@ -58,18 +50,12 @@ public class Event {
 	public void setInternalEventEnd(Date internalEventEnd) {
 		this.internalEventEnd = internalEventEnd;
 	}
-	public Key getKey() {
-		return key;
-	}
-	public void setKey(Key key) {
-		this.key = key;
-	}
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+		
 }

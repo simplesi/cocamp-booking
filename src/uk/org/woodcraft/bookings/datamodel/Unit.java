@@ -2,20 +2,20 @@ package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Set;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class Unit {
-
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@PrimaryKey
-	private Key key;
+public class Unit extends KeyBasedData{
+	
+	public Unit(String name, Organisation org, boolean approved) {
+		this.name = name;
+		this.organisationKey = org.getKeyCheckNotNull();
+		this.approved = approved;
+	}
 	
 	@Persistent
 	private String name;
@@ -38,17 +38,6 @@ public class Unit {
 	@Persistent
 	private boolean approved;
 	
-	
-	public Key getKey() {
-		return key;
-	}
-
-
-	public void setKey(Key key) {
-		this.key = key;
-	}
-
-
 	public String getName() {
 		return name;
 	}

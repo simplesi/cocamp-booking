@@ -2,21 +2,15 @@ package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Date;
 
-import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
-import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Booking {
+public class Booking extends KeyBasedData{
 
-	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	@PrimaryKey
-	private Key key;
-	
 	@Persistent
 	private String name;
 
@@ -43,9 +37,9 @@ public class Booking {
 	
 	public Booking( String name, Unit unit, Event event) {
 		this.name = name;
-		this.unitKey = unit.getKey();
+		this.unitKey = unit.getKeyCheckNotNull();
 		this.villageKey = unit.getDefaultVillageKey();
-		this.eventKey = event.getKey();
+		this.eventKey = event.getKeyCheckNotNull();
 		this.arrivalDate = event.getPublicEventStart();
 		this.departureDate = event.getPublicEventEnd();
 		
@@ -82,14 +76,6 @@ public class Booking {
 
 	public void setDepartureDate(Date departureDate) {
 		this.departureDate = departureDate;
-	}
-
-	public Key getKey() {
-		return key;
-	}
-
-	public void setKey(Key key) {
-		this.key = key;
 	}
 
 	public String getName() {
