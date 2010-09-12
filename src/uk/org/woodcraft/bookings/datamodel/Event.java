@@ -1,9 +1,12 @@
 package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+
+import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 @PersistenceCapable
 public class Event extends KeyBasedData {
@@ -20,10 +23,17 @@ public class Event extends KeyBasedData {
 	@Persistent
 	private Date internalEventEnd;
 	
-	public Event(String name, Date from, Date to) {
+	/**
+	 * Is the event currently open for booking?
+	 */
+	@Persistent
+	private boolean isCurrentlyOpen; 
+	
+	public Event(String name, Date from, Date to, boolean isCurrentlyOpen) {
 		this.name = name;
-		this.publicEventStart = this.internalEventStart = from;
-		this.publicEventEnd = this.internalEventEnd = to;
+		this.publicEventStart = from;
+		this.publicEventEnd = to;
+		this.isCurrentlyOpen = isCurrentlyOpen;
 	}
 	
 	public Date getPublicEventStart() {
@@ -56,6 +66,18 @@ public class Event extends KeyBasedData {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setCurrentlyOpen(boolean isCurrentlyOpen) {
+		this.isCurrentlyOpen = isCurrentlyOpen;
+	}
+
+	public boolean isCurrentlyOpen() {
+		return isCurrentlyOpen;
+	}
+	
+	public List<Village> getVillages() {
+		return (CannedQueries.villagesForEvent(this));
 	}
 		
 }

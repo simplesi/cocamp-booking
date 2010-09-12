@@ -1,9 +1,11 @@
 package uk.org.woodcraft.bookings.datamodel;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+
+import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Text;
 
@@ -51,9 +53,9 @@ public class Organisation extends KeyBasedData{
 		this.notes = notes;
 	}
 
-	public Set<Unit> getUnits()
+	public List<Unit> getUnits(boolean includeUnapproved)
 	{
-		throw(new RuntimeException("needs to be implemented"));
+		return (CannedQueries.unitsForOrg(this, includeUnapproved));
 	}
 
 	public void setContactInfo(ContactInfo contactInfo) {

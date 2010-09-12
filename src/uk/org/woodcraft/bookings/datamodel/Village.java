@@ -1,9 +1,11 @@
 package uk.org.woodcraft.bookings.datamodel;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+
+import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -21,16 +23,14 @@ public class Village extends KeyBasedData{
 	@Persistent
 	private Key eventKey;
 
-	public Set<Booking> getBookings()
+	public List<Booking> getBookings()
 	{
-		// TODO: Implement
-		return null;
+		return(CannedQueries.bookingsForVillage(this));
 	}
 	
-	public Set<Unit> getUnits()
+	public List<Unit> getUnits()
 	{
-		// TODO: Implement
-		return null;
+		return(CannedQueries.unitsForVillage(this));
 	}
 
 	public String getName() {

@@ -22,13 +22,15 @@ public class BasicTestDataFixture extends TestFixture {
 		
 		// Events
 		List<Event> events = new ArrayList<Event>();
-		events.add(new Event("Test event 1", TestConstants.EVENT_START, TestConstants.EVENT_END));
-		events.add(new Event("Other event", null, null));		
+		events.add(new Event("Test event 1", TestConstants.EVENT_START, TestConstants.EVENT_END, true));
+		events.add(new Event("Other event", null, null, false));		
+		
+		// FIXME: For some reason, uncommenting this line causes the fixture to fail with a failure to create an abstract class later...
+//		events.add(new Event("Closed event", null, null, false));	
 		pm.makePersistentAll(events);
 		
 		// Villages
 		List<Village> villages = new ArrayList<Village>();
-
 		villages.add(new Village("Village 1", events.get(0)));
 		villages.add(new Village("Village 2", events.get(0)));
 		villages.add(new Village("Empty village", events.get(0)));
