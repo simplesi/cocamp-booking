@@ -33,12 +33,15 @@ public class Booking extends KeyBasedData implements NamedEntity{
 	private Date departureDate;
 
 	@Persistent
-	private Key villageKey;
+	private Key villageKey = null;
 	
 	public Booking( String name, Unit unit, Event event) {
 		this.name = name;
 		this.unitKey = unit.getKeyCheckNotNull();
-		this.villageKey = unit.getDefaultVillageKey(); // Can be null
+		
+		//FIXME: Could be optimized to not pull back village
+		Village village = unit.getDefaultVillageForEvent(event);
+		if (village != null) villageKey = village.getKey();
 		
 		this.eventKey = event.getKeyCheckNotNull();
 		this.arrivalDate = event.getPublicEventStart();

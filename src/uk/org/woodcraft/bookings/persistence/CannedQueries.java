@@ -1,15 +1,25 @@
 package uk.org.woodcraft.bookings.persistence;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.Transformer;
+
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
+import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.Village;
+
+import com.google.appengine.api.datastore.Key;
 
 @SuppressWarnings("unchecked")
 public class CannedQueries {
@@ -79,6 +89,17 @@ public class CannedQueries {
 		return null;
 	}
 	
+	/**
+	 * Get village for event matching a given name
+	 * @param villageKey The village key
+	 * @return The village, or null if nothing matched
+	 */
+	public static Village villageByKey (Key villageKey)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();	
+		return (pm.getObjectById(Village.class, villageKey));
+	}
+	
 	public static List<Organisation> allOrgs(boolean includeUnapproved )
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -129,31 +150,77 @@ public class CannedQueries {
 	}
 	
 	/**
-	 * Fetch the approved units homed in a particular village. 
-	 * @param village The village to query for. Leave null to get homeless units
+	 * Fetch the units homed in a particular village. 
+	 * @param village The village to query for
 	 * @return List of units
 	 */
 	public static List<Unit> unitsForVillage(Village village)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		Query query = pm.newQuery(Unit.class);
+		Query query = pm.newQuery(EventUnitVillageMapping.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
-		query.setOrdering("name");
 		
-		query.setFilter("defaultVillageKey == defaultVillageKeyParam && approved == true");
+		query.setFilter("villageKey == villageKeyParam");
+		query.declareParameters("Key villageKeyParam");
 		
-		query.declareParameters("Key defaultVillageKeyParam");
+		List<EventUnitVillageMapping> mappings = (List<EventUnitVillageMapping>) query.execute(village.getKeyCheckNotNull());
 		
-		List<Unit> results = null;
+		Collection<Key> unitKeys = CollectionUtils.collect(mappings, new Transformer() {
+			public Object transform(Object input) {
+				return ((EventUnitVillageMapping)input).getUnitKey();
+			}
+		});
+			
+		query = pm.newQuery(Unit.class, ":keys.contains(key)");
+		query.declareImports("import com.google.appengine.api.datastore.Key");
 		
-		if(village != null) 
-		{
-			results = (List<Unit>) query.execute(village.getKeyCheckNotNull());
-		} else { 
-			results = (List<Unit>) query.execute(null);
-		};
-		return (results);
+		List<Unit> units = (List<Unit>) query.execute(unitKeys);
+		return units;
+	}
+	
+	/**
+	 * Fetch the units homed in a particular village. 
+	 * @param village The village to query for
+	 * @return List of units
+	 */
+	public static List<Unit> unitsHomeless(Event event)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		// Get the list of village mappings in place for this event
+		Query query = pm.newQuery(EventUnitVillageMapping.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		
+		query.setFilter("eventKey == eventKeyParam");
+		query.declareParameters("Key eventKeyParam");
+		
+		List<EventUnitVillageMapping> mappings = (List<EventUnitVillageMapping>) query.execute(event.getKeyCheckNotNull());
+		
+		final Collection<Key> unitKeysWithMappings = CollectionUtils.collect(mappings, new Transformer() {
+			public Object transform(Object input) {
+				return ((EventUnitVillageMapping)input).getUnitKey();
+			}
+		});
+		
+		
+		// Fetch the set of units registered for this event
+		query = pm.newQuery(Unit.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		
+		query.setFilter("eventsRegistered == eventsRegisteredParam");
+		query.declareParameters("Key eventsRegisteredParam");
+		
+		List<Unit> unitsAttendingEvent = (List<Unit>)query.execute(event.getKeyCheckNotNull());
+		
+		Collection<Unit> unitsWithNoVillage = CollectionUtils.select(unitsAttendingEvent, new Predicate() {
+			
+			public boolean evaluate(Object unit) {
+				return (!unitKeysWithMappings.contains(((Unit)unit).getKey()));
+			}
+		});
+		
+		return new ArrayList<Unit>(unitsWithNoVillage);
 	}
 	
 	/**
@@ -224,9 +291,38 @@ public class CannedQueries {
 		Query query = pm.newQuery(Booking.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
 		query.setOrdering("name");
-		query.setFilter("eventKey == eventKeyParam");
+		query.setFilter("eventKey == eventKeyParam && villageKey == null");
 		query.declareParameters("Key eventKeyParam");
 		
 		return ((List<Booking>) query.execute(event.getKeyCheckNotNull()));
+	}
+	
+
+	public static Key defaultVillageKeyForUnit(Event event, Unit unit)
+	{	
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Key key = EventUnitVillageMapping.getKeyFor(event, unit);
+		EventUnitVillageMapping mapping = null;
+		try {
+			mapping = pm.getObjectById(EventUnitVillageMapping.class, key);
+		}
+		catch(JDOObjectNotFoundException exception)
+		{
+			// If the object didn't exist, that's fine
+		}
+		
+		if (mapping != null) 
+			return mapping.getVillageKey();
+		else
+			return null;
+	}
+	
+	public static void persistDefaultVillageKeyForUnit(Event event, Unit unit, Village village)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		EventUnitVillageMapping mapping = new EventUnitVillageMapping(event.getKeyCheckNotNull(), unit.getKeyCheckNotNull(), village.getKeyCheckNotNull());
+		pm.makePersistent(mapping);
 	}
 }

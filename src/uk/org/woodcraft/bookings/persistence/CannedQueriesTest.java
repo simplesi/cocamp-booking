@@ -16,6 +16,8 @@ import uk.org.woodcraft.bookings.testdata.TestConstants;
 import uk.org.woodcraft.bookings.testdata.TestFixture;
 import uk.org.woodcraft.bookings.testdata.TestUtils;
 
+import com.google.appengine.api.datastore.Key;
+
 public class CannedQueriesTest extends FixtureBasedTest{
 	
 	public CannedQueriesTest() {
@@ -95,9 +97,14 @@ public class CannedQueriesTest extends FixtureBasedTest{
 		
 		List<Unit> units = CannedQueries.unitsForVillage(village);
 		TestUtils.assertNames(units, "Unit 1");
+	}
+	
+	@Test
+	public void testUnitsHomeless() {
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
 		
-		List<Unit> homelessUnits = CannedQueries.unitsForVillage(null);
-		TestUtils.assertNames(homelessUnits, "Unit 2");
+		List<Unit> units = CannedQueries.unitsHomeless(event1);
+		TestUtils.assertNames(units, "Unit 2");
 	}
 
 	@Test
@@ -118,10 +125,6 @@ public class CannedQueriesTest extends FixtureBasedTest{
 		TestUtils.assertNames(bookings, "Test person", "Test person 2");
 	}
 
-	/**
-	 * This currently fails because the default village for a unit is event-specific, but this isn't represented in the data model
-	 * FIXME: Simon
-	 */
 	@Test
 	public void testBookingsForVillage() {
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
@@ -137,6 +140,23 @@ public class CannedQueriesTest extends FixtureBasedTest{
 
 		List<Booking> bookingsHomeless = CannedQueries.bookingsHomeless(event1);
 		TestUtils.assertNames(bookingsHomeless, "Person in unapproved, homeless unit");
+	}
+	
+	@Test
+	public void testDefaultVillagesForUnit() {
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
+		Unit unit1 = CannedQueries.unitByName("Unit 1", org);
+		Village expectedVillage = CannedQueries.villageByName("Village 1", event1);
+		
+		Key villageKey = CannedQueries.defaultVillageKeyForUnit(event1, unit1);
+		assertEquals(expectedVillage.getKey(), villageKey);
+		
+		Unit unit2 = CannedQueries.unitByName("Unit 2", org);
+		assertEquals(null, CannedQueries.defaultVillageKeyForUnit(event1, unit2));
+		
+		Event event2 = CannedQueries.eventByName("Other event");
+		assertEquals(null, CannedQueries.defaultVillageKeyForUnit(event2, unit1));
 	}
 
 }

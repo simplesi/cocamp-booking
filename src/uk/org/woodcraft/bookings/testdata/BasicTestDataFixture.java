@@ -7,6 +7,7 @@ import javax.jdo.PersistenceManager;
 
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
+import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.Village;
@@ -23,7 +24,8 @@ public class BasicTestDataFixture extends TestFixture {
 		List<Event> events = new ArrayList<Event>();
 		Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true);
  		events.add(event1);
-		events.add(new Event("Other event", null, null, true));		
+ 		Event event2 = new Event("Other event", null, null, true);
+		events.add(event2);		
 		
 		// FIXME: For some reason, un-commenting this line causes the fixture to fail with a failure to create an abstract class later...
 		events.add(new Event("Closed event", null, null, false));	
@@ -47,13 +49,22 @@ public class BasicTestDataFixture extends TestFixture {
 		// Units
 		List<Unit> units = new ArrayList<Unit>();
 		Unit unit1 = new Unit("Unit 1", organisations.get(0), true);
-		unit1.setDefaultVillage(village1.getKeyCheckNotNull());
-		
+		unit1.addEventRegistration(event1);
+		unit1.addEventRegistration(event2);	
 		units.add(unit1);
-		units.add(new Unit("Unit 2", organisations.get(0), true));
+		
+		Unit unit2 = new Unit("Unit 2", organisations.get(0), true);
+		unit2.addEventRegistration(event1);
+		units.add(unit2);
+		
 		units.add(new Unit("Unapproved unit for wcf", organisations.get(0), false));
 		units.add(new Unit("Unapproved unit", organisations.get(1), false));
 		pm.makePersistentAll(units);
+		
+		// Unit village defaults
+		List<EventUnitVillageMapping> unitVillageMapping = new ArrayList<EventUnitVillageMapping>();
+		unitVillageMapping.add(new EventUnitVillageMapping(event1.getKeyCheckNotNull(), unit1.getKeyCheckNotNull(), village1.getKeyCheckNotNull()));
+		pm.makePersistentAll(unitVillageMapping);
 		
 		// Bookings
 		List<Booking> bookings = new ArrayList<Booking>();

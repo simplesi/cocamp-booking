@@ -1,6 +1,9 @@
 package uk.org.woodcraft.bookings.datamodel;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -28,17 +31,17 @@ public class Unit extends KeyBasedData implements NamedEntity{
 	@Persistent(dependent = "true")
 	private ContactInfo contactInfo;
 	
-	/*
-	 * Which village is home to this unit, and is the default for unit members booked in
-	 */
-	@Persistent
-	private Key defaultVillageKey; 
-	
 	@Persistent
 	private Text notes;
 	
 	@Persistent
 	private boolean approved;
+	
+	/**
+	 * The events that this unit is registered for
+	 */
+	@Persistent
+	private Set<Key> eventsRegistered = new HashSet<Key>();
 	
 	public String getName() {
 		return name;
@@ -85,13 +88,17 @@ public class Unit extends KeyBasedData implements NamedEntity{
 	}
 
 
-	public void setDefaultVillage(Key defaultVillageKey) {
-		this.defaultVillageKey = defaultVillageKey;
+	public void setDefaultVillageForEvent(Event event, Village defaultVillage) {
+		CannedQueries.persistDefaultVillageKeyForUnit(event, this, defaultVillage);
 	}
 
-
-	public Key getDefaultVillageKey() {
-		return defaultVillageKey;
+	// TODO: Use a cache for this
+	public Village getDefaultVillageForEvent(Event event) {
+		Key key= (CannedQueries.defaultVillageKeyForUnit(event, this));
+		
+		if (key == null) return null;
+		
+		return (CannedQueries.villageByKey(key));
 	}
 
 
@@ -107,5 +114,14 @@ public class Unit extends KeyBasedData implements NamedEntity{
 	
 	public String toString() {
 		return getName();
+	}
+
+    // FIXME: Need to ensure this is called so we know who's going to the event
+	public void addEventRegistration(Event event) {
+		this.eventsRegistered.add(event.getKeyCheckNotNull());
+	}
+
+	public Set<Key> getEventsRegistered() {
+		return eventsRegistered;
 	}
 }
