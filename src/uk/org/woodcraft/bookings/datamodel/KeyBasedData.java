@@ -53,5 +53,7 @@ public abstract class KeyBasedData {
 		return (this.key.hashCode());
 	}
 	
-	
+	public String toString() {
+		return this.key.toString();
+	}
 }

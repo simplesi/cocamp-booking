@@ -9,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 @PersistenceCapable
-public class Event extends KeyBasedData {
+public class Event extends KeyBasedData  implements NamedEntity{
 	
 	@Persistent
 	private String name; 
@@ -78,6 +78,10 @@ public class Event extends KeyBasedData {
 	
 	public List<Village> getVillages() {
 		return (CannedQueries.villagesForEvent(this));
+	}
+	
+	public String toString() {
+		return getName();
 	}
 		
 }

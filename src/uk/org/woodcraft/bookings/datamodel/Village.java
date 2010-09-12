@@ -10,7 +10,7 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Village extends KeyBasedData{
+public class Village extends KeyBasedData implements NamedEntity{
 
 	public Village(String name, Event event) {
 		this.name = name;
@@ -49,6 +49,8 @@ public class Village extends KeyBasedData{
 		return eventKey;
 	}
 	
-	
+	public String toString() {
+		return getName();
+	}
 	
 }

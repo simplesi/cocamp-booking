@@ -27,7 +27,7 @@ public class FixtureTest extends FixtureBasedTest {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Collection<Event> events = (Collection<Event>) pm.newQuery(Event.class).execute();
-		List<String> expectedEvents = Arrays.asList("Test event 1", "Other event");
+		List<String> expectedEvents = Arrays.asList("Test event 1", "Other event", "Closed event");
 		
 		List<String> foundEvents = new ArrayList<String>(2);
 		

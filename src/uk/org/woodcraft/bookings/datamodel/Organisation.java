@@ -10,7 +10,7 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class Organisation extends KeyBasedData{
+public class Organisation extends KeyBasedData implements NamedEntity{
 		
 	public Organisation(String name, boolean approved) {
 		this.name = name;
@@ -64,5 +64,9 @@ public class Organisation extends KeyBasedData{
 
 	public ContactInfo getContactInfo() {
 		return contactInfo;
+	}
+	
+	public String toString() {
+		return getName();
 	}
 }

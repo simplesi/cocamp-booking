@@ -1,19 +1,22 @@
 package uk.org.woodcraft.bookings.persistence;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
 import org.junit.Test;
 
+import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
+import uk.org.woodcraft.bookings.datamodel.Organisation;
+import uk.org.woodcraft.bookings.datamodel.Unit;
+import uk.org.woodcraft.bookings.datamodel.Village;
 import uk.org.woodcraft.bookings.testdata.FixtureBasedTest;
+import uk.org.woodcraft.bookings.testdata.TestConstants;
 import uk.org.woodcraft.bookings.testdata.TestFixture;
-import static org.junit.Assert.*;
+import uk.org.woodcraft.bookings.testdata.TestUtils;
 
 public class CannedQueriesTest extends FixtureBasedTest{
-
-	
 	
 	public CannedQueriesTest() {
 		super(TestFixture.BASIC_DATA);
@@ -22,46 +25,118 @@ public class CannedQueriesTest extends FixtureBasedTest{
 	@Test
 	public void testAllEvents() {
 		
-		List<Event> openEvents = CannedQueries.allEvents(true);
-		assertEquals(2, openEvents.size());
+		List<Event> allEvents = CannedQueries.allEvents(true);
+		assertEquals(3, allEvents.size());
 	}
 	
 	@Test
 	public void testOpenEvents() {
 		
-		//FIXME: This fails with some strange error
 		List<Event> openEvents = CannedQueries.allEvents(false);
 		assertEquals(2, openEvents.size());
 	}
 
 	@Test
+	public void testEventByName() {
+		
+		Event event1 = CannedQueries.eventByName("Test event 1");
+		
+		assertEquals(TestConstants.EVENT1_NAME, event1.getName());
+	}
+	
+	@Test
 	public void testVillagesForEvent() {
-		fail("Not yet implemented");
+		
+		Event event1 = CannedQueries.eventByName("Test event 1");
+		
+		List<Village> villages = CannedQueries.villagesForEvent(event1);
+		assertEquals(3, villages.size());
 	}
 
 	@Test
 	public void testAllOrgs() {
-		fail("Not yet implemented");
+		List<Organisation> allOrgs = CannedQueries.allOrgs(true);
+		assertEquals(2, allOrgs.size());
+		
+		List<Organisation> approvedOrgs = CannedQueries.allOrgs(false);		
+		assertEquals(1, approvedOrgs.size());
+		assertEquals("Woodcraft Folk", approvedOrgs.get(0).getName());
 	}
 
+	public void testOrgByName() {
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");
+		assertEquals("Woodcraft Folk", org.getName());
+	}
+	
 	@Test
 	public void testUnitsForOrg() {
-		fail("Not yet implemented");
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");
+		
+		List<Unit> units = CannedQueries.unitsForOrg(org, true);
+		TestUtils.assertNames(units, "Unit 1", "Unit 2", "Unapproved unit for wcf");
+
+		List<Unit> approvedOnly = CannedQueries.unitsForOrg(org, false);
+		TestUtils.assertNames(approvedOnly, "Unit 1", "Unit 2" );
 	}
 
+	@Test
+	public void testVillageByName() {
+		
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
+		Village village = CannedQueries.villageByName("Village 1", event1);
+		assertEquals("Village 1", village.getName());
+	}
+	
+	
 	@Test
 	public void testUnitsForVillage() {
-		fail("Not yet implemented");
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
+		Village village = CannedQueries.villageByName("Village 1", event1);
+		
+		List<Unit> units = CannedQueries.unitsForVillage(village);
+		TestUtils.assertNames(units, "Unit 1");
+		
+		List<Unit> homelessUnits = CannedQueries.unitsForVillage(null);
+		TestUtils.assertNames(homelessUnits, "Unit 2");
 	}
 
+	@Test
+	public void testUnitByName() {
+		
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
+		Unit unit = CannedQueries.unitByName("Unit 1", org);
+		assertEquals("Unit 1", unit.getName());
+	}
+	
 	@Test
 	public void testBookingsForUnit() {
-		fail("Not yet implemented");
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
+		Unit unit = CannedQueries.unitByName("Unit 1", org);
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
+		
+		List<Booking> bookings = CannedQueries.bookingsForUnit(unit, event1);
+		TestUtils.assertNames(bookings, "Test person", "Test person 2");
 	}
 
+	/**
+	 * This currently fails because the default village for a unit is event-specific, but this isn't represented in the data model
+	 * FIXME: Simon
+	 */
 	@Test
 	public void testBookingsForVillage() {
-		fail("Not yet implemented");
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
+		Village village = CannedQueries.villageByName("Village 1", event1);
+		
+		List<Booking> bookings = CannedQueries.bookingsForVillage(village);
+		TestUtils.assertNames(bookings, "Test person", "Test person 2");
+		
+		Village village2 = CannedQueries.villageByName("Village 2", event1);
+		
+		List<Booking> bookings2 = CannedQueries.bookingsForVillage(village2);
+		assertEquals(0, bookings2.size());
+
+		List<Booking> bookingsHomeless = CannedQueries.bookingsHomeless(event1);
+		TestUtils.assertNames(bookingsHomeless, "Person in unapproved, homeless unit");
 	}
 
 }

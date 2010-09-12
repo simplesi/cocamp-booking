@@ -11,7 +11,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable
-public class Unit extends KeyBasedData{
+public class Unit extends KeyBasedData implements NamedEntity{
 	
 	public Unit(String name, Organisation org, boolean approved) {
 		this.name = name;
@@ -103,5 +103,9 @@ public class Unit extends KeyBasedData{
 	public List<Booking> getBookings(Event event)
 	{
 		return (CannedQueries.bookingsForUnit(this, event));
+	}
+	
+	public String toString() {
+		return getName();
 	}
 }

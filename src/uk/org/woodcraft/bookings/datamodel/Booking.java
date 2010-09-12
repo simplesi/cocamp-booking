@@ -9,7 +9,7 @@ import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable
-public class Booking extends KeyBasedData{
+public class Booking extends KeyBasedData implements NamedEntity{
 
 	@Persistent
 	private String name;
@@ -38,11 +38,11 @@ public class Booking extends KeyBasedData{
 	public Booking( String name, Unit unit, Event event) {
 		this.name = name;
 		this.unitKey = unit.getKeyCheckNotNull();
-		this.villageKey = unit.getDefaultVillageKey();
+		this.villageKey = unit.getDefaultVillageKey(); // Can be null
+		
 		this.eventKey = event.getKeyCheckNotNull();
 		this.arrivalDate = event.getPublicEventStart();
 		this.departureDate = event.getPublicEventEnd();
-		
 	}
 	
 	
@@ -112,5 +112,8 @@ public class Booking extends KeyBasedData{
 		return eventKey;
 	}
 	
+	public String toString() {
+		return getName();
+	}
 	
 }
