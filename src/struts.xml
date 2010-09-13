@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<include file="struts-default.xml"></include>
+	<constant name="struts.action.excludePattern" value="/_ah/.*"/>
+	
+	<package name="" namespace="/" extends="struts-default">
+        <action name="">
+			<result>/index.jsp</result>
+		</action>
+		
+		<action name="login">
+			<result>/login.jsp</result>
+		</action>
+
+		<action name="signup">
+			<result>/signup.jsp</result>
+		</action>
+				
+		<action name="processLogin" method="login" class="uk.org.woodcraft.bookings.auth.BasicLoginAction">
+			<result>/success.jsp</result>
+			<result name="input">/login.jsp</result>
+		</action>
+
+		<action name="processSignup" class="uk.org.woodcraft.bookings.auth.SignupAction">
+			<result>/success.jsp</result>
+			<result name="input">/signup.jsp</result>
+		</action>
+		
+		<action name="wcfbookings" class="uk.org.woodcraft.bookings.WcfBookingsAction">
+			<result>/success.jsp</result>
+		</action>
+	</package>
+	
+	<package name="admin" namespace="/admin" extends="struts-default">
+		<action name="createtestdata" method="setUp" class="uk.org.woodcraft.bookings.admin.CreateTestDataAction">
+			<result>/success.jsp</result>
+		</action>		
+	</package>
+</struts>

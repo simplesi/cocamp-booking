@@ -4,27 +4,25 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-	<servlet>
-		<servlet-name>WcfBookings</servlet-name>
-		<servlet-class>uk.org.woodcraft.bookings.WcfBookingsServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>WcfBookings</servlet-name>
-		<url-pattern>/wcfbookings</url-pattern>
-	</servlet-mapping>
-	<servlet>
-		<servlet-name>CreateTestData</servlet-name>
-		<servlet-class>uk.org.woodcraft.bookings.admin.CreateTestDataServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>WcfBookings</servlet-name>
-		<url-pattern>/wcfbookings</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>CreateTestData</servlet-name>
-		<url-pattern>/admin/createtestdata</url-pattern>
-	</servlet-mapping>
+
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>uk.org.woodcraft.bookings.utils.OgnlFixListener</listener-class>
+  	</listener>
+  
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
+	
 </web-app>
+
+
+
