@@ -5,11 +5,13 @@ import java.util.List;
 
 import javax.jdo.PersistenceManager;
 
+import uk.org.woodcraft.bookings.datamodel.Accesslevel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
+import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
 import uk.org.woodcraft.bookings.persistence.PMF;
 
@@ -19,6 +21,14 @@ public class BasicTestDataFixture extends TestFixture {
 	public void createStorageData() {
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		// Users
+		User user1 = new User("globaladmin@example.com", "Global Admin 1", "password", Accesslevel.GLOBAL_ADMIN);
+		User user2 = new User("orgadmin@example.com", "Org Admin 1", "password", Accesslevel.ORG_ADMIN);
+		User user3 = new User("unitadmin@example.com", "Unit Admin 1", "password", Accesslevel.UNIT_ADMIN);
+		User user4 = new User("unassigned@example.com", "Unassigned 1", "password", Accesslevel.UNASSIGNED);
+		pm.makePersistentAll(user1, user2, user3, user4);
+		
 		
 		// Events
 		List<Event> events = new ArrayList<Event>();

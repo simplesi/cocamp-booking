@@ -17,6 +17,7 @@ import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
+import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
 
 import com.google.appengine.api.datastore.Key;
@@ -324,5 +325,23 @@ public class CannedQueries {
 		
 		EventUnitVillageMapping mapping = new EventUnitVillageMapping(event.getKeyCheckNotNull(), unit.getKeyCheckNotNull(), village.getKeyCheckNotNull());
 		pm.makePersistent(mapping);
+		pm.close();
+	}
+	
+	public static User getUserByEmail(String email)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		User u = pm.getObjectById(User.class, email);
+		pm.detachCopy(u);
+		pm.close();
+		return u;
+	}
+	
+	public static <T> T persist(T objectToPerisist)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		pm.makePersistent(objectToPerisist);
+		pm.close();
+		return objectToPerisist;
 	}
 }

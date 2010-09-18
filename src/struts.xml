@@ -29,6 +29,11 @@
 			<result name="input">/signup.jsp</result>
 		</action>
 		
+		<action name="confirmEmail" class="uk.org.woodcraft.bookings.auth.ConfirmEmailAction">
+			<result>/success.jsp</result>
+			<result name="input">/signup.jsp</result>
+		</action>
+		
 		<action name="wcfbookings" class="uk.org.woodcraft.bookings.WcfBookingsAction">
 			<result>/success.jsp</result>
 		</action>

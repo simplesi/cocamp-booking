@@ -10,15 +10,16 @@ import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
+import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
-import uk.org.woodcraft.bookings.testdata.FixtureBasedTest;
+import uk.org.woodcraft.bookings.testdata.BaseFixtureTestCase;
 import uk.org.woodcraft.bookings.testdata.TestConstants;
 import uk.org.woodcraft.bookings.testdata.TestFixture;
 import uk.org.woodcraft.bookings.testdata.TestUtils;
 
 import com.google.appengine.api.datastore.Key;
 
-public class CannedQueriesTest extends FixtureBasedTest{
+public class CannedQueriesTest extends BaseFixtureTestCase{
 	
 	public CannedQueriesTest() {
 		super(TestFixture.BASIC_DATA);
@@ -157,6 +158,15 @@ public class CannedQueriesTest extends FixtureBasedTest{
 		
 		Event event2 = CannedQueries.eventByName("Other event");
 		assertEquals(null, CannedQueries.defaultVillageKeyForUnit(event2, unit1));
+	}
+	
+	@Test
+	public void testUserByEmail() {
+		User user1 = CannedQueries.getUserByEmail("globaladmin@example.com");
+		assertEquals("Global Admin 1", user1.getName());
+		
+		User user2 = CannedQueries.getUserByEmail("orgadmin@example.com");
+		assertEquals("Org Admin 1", user2.getName());
 	}
 
 }

@@ -15,7 +15,7 @@ import uk.org.woodcraft.bookings.persistence.PMF;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("unchecked")
-public class FixtureTest extends FixtureBasedTest {
+public class FixtureTest extends BaseFixtureTestCase {
 
 	public FixtureTest() {
 		super(TestFixture.BASIC_DATA);
