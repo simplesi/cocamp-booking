@@ -333,7 +333,7 @@ public class CannedQueries {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		User u = null;
 		try {
-			pm.getObjectById(User.class, email);
+			u = pm.getObjectById(User.class, email);
 			pm.detachCopy(u);
 		}
 		catch(JDOObjectNotFoundException exception)

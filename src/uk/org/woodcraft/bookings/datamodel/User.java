@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.datamodel;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -7,7 +9,9 @@ import javax.jdo.annotations.PrimaryKey;
 import uk.org.woodcraft.bookings.auth.PasswordUtils;
 
 @PersistenceCapable(detachable="true")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@PrimaryKey
 	@Persistent

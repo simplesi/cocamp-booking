@@ -3,6 +3,7 @@ package uk.org.woodcraft.bookings.auth;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class BasicLoginAction extends ActionSupport {
@@ -17,6 +18,8 @@ public class BasicLoginAction extends ActionSupport {
 		
 		if (user != null && user.checkPassword(password))
 		{
+			createSession(user);
+			
 			addActionMessage("You are successfully logged in");
 			return SUCCESS;
 		}
@@ -25,6 +28,14 @@ public class BasicLoginAction extends ActionSupport {
 		return INPUT;
 	}
 
+	private void createSession(User user)
+	{
+		ActionContext.getContext().getSession().put(SessionConstants.USER, user);
+		//ActionContext.getContext().getSession().put(SessionConstants.CURRENT_ORG, user.);
+		//ActionContext.getContext().getSession().put(SessionConstants.CURRENT_UNIT, user.);
+		
+	}
+	
 	public String getEmail() {
 		return email;
 	}
