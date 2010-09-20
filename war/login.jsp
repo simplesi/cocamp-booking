@@ -10,7 +10,7 @@
 <body>
  <s:actionerror/>
  <s:form action="processLogin" method="post">
- <s:textfield name="username" label="E-mail address" value="foo@cocamp"></s:textfield>
+ <s:textfield name="email" label="E-mail address" value="foo@cocamp"></s:textfield>
  <s:textfield name="password" label="Password" value="cocamp"></s:textfield>
  <s:submit name="login" value="Log In"></s:submit>
  </s:form>
