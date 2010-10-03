@@ -133,8 +133,7 @@ public class CannedQueries {
 		return null;
 	}
 	
-	
-	public static List<Unit> unitsForOrg(Organisation org, boolean includeUnapproved)
+	public static List<Unit> unitsForOrg(Key orgKey, boolean includeUnapproved)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -147,7 +146,26 @@ public class CannedQueries {
 		
 		query.declareParameters("Key organisationKeyParam");
 		
-		return ((List<Unit>)query.execute(org.getKeyCheckNotNull()));
+		return ((List<Unit>)query.execute(orgKey));
+	}
+	
+	
+	public static List<Unit> unitsForOrg(Organisation org, boolean includeUnapproved)
+	{
+		return (List<Unit>)unitsForOrg(org.getKeyCheckNotNull(), includeUnapproved);
+	}
+	
+	public static List<Unit> allUnits(boolean includeUnapproved )
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Unit.class);
+		query.setOrdering("name");
+		
+		if(!includeUnapproved) query.setFilter("approved == true");
+		
+		
+		return ((List<Unit>)query.execute());
 	}
 	
 	/**

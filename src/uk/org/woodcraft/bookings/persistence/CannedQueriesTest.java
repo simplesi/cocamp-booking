@@ -101,6 +101,16 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	}
 	
 	@Test
+	public void testAllUnits() {
+		List<Unit> allUnits = CannedQueries.allUnits(true);
+		assertEquals(4, allUnits.size());
+		
+		List<Unit> approvedUnits = CannedQueries.allUnits(false);		
+		assertEquals(2, approvedUnits.size());
+		assertEquals("Unit 1", approvedUnits.get(0).getName());
+	}
+	
+	@Test
 	public void testUnitsHomeless() {
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
 		

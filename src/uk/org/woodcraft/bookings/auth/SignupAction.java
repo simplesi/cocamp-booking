@@ -1,9 +1,12 @@
 package uk.org.woodcraft.bookings.auth;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import uk.org.woodcraft.bookings.datamodel.Accesslevel;
+import uk.org.woodcraft.bookings.datamodel.Organisation;
+import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.email.EmailUtils;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
@@ -28,6 +31,22 @@ public class SignupAction extends ActionSupport {
 		return SUCCESS;
 	}
 
+	public String preSignup()
+	{
+		// Nothing to do
+		return SUCCESS;
+	}
+	
+	public List<Organisation> getAllOrgs()
+	{
+		return CannedQueries.allOrgs(false);
+	}
+
+	public List<Unit> getAllUnits()
+	{
+		return CannedQueries.allUnits(false);
+	}
+	
 	public String getEmail() {
 		return email;
 	}

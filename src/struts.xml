@@ -13,13 +13,13 @@
 		</action>
 		
 		<action name="login">
-			<result>/login.jsp</result>
+			<result type="freemarker">/templates/auth/login.ftl</result>
 		</action>
 
-		<action name="signup">
-			<result>/signup.jsp</result>
+		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="preSignup">
+			<result type="freemarker">/templates/auth/signup.ftl</result>
 		</action>
-				
+
 		<action name="processLogin" method="login" class="uk.org.woodcraft.bookings.auth.BasicLoginAction">
 			<result>/success.jsp</result>
 			<result name="input">/login.jsp</result>
