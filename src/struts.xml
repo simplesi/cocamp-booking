@@ -8,6 +8,8 @@
 	<constant name="struts.action.excludePattern" value="/_ah/.*"/>	
 	
 	<package name="default" namespace="/" extends="struts-default">
+		<default-interceptor-ref name="paramsPrepareParamsStack"/>
+	
         <action name="">
 			<result>/index.jsp</result>
 		</action>
@@ -41,9 +43,23 @@
 	</package>
 	
 	<package name="admin" namespace="/admin" extends="struts-default">
+		<default-interceptor-ref name="paramsPrepareParamsStack"/>
 		<action name="createtestdata" method="setUp" class="uk.org.woodcraft.bookings.admin.CreateTestDataAction">
 			<result>/success.jsp</result>
 		</action>		
+		
+		<action name="orgList" method="list" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result type="freemarker">/templates/datamodel/organisationList.ftl</result>
+		</action>
+		<action name="orgEdit" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
+		</action>
+		<action name="orgSave" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result type="redirect">orgList</result>
+		</action>
+		<action name="orgDelete" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result type="redirect">orgList</result>
+		</action>
 	</package>
 	
 </struts>

@@ -18,7 +18,7 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	}
 	
 	public Organisation() {
-		// TODO Auto-generated constructor stub
+		// For JDO
 	}
 
 	@Persistent
@@ -48,12 +48,16 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 		this.approved = approved;
 	}
 
-	public Text getNotes() {
-		return notes;
+	public String getNotes() {
+		return notes.getValue();
 	}
 
 	public void setNotes(Text notes) {
 		this.notes = notes;
+	}
+	
+	public void setNotes(String notes) {
+		this.notes = new Text(notes);
 	}
 
 	public Collection<Unit> getUnits(boolean includeUnapproved) {

@@ -3,6 +3,7 @@ package uk.org.woodcraft.bookings.persistence;
 import java.util.Collection;
 import java.util.List;
 
+import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -362,15 +363,17 @@ public class CannedQueries {
 	
 	public static <T> T save(T objectToSave)
 	{
+		System.out.println("Saving object with state: " + JDOHelper.getObjectState(objectToSave));
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
+		//Transaction tx = pm.currentTransaction();
 		try {
-			tx.begin();
+			//tx.begin();
 			objectToSave = pm.makePersistent(objectToSave);
-			tx.commit();
+			//tx.commit();
 		} catch (Exception e){
-			if (tx.isActive()) 
-				tx.rollback();
+			//if (tx.isActive()) 
+				//tx.rollback();
 			
 			throw new RuntimeException(e);
 		}

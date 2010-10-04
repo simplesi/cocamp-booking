@@ -8,8 +8,9 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class KeyBasedData {
 	
@@ -36,6 +37,14 @@ public abstract class KeyBasedData {
 	
 	public void setKey(Key key) {
 		this.key = key;
+	}
+	
+	public String getWebKey() {
+		return KeyFactory.keyToString(key);
+	}
+	
+	public void setWebKey(String webKey) {
+		key = KeyFactory.stringToKey(webKey);
 	}
 	
 	@Override

@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import uk.org.woodcraft.bookings.auth.SignupAcceptanceTest;
-import uk.org.woodcraft.bookings.datamodel.OrganisationTest;
+import uk.org.woodcraft.bookings.datamodel.KeyBasedDataTest;
 import uk.org.woodcraft.bookings.datamodel.UserTest;
 import uk.org.woodcraft.bookings.persistence.CannedQueriesTest;
 import uk.org.woodcraft.bookings.testdata.FixtureTest;
@@ -21,7 +21,7 @@ import uk.org.woodcraft.bookings.testdata.TestUtilsTest;
         LocalDatastoreTest.class,
         UserTest.class,
         SignupAcceptanceTest.class,
-        OrganisationTest.class
+        KeyBasedDataTest.class
         })
 
 public class AllTests {

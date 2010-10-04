@@ -29,14 +29,14 @@
   <link rel="shortcut icon" href="/graphics/favicon.png">
 
   <!-- CSS : implied media="all" -->
-  <link rel="stylesheet" href="css/style.css?v=1">
+  <link rel="stylesheet" href="/css/style.css?v=1">
 
   <!-- For the less-enabled mobile browsers like Opera Mini -->
-  <link rel="stylesheet" media="handheld" href="css/handheld.css?v=1">
+  <link rel="stylesheet" media="handheld" href="/css/handheld.css?v=1">
 
  
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
-  <script src="js/modernizr-1.5.min.js"></script>
+  <script src="/js/modernizr-1.5.min.js"></script>
 
 </head>
 
