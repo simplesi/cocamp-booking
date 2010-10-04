@@ -84,26 +84,32 @@
         <action name="index">
 			<result type="freemarker">/templates/index.ftl</result>
 		</action>
+				
+		<action name="logout" class="uk.org.woodcraft.bookings.auth.LogoutAction">
+			<result type="redirect">index</result>
+		</action>		
+				
+		<action name="wcfbookings" class="uk.org.woodcraft.bookings.WcfBookingsAction">
+			<result>/success.jsp</result>
+		</action>
+	</package>
+	
+	<package name="signup" namespace="/signup" extends="default">
+		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
+		<default-action-ref name="signup" />
 		
 		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="preSignup">
-			<interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 			<result type="freemarker">/templates/auth/signup.ftl</result>
 		</action>
 
-		<action name="processSignup" class="uk.org.woodcraft.bookings.auth.SignupAction">
-			<interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
-			<result>/success.jsp</result>
-			<result name="input">/signup.jsp</result>
+		<action name="process" class="uk.org.woodcraft.bookings.auth.SignupAction">
+			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
+			<result type="redirect">confirmEmail</result>
 		</action>
 		
 		<action name="confirmEmail" class="uk.org.woodcraft.bookings.auth.ConfirmEmailAction">
-			<interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
-			<result>/success.jsp</result>
-			<result name="input">/signup.jsp</result>
-		</action>
-		
-		<action name="wcfbookings" class="uk.org.woodcraft.bookings.WcfBookingsAction">
-			<result>/success.jsp</result>
+			<result name="input" type="freemarker">/templates/auth/emailConfirm.ftl</result>
+			<result name="success" type="freemarker">/templates/auth/login.ftl</result>
 		</action>
 	</package>
 	

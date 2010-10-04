@@ -14,7 +14,7 @@ public class ConfirmEmailAction extends ActionSupport{
 
 	public String execute(){
 		
-		
+		if(email == null || hash == null) return INPUT;
 		
 		User user = CannedQueries.getUserByEmail(email);
 

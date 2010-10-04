@@ -78,7 +78,7 @@ public class SignupAction extends ActionSupport {
 					+ "If this was you, please go to the following link to confirm this email and enter the booking system. " 
 					+ "If this was not you, please disregard this email. \n"
 					+ buildUserConfirmUrl(user);
-		
+		System.out.println(body);
 		EmailUtils.emailUser(user, subject, body);
 	}
 	

@@ -1,8 +1,9 @@
 <#assign pagetitle = 'Login'>
 <#include "/templates/header.ftl">
 
-<p>Please log in to continue</p>
-
+<p>To access the Booking System, you must log in. 
+If this is your first visit, please <@s.url id="signupURL" action="signup/"/><@s.a href="${signupURL}">Sign up</@s.a> for an account.</p>
+ <@s.actionmessage/>
  <@s.actionerror/>
  <@s.form action="index" method="post">
  	<@s.hidden name="LOGIN_ATTEMPT" value="1"/>
