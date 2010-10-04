@@ -8,7 +8,7 @@ import javax.jdo.annotations.Persistent;
 import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class Booking extends KeyBasedData implements NamedEntity{
 
 	@Persistent
@@ -34,6 +34,11 @@ public class Booking extends KeyBasedData implements NamedEntity{
 
 	@Persistent
 	private Key villageKey = null;
+	
+	@SuppressWarnings("unused")
+	private Booking() {
+		// For JDO
+	}
 	
 	public Booking( String name, Unit unit, Event event) {
 		this.name = name;

@@ -7,7 +7,7 @@ import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.PhoneNumber;
 import com.google.appengine.api.datastore.PostalAddress;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class ContactInfo extends KeyBasedData {
 
 	@Persistent

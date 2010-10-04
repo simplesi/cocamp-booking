@@ -3,6 +3,8 @@ package uk.org.woodcraft.bookings.testdata;
 import static org.junit.Assert.assertEquals;
 
 import javax.jdo.Extent;
+import javax.jdo.JDOHelper;
+import javax.jdo.ObjectState;
 import javax.jdo.PersistenceManager;
 
 import org.junit.After;
@@ -45,6 +47,7 @@ public class LocalDatastoreTest {
 		for(Event e : extent)
 		{
 			assertEquals("Test event", e.getName());
+			assertEquals(ObjectState.PERSISTENT_NEW, JDOHelper.getObjectState(e));
 		}
     }
 }

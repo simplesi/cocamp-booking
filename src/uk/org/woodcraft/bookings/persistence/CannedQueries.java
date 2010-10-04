@@ -1,12 +1,12 @@
 package uk.org.woodcraft.bookings.persistence;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
+import javax.jdo.Transaction;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
@@ -25,7 +25,7 @@ import com.google.appengine.api.datastore.Key;
 @SuppressWarnings("unchecked")
 public class CannedQueries {
 
-	public static List<Event> allEvents(boolean showNonOpenEvents)
+	public static Collection<Event> allEvents(boolean showNonOpenEvents)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -34,7 +34,7 @@ public class CannedQueries {
 		
 		if(!showNonOpenEvents) query.setFilter("isCurrentlyOpen == true");
 		
-		return ((List<Event>)query.execute());
+		return queryDetachAndClose(Event.class, query);
 	}
 	
 	/**
@@ -50,13 +50,10 @@ public class CannedQueries {
 		query.setFilter("name == nameParam");
 		query.declareParameters("String nameParam");
 		
-		List<Event> events = ((List<Event>)query.execute(eventName));
-		if (events.size() == 1) return events.get(0);
-		
-		return null;
+		return querySingleDetachAndClose(Event.class, query, eventName);
 	}
 	
-	public static List<Village> villagesForEvent(Event event)
+	public static Collection<Village> villagesForEvent(Event event)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -66,7 +63,7 @@ public class CannedQueries {
 		query.setFilter("eventKey == eventKeyParam");
 		query.declareParameters("Key eventKeyParam");
 		
-		return ((List<Village>)query.execute(event.getKeyCheckNotNull()));
+		return queryDetachAndClose(Village.class, query, event.getKeyCheckNotNull());
 	}
 	
 	/**
@@ -84,10 +81,7 @@ public class CannedQueries {
 		query.setFilter("name == nameParam && eventKey == eventKeyParam");
 		query.declareParameters("String nameParam, Key eventKeyParam");
 		
-		List<Village> villages = ((List<Village>)query.execute(villageName, event.getKeyCheckNotNull()));
-		if (villages.size() == 1) return villages.get(0);
-		
-		return null;
+		return querySingleDetachAndClose(Village.class, query,  villageName, event.getKeyCheckNotNull());
 	}
 	
 	/**
@@ -97,11 +91,10 @@ public class CannedQueries {
 	 */
 	public static Village villageByKey (Key villageKey)
 	{
-		PersistenceManager pm = PMF.get().getPersistenceManager();	
-		return (pm.getObjectById(Village.class, villageKey));
+		return getByKey(Village.class, villageKey);
 	}
 	
-	public static List<Organisation> allOrgs(boolean includeUnapproved )
+	public static Collection<Organisation> allOrgs(boolean includeUnapproved )
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -110,8 +103,7 @@ public class CannedQueries {
 		
 		if(!includeUnapproved) query.setFilter("approved == true");
 		
-		
-		return ((List<Organisation>)query.execute());
+		return queryDetachAndClose(Organisation.class, query);
 	}
 	
 	/**
@@ -127,13 +119,15 @@ public class CannedQueries {
 		query.setFilter("name == nameParam");
 		query.declareParameters("String nameParam");
 		
-		List<Organisation> orgs = ((List<Organisation>)query.execute(orgName));
-		if (orgs.size() == 1) return orgs.get(0);
-		
-		return null;
+		return querySingleDetachAndClose(Organisation.class, query, orgName);
+	}
+
+	public static Organisation orgByKey (Key orgKey)
+	{
+		return getByKey(Organisation.class, orgKey);
 	}
 	
-	public static List<Unit> unitsForOrg(Key orgKey, boolean includeUnapproved)
+	public static Collection<Unit> unitsForOrg(Key orgKey, boolean includeUnapproved)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -145,17 +139,16 @@ public class CannedQueries {
 		if(!includeUnapproved) query.setFilter("approved == true");
 		
 		query.declareParameters("Key organisationKeyParam");
-		
-		return ((List<Unit>)query.execute(orgKey));
+		return queryDetachAndClose(Unit.class, query, orgKey);
 	}
 	
 	
-	public static List<Unit> unitsForOrg(Organisation org, boolean includeUnapproved)
+	public static Collection<Unit> unitsForOrg(Organisation org, boolean includeUnapproved)
 	{
-		return (List<Unit>)unitsForOrg(org.getKeyCheckNotNull(), includeUnapproved);
+		return unitsForOrg(org.getKeyCheckNotNull(), includeUnapproved);
 	}
 	
-	public static List<Unit> allUnits(boolean includeUnapproved )
+	public static Collection<Unit> allUnits(boolean includeUnapproved )
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -164,8 +157,7 @@ public class CannedQueries {
 		
 		if(!includeUnapproved) query.setFilter("approved == true");
 		
-		
-		return ((List<Unit>)query.execute());
+		return queryDetachAndClose(Unit.class, query);
 	}
 	
 	/**
@@ -173,7 +165,7 @@ public class CannedQueries {
 	 * @param village The village to query for
 	 * @return List of units
 	 */
-	public static List<Unit> unitsForVillage(Village village)
+	public static Collection<Unit> unitsForVillage(Village village)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -194,8 +186,7 @@ public class CannedQueries {
 		query = pm.newQuery(Unit.class, ":keys.contains(key)");
 		query.declareImports("import com.google.appengine.api.datastore.Key");
 		
-		List<Unit> units = (List<Unit>) query.execute(unitKeys);
-		return units;
+		return queryDetachAndClose(Unit.class, query, unitKeys);
 	}
 	
 	/**
@@ -203,7 +194,7 @@ public class CannedQueries {
 	 * @param village The village to query for
 	 * @return List of units
 	 */
-	public static List<Unit> unitsHomeless(Event event)
+	public static Collection<Unit> unitsHomeless(Event event)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -239,7 +230,10 @@ public class CannedQueries {
 			}
 		});
 		
-		return new ArrayList<Unit>(unitsWithNoVillage);
+		unitsWithNoVillage = pm.detachCopyAll(unitsWithNoVillage);
+		pm.close();
+		
+		return unitsWithNoVillage;
 	}
 	
 	/**
@@ -257,13 +251,10 @@ public class CannedQueries {
 		query.setFilter("name == nameParam && organisationKey == organisationKeyParam");
 		query.declareParameters("String nameParam, Key organisationKeyParam");
 		
-		List<Unit> units = ((List<Unit>)query.execute(unitName, org.getKeyCheckNotNull()));
-		if (units.size() == 1) return units.get(0);
-		
-		return null;
+		return querySingleDetachAndClose(Unit.class, query, unitName, org.getKeyCheckNotNull());
 	}
 	
-	public static List<Booking> bookingsForUnit(Unit unit, Event event)
+	public static Collection<Booking> bookingsForUnit(Unit unit, Event event)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -273,7 +264,7 @@ public class CannedQueries {
 		query.setFilter("unitKey == unitKeyParam && eventKey == eventKeyParam");
 		query.declareParameters("Key unitKeyParam, Key eventKeyParam");
 		
-		return ((List<Booking>)query.execute(unit.getKeyCheckNotNull(), event.getKeyCheckNotNull()));
+		return queryDetachAndClose(Booking.class, query, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
 	}
 	
 	/**
@@ -281,7 +272,7 @@ public class CannedQueries {
 	 * @param village The village to query for. Cannot be null
 	 * @return List of bookings
 	 */
-	public static List<Booking> bookingsForVillage(Village village)
+	public static Collection<Booking> bookingsForVillage(Village village)
 	{
 		if (village == null) throw new IllegalArgumentException("Cannot retrieve booking for a null village. To find homeless bookings, call bookingsHomeless() instead.");
 		
@@ -293,7 +284,7 @@ public class CannedQueries {
 		query.setFilter("villageKey == villageKeyParam");
 		query.declareParameters("Key villageKeyParam");
 		
-		return ((List<Booking>) query.execute(village.getKeyCheckNotNull()));
+		return queryDetachAndClose(Booking.class, query, village.getKeyCheckNotNull());
 	}
 	
 	/**
@@ -301,7 +292,7 @@ public class CannedQueries {
 	 * @param village The village to query for. Cannot be null
 	 * @return List of bookings
 	 */
-	public static List<Booking> bookingsHomeless(Event event)
+	public static Collection<Booking> bookingsHomeless(Event event)
 	{
 		if (event == null) throw new IllegalArgumentException("Cannot retrieve homeless bookings for a null event.");
 		
@@ -313,7 +304,7 @@ public class CannedQueries {
 		query.setFilter("eventKey == eventKeyParam && villageKey == null");
 		query.declareParameters("Key eventKeyParam");
 		
-		return ((List<Booking>) query.execute(event.getKeyCheckNotNull()));
+		return queryDetachAndClose(Booking.class, query, event.getKeyCheckNotNull());
 	}
 	
 
@@ -330,11 +321,12 @@ public class CannedQueries {
 		{
 			// If the object didn't exist, that's fine
 		}
-		
+	    Key defaultVillageKey = null;
 		if (mapping != null) 
-			return mapping.getVillageKey();
-		else
-			return null;
+			defaultVillageKey = mapping.getVillageKey();
+		
+	    pm.close();
+	    return defaultVillageKey;
 	}
 	
 	public static void persistDefaultVillageKeyForUnit(Event event, Unit unit, Village village)
@@ -348,25 +340,124 @@ public class CannedQueries {
 	
 	public static User getUserByEmail(String email)
 	{
+		return getByKey(User.class, email);
+	}
+	
+	public static <T> T getByKey(Class<T> clazz, Object key)
+	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		User u = null;
+		T result = null;
 		try {
-			u = pm.getObjectById(User.class, email);
-			pm.detachCopy(u);
+			result = pm.getObjectById(clazz, key);
+			result = pm.detachCopy(result);
 		}
 		catch(JDOObjectNotFoundException exception)
 		{
 			// Ignore the object not existing
+		} finally {
+			pm.close();
 		}
-		pm.close();
-		return u;
+		return result;
 	}
 	
-	public static <T> T persist(T objectToPerisist)
+	public static <T> T save(T objectToSave)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		pm.makePersistent(objectToPerisist);
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			pm.makePersistent(objectToSave);
+			tx.commit();
+		} catch (Exception e){
+			if (tx.isActive()) 
+				tx.rollback();
+			
+			throw new RuntimeException(e);
+		}
+		finally {
+			pm.close();
+		}
+		return objectToSave;
+	}
+	
+	public static void delete(Object objectToDelete)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			pm.deletePersistent(objectToDelete);
+			tx.commit();
+		} catch(Exception e) {
+			if (tx.isActive()) 
+				tx.rollback();
+			throw new RuntimeException(e);
+		} finally {
+			pm.close();
+		}
+		return;
+	}
+	
+	/***
+	 * Helper to run a query, detach its results and close the pm
+	 * @param <T>
+	 * @param clazz The type of results
+	 * @param query The query
+	 * @return The detached results
+	 */
+	private static <T> Collection<T> queryDetachAndClose(Class<T> clazz, Query query)
+	{
+		return queryDetachAndClose(clazz, query, new Object[]{});
+	}
+	
+	/***
+	 * Helper to run a query, detach its results and close the pm
+	 * @param <T>
+	 * @param clazz The type of results
+	 * @param query The query
+	 * @param params The query parameter
+	 * @return The detached results
+	 */
+	private static <T> Collection<T> queryDetachAndClose(Class<T> clazz, Query query, Object... params)
+	{
+		PersistenceManager pm = query.getPersistenceManager();
+		Collection<T> results = (Collection<T>) query.executeWithArray(params);
+		results = pm.detachCopyAll(results);
 		pm.close();
-		return objectToPerisist;
+		return results;
+	}
+	
+	/***
+	 * Helper to run a query, detach its results and close the pm. Returns null if empty
+	 * @param <T>
+	 * @param clazz The type of results
+	 * @param query The query
+	 * @return The detached results
+	 */
+	private static <T> T querySingleDetachAndClose(Class<T> clazz, Query query, Object... params )
+	{
+		return querySingleDetachAndClose(clazz, query, true, params);
+	}
+	
+	/***
+	 * Helper to run a query, detach its results and close the pm
+	 * @param <T>
+	 * @param clazz The type of results
+	 * @param query The query
+	 * @param nullIfEmpty Return null if no matching results, otherwise throw error
+	 * @param params The query parameters
+	 * @return The detached results
+	 */
+	private static <T> T querySingleDetachAndClose(Class<T> clazz, Query query, boolean nullIfEmpty, Object... params)
+	{
+		Collection<T> results = queryDetachAndClose(clazz, query, params);
+		
+		if (results.size() != 1) 
+		{
+			if(results.size() == 0 && nullIfEmpty ) return null;
+			
+			throw new IllegalStateException("Expected result of size 1, was "+results.size());
+		}
+		return results.iterator().next();
 	}
 }

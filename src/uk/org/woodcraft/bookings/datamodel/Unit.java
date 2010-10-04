@@ -1,7 +1,7 @@
 package uk.org.woodcraft.bookings.datamodel;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.jdo.annotations.PersistenceCapable;
@@ -12,8 +12,13 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class Unit extends KeyBasedData implements NamedEntity{
+	
+	@SuppressWarnings("unused")
+	private Unit() {
+		// For JDO
+	}
 	
 	public Unit(String name, Organisation org, boolean approved) {
 		this.name = name;
@@ -27,7 +32,7 @@ public class Unit extends KeyBasedData implements NamedEntity{
 	@Persistent
 	private Key organisationKey;
 	
-	@Persistent(dependent = "true")
+	@Persistent(dependent = "true", defaultFetchGroup = "true")
 	private ContactInfo contactInfo;
 	
 	@Persistent
@@ -106,7 +111,7 @@ public class Unit extends KeyBasedData implements NamedEntity{
 	}
 
 
-	public List<Booking> getBookings(Event event)
+	public Collection<Booking> getBookings(Event event)
 	{
 		return (CannedQueries.bookingsForUnit(this, event));
 	}

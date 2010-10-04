@@ -1,14 +1,14 @@
 package uk.org.woodcraft.bookings.datamodel;
 
+import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class Event extends KeyBasedData  implements NamedEntity{
 	
 	@Persistent
@@ -28,6 +28,11 @@ public class Event extends KeyBasedData  implements NamedEntity{
 	 */
 	@Persistent
 	private boolean isCurrentlyOpen; 
+	
+	@SuppressWarnings("unused")
+	private Event() {
+		// For JDO
+	}
 	
 	public Event(String name, Date from, Date to, boolean isCurrentlyOpen) {
 		this.name = name;
@@ -76,8 +81,8 @@ public class Event extends KeyBasedData  implements NamedEntity{
 		return isCurrentlyOpen;
 	}
 	
-	public List<Village> getVillages() {
-		return (CannedQueries.villagesForEvent(this));
+	public Collection<Village> getVillages() {
+		return CannedQueries.villagesForEvent(this);
 	}
 	
 	public String toString() {

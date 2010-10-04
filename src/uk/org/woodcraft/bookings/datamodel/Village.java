@@ -1,6 +1,6 @@
 package uk.org.woodcraft.bookings.datamodel;
 
-import java.util.List;
+import java.util.Collection;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -9,9 +9,14 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Key;
 
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class Village extends KeyBasedData implements NamedEntity{
 
+	@SuppressWarnings("unused")
+	private Village() {
+		// For JDO
+	}
+	
 	public Village(String name, Event event) {
 		this.name = name;
 		this.eventKey = event.getKeyCheckNotNull();
@@ -23,14 +28,14 @@ public class Village extends KeyBasedData implements NamedEntity{
 	@Persistent
 	private Key eventKey;
 
-	public List<Booking> getBookings()
+	public Collection<Booking> getBookings()
 	{
-		return(CannedQueries.bookingsForVillage(this));
+		return CannedQueries.bookingsForVillage(this);
 	}
 	
-	public List<Unit> getUnits()
+	public Collection<Unit> getUnits()
 	{
-		return(CannedQueries.unitsForVillage(this));
+		return CannedQueries.unitsForVillage(this);
 	}
 
 	public String getName() {

@@ -1,5 +1,8 @@
 package uk.org.woodcraft.bookings.auth;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import uk.org.woodcraft.bookings.datamodel.Accesslevel;
@@ -7,8 +10,7 @@ import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.testdata.BaseAppEngineTestCase;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import com.opensymphony.xwork2.ActionSupport;
 
 public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 
@@ -22,10 +24,7 @@ public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 		signup.setEmail(email);
 		signup.setName("New user");
 		signup.setPassword(password);
-		signup.execute();
-		
-		// Unclear how to do this
-		//assertEquals(ActionSupport.SUCCESS, signup.get)
+		assertEquals(ActionSupport.SUCCESS, signup.execute());
 		
 		// Confirm email received
 		// can't easily do this

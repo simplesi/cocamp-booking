@@ -1,6 +1,6 @@
 package uk.org.woodcraft.bookings.auth;
 
-import java.util.List;
+import java.util.Collection;
 
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
@@ -12,7 +12,7 @@ public class LookupUnitAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
 	private Key organisationKey;
-	private List<Unit> units = null;
+	private Collection<Unit> units = null;
 
 	public String execute(){
 		
@@ -24,12 +24,12 @@ public class LookupUnitAction extends ActionSupport {
 		return SUCCESS;
 	}
 
-	public List<Unit> getUnits()
+	public Collection<Unit> getUnits()
 	{
 		return units;
 	}
 
-	public void setUnits(List<Unit> units) {
+	public void setUnits(Collection<Unit> units) {
 		this.units = units;
 	}
 

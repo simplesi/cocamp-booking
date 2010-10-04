@@ -1,8 +1,12 @@
 package uk.org.woodcraft.bookings.persistence;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import java.util.List;
+import java.util.Collection;
+
+import javax.jdo.JDOHelper;
+import javax.jdo.ObjectState;
 
 import org.junit.Test;
 
@@ -28,15 +32,17 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	@Test
 	public void testAllEvents() {
 		
-		List<Event> allEvents = CannedQueries.allEvents(true);
+		Collection<Event> allEvents = CannedQueries.allEvents(true);
 		assertEquals(3, allEvents.size());
+		assertDetached(allEvents);
 	}
 	
 	@Test
 	public void testOpenEvents() {
 		
-		List<Event> openEvents = CannedQueries.allEvents(false);
+		Collection<Event> openEvents = CannedQueries.allEvents(false);
 		assertEquals(2, openEvents.size());
+		assertDetached(openEvents);
 	}
 
 	@Test
@@ -45,6 +51,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Event event1 = CannedQueries.eventByName("Test event 1");
 		
 		assertEquals(TestConstants.EVENT1_NAME, event1.getName());
+		assertDetached(event1);
 	}
 	
 	@Test
@@ -52,34 +59,51 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		
 		Event event1 = CannedQueries.eventByName("Test event 1");
 		
-		List<Village> villages = CannedQueries.villagesForEvent(event1);
+		Collection<Village> villages = CannedQueries.villagesForEvent(event1);
 		assertEquals(3, villages.size());
+		assertDetached(villages);
 	}
 
 	@Test
 	public void testAllOrgs() {
-		List<Organisation> allOrgs = CannedQueries.allOrgs(true);
+		Collection<Organisation> allOrgs = CannedQueries.allOrgs(true);
 		assertEquals(2, allOrgs.size());
+		assertDetached(allOrgs);
 		
-		List<Organisation> approvedOrgs = CannedQueries.allOrgs(false);		
+		Collection<Organisation> approvedOrgs = CannedQueries.allOrgs(false);		
 		assertEquals(1, approvedOrgs.size());
-		assertEquals("Woodcraft Folk", approvedOrgs.get(0).getName());
+		assertEquals("Woodcraft Folk", approvedOrgs.iterator().next().getName());
+		assertDetached(approvedOrgs);
 	}
 
+	@Test
 	public void testOrgByName() {
 		Organisation org = CannedQueries.orgByName("Woodcraft Folk");
 		assertEquals("Woodcraft Folk", org.getName());
+		assertDetached(org);
+	}
+	
+	@Test
+	public void testOrgByKey() {
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");
+		Key key = org.getKey();
+		
+		Organisation org2 = CannedQueries.orgByKey(key);
+		assertEquals(org, org2);
+		assertDetached(org2);
 	}
 	
 	@Test
 	public void testUnitsForOrg() {
 		Organisation org = CannedQueries.orgByName("Woodcraft Folk");
 		
-		List<Unit> units = CannedQueries.unitsForOrg(org, true);
+		Collection<Unit> units = CannedQueries.unitsForOrg(org, true);
 		TestUtils.assertNames(units, "Unit 1", "Unit 2", "Unapproved unit for wcf");
+		assertDetached(units);
 
-		List<Unit> approvedOnly = CannedQueries.unitsForOrg(org, false);
+		Collection<Unit> approvedOnly = CannedQueries.unitsForOrg(org, false);
 		TestUtils.assertNames(approvedOnly, "Unit 1", "Unit 2" );
+		assertDetached(approvedOnly);
 	}
 
 	@Test
@@ -88,6 +112,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
 		Village village = CannedQueries.villageByName("Village 1", event1);
 		assertEquals("Village 1", village.getName());
+		assertDetached(village);
 	}
 	
 	
@@ -96,26 +121,30 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
 		Village village = CannedQueries.villageByName("Village 1", event1);
 		
-		List<Unit> units = CannedQueries.unitsForVillage(village);
+		Collection<Unit> units = CannedQueries.unitsForVillage(village);
 		TestUtils.assertNames(units, "Unit 1");
+		assertDetached(units);
 	}
 	
 	@Test
 	public void testAllUnits() {
-		List<Unit> allUnits = CannedQueries.allUnits(true);
+		Collection<Unit> allUnits = CannedQueries.allUnits(true);
 		assertEquals(4, allUnits.size());
+		assertDetached(allUnits);
 		
-		List<Unit> approvedUnits = CannedQueries.allUnits(false);		
+		Collection<Unit> approvedUnits = CannedQueries.allUnits(false);		
 		assertEquals(2, approvedUnits.size());
-		assertEquals("Unit 1", approvedUnits.get(0).getName());
+		TestUtils.assertNames(approvedUnits, "Unit 1", "Unit 2");
+		assertDetached(approvedUnits);
 	}
 	
 	@Test
 	public void testUnitsHomeless() {
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
 		
-		List<Unit> units = CannedQueries.unitsHomeless(event1);
+		Collection<Unit> units = CannedQueries.unitsHomeless(event1);
 		TestUtils.assertNames(units, "Unit 2");
+		assertDetached(units);
 	}
 
 	@Test
@@ -124,6 +153,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
 		Unit unit = CannedQueries.unitByName("Unit 1", org);
 		assertEquals("Unit 1", unit.getName());
+		assertDetached(unit);
 	}
 	
 	@Test
@@ -132,8 +162,9 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Unit unit = CannedQueries.unitByName("Unit 1", org);
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
 		
-		List<Booking> bookings = CannedQueries.bookingsForUnit(unit, event1);
+		Collection<Booking> bookings = CannedQueries.bookingsForUnit(unit, event1);
 		TestUtils.assertNames(bookings, "Test person", "Test person 2");
+		assertDetached(bookings);
 	}
 
 	@Test
@@ -141,16 +172,19 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
 		Village village = CannedQueries.villageByName("Village 1", event1);
 		
-		List<Booking> bookings = CannedQueries.bookingsForVillage(village);
+		Collection<Booking> bookings = CannedQueries.bookingsForVillage(village);
 		TestUtils.assertNames(bookings, "Test person", "Test person 2");
+		assertDetached(bookings);
 		
 		Village village2 = CannedQueries.villageByName("Village 2", event1);
 		
-		List<Booking> bookings2 = CannedQueries.bookingsForVillage(village2);
+		Collection<Booking> bookings2 = CannedQueries.bookingsForVillage(village2);
 		assertEquals(0, bookings2.size());
+		assertDetached(bookings2);
 
-		List<Booking> bookingsHomeless = CannedQueries.bookingsHomeless(event1);
+		Collection<Booking> bookingsHomeless = CannedQueries.bookingsHomeless(event1);
 		TestUtils.assertNames(bookingsHomeless, "Person in unapproved, homeless unit");
+		assertDetached(bookingsHomeless);
 	}
 	
 	@Test
@@ -174,9 +208,56 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	public void testUserByEmail() {
 		User user1 = CannedQueries.getUserByEmail("globaladmin@example.com");
 		assertEquals("Global Admin 1", user1.getName());
+		assertDetached(user1);
 		
 		User user2 = CannedQueries.getUserByEmail("orgadmin@example.com");
 		assertEquals("Org Admin 1", user2.getName());
 	}
+
+	@Test
+	public void testGetByKey() {
+		User user1 = CannedQueries.getByKey(User.class, "globaladmin@example.com");
+		assertEquals("Global Admin 1", user1.getName());
+		assertDetached(user1);
+	}
+	
+	@Test
+	public void testDelete() {
+		User user1 = CannedQueries.getUserByEmail("globaladmin@example.com");
+		assertEquals("Global Admin 1", user1.getName());
+		assertDetached(user1);
+		
+		CannedQueries.delete(user1);
+		User user1Deleted = CannedQueries.getUserByEmail("globaladmin@example.com");
+		assertNull(user1Deleted);
+	}
+	
+	@Test
+	public void testSave() {
+		User user1 = CannedQueries.getUserByEmail("globaladmin@example.com");
+		assertEquals("Global Admin 1", user1.getName());			
+		user1.setName("new name");
+		
+		CannedQueries.save(user1);
+		
+		User user1Renamed = CannedQueries.getUserByEmail("globaladmin@example.com");
+		assertEquals("new name", user1Renamed.getName());
+	}
+	
+	
+	private void assertDetached(Object object)
+	{
+		assertEquals(ObjectState.DETACHED_CLEAN, JDOHelper.getObjectState(object));
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private void assertDetached(Collection objects)
+	{
+		for(Object o : objects)
+		{
+			assertDetached(o);
+		}
+	}
+	
 
 }

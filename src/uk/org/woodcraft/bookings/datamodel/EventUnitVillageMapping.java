@@ -18,8 +18,13 @@ import com.google.appengine.api.datastore.KeyFactory;
  * @author simon
  *
  */
-@PersistenceCapable
+@PersistenceCapable(detachable="true")
 public class EventUnitVillageMapping {
+	
+	@SuppressWarnings("unused")
+	private EventUnitVillageMapping() {
+		// For JDO
+	}
 	
 	public EventUnitVillageMapping( Key eventKey, Key unitKey, Key villageKey) {
 		
