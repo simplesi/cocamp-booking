@@ -2,6 +2,9 @@ package uk.org.woodcraft.bookings.persistence;
 
 import java.util.Collection;
 
+import uk.org.woodcraft.bookings.auth.Operation;
+import uk.org.woodcraft.bookings.auth.SecurityModel;
+import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
@@ -30,24 +33,37 @@ public class UnitAction extends ActionSupport implements ModelDriven<Unit>, Prep
 	
 	public String edit() {
 		if (unit == null) return ERROR;
+		SecurityModel.checkAllowed(Operation.READ, unit);
 		return INPUT;
 	}
 	
 	public String save() {
+		SecurityModel.checkAllowed(Operation.WRITE, unit);
 		CannedQueries.save(unit);
 		return SUCCESS;
 	}
 	
 	public String delete() {
+		SecurityModel.checkAllowed(Operation.WRITE, unit);
 		CannedQueries.delete(unit);
 		return SUCCESS;
 	}
 	
-	public String list() {
+	public String listAll() {
+		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
 		setUnitList(CannedQueries.allUnits(true));
 		return SUCCESS;
 	}
 
+	public String listForOrg() {
+		
+		Organisation org = SessionUtils.getCurrentOrg();
+		
+		SecurityModel.checkAllowed(Operation.READ, org);
+		setUnitList(CannedQueries.unitsForOrg(org, true));
+		return SUCCESS;
+	}
+	
 	public void setUnitList(Collection<Unit> unitList) {
 		this.unitList = unitList;
 	}

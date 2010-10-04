@@ -6,11 +6,21 @@ import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
+import uk.org.woodcraft.bookings.datamodel.User;
 
 import com.opensymphony.xwork2.ActionContext;
 
 public class SessionUtils {
 
+	
+	public static User currentUser(boolean throwIfNotSignedIn)
+	{
+		User user = (User) ActionContext.getContext().getSession().get(SessionConstants.USER_HANDLE);
+		if(user == null && throwIfNotSignedIn) throw new SecurityException("You must be logged in to perform this action");
+		
+		return user;
+	}
+	
 	public static Organisation getCurrentOrg()
 	{
 		return (Organisation) ActionContext.getContext().getSession().get(SessionConstants.CURRENT_ORG);

@@ -1,9 +1,9 @@
-<#assign pagetitle = 'Edit Unit'>
+<#assign pagetitle="Edit Unit">
 <#include "/templates/header.ftl">
 
  <h2>Unit Edit</h2>
  <@s.actionerror/>
- <@s.form id="unit" action="unitSave" method="post">
+ <@s.form id="unit" action="save" method="post">
  <@s.push value="unit">
 	 <@s.hidden name="webKey"/>
 	 <@s.textfield name="name" label="Name"/>

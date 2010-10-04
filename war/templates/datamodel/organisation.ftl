@@ -3,7 +3,7 @@
  
   <h2>Organisation Edit</h2>
  <@s.actionerror/>
- <@s.form id="organisation" action="orgSave" method="post">
+ <@s.form id="organisation" action="save" method="post">
  <@s.push value="organisation">
 	 <@s.hidden name="webKey"/>
 	 <@s.textfield name="name" label="Name"/>

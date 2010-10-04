@@ -111,21 +111,39 @@
 			<result name="input" type="freemarker">/templates/auth/emailConfirm.ftl</result>
 			<result name="success" type="freemarker">/templates/auth/login.ftl</result>
 		</action>
+		
 	</package>
 	
-	<package name="admin" namespace="/admin" extends="default">	
-		
-		<action name="orgList" method="list" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+	<package name="unit" namespace="/unit" extends="default">		
+		<action name="listAll" method="listAll" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
+		</action>
+		<action name="list" method="listForOrg" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
+		</action>
+		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+		</action>
+		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result type="redirect">listForOrg</result>
+		</action>
+		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result type="redirect">listForOrg</result>
+		</action>
+	</package>
+	
+	<package name="org" namespace="/org" extends="default">		
+		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result type="freemarker">/templates/datamodel/organisationList.ftl</result>
 		</action>
-		<action name="orgEdit" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
 		</action>
-		<action name="orgSave" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
-			<result type="redirect">orgList</result>
+		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result type="redirect">list</result>
 		</action>
-		<action name="orgDelete" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
-			<result type="redirect">orgList</result>
+		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result type="redirect">list</result>
 		</action>
 	</package>
 	

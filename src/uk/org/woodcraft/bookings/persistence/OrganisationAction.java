@@ -2,6 +2,8 @@ package uk.org.woodcraft.bookings.persistence;
 
 import java.util.Collection;
 
+import uk.org.woodcraft.bookings.auth.Operation;
+import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 
 import com.google.appengine.api.datastore.KeyFactory;
@@ -29,20 +31,25 @@ public class OrganisationAction extends ActionSupport implements ModelDriven<Org
 	
 	public String edit() {
 		if (organisation == null) return ERROR;
+		SecurityModel.checkAllowed(Operation.READ, organisation);
 		return INPUT;
 	}
 	
 	public String save() {
+		
+		SecurityModel.checkAllowed(Operation.WRITE, organisation);
 		CannedQueries.save(organisation);
 		return SUCCESS;
 	}
 	
 	public String delete() {
+		SecurityModel.checkAllowed(Operation.WRITE, organisation);
 		CannedQueries.delete(organisation);
 		return SUCCESS;
 	}
 	
 	public String list() {
+		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
 		setOrganisationList(CannedQueries.allOrgs(true));
 		return SUCCESS;
 	}

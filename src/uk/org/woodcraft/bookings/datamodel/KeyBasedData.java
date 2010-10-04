@@ -52,6 +52,10 @@ public abstract class KeyBasedData implements Serializable{
 		key = KeyFactory.stringToKey(webKey);
 	}
 	
+	public boolean isNew() {
+		return key == null;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof KeyBasedData)) return false;
