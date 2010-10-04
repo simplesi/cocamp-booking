@@ -366,7 +366,7 @@ public class CannedQueries {
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			pm.makePersistent(objectToSave);
+			objectToSave = pm.makePersistent(objectToSave);
 			tx.commit();
 		} catch (Exception e){
 			if (tx.isActive()) 
@@ -422,6 +422,7 @@ public class CannedQueries {
 	{
 		PersistenceManager pm = query.getPersistenceManager();
 		Collection<T> results = (Collection<T>) query.executeWithArray(params);
+		//pm.refreshAll(results); // hmm
 		results = pm.detachCopyAll(results);
 		pm.close();
 		return results;

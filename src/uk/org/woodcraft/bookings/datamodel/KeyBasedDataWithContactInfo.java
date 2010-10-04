@@ -10,13 +10,13 @@ import javax.jdo.annotations.Persistent;
 public abstract class KeyBasedDataWithContactInfo extends KeyBasedData {
 
 	@Persistent
-	private String email;
+	protected String email;
 	
 	@Persistent
-	private String phone;
+	protected String phone;
 	
 	@Persistent
-	private String address;
+	protected String address;
 	
 	
 	public void setEmail(String email)
