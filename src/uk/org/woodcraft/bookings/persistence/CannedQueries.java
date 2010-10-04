@@ -255,6 +255,11 @@ public class CannedQueries {
 		return querySingleDetachAndClose(Unit.class, query, unitName, org.getKeyCheckNotNull());
 	}
 	
+	public static Unit unitByKey(Key key)
+	{
+		return getByKey(Unit.class, key);
+	}
+	
 	public static Collection<Booking> bookingsForUnit(Unit unit, Event event)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();

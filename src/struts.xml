@@ -8,31 +8,96 @@
 	<constant name="struts.action.excludePattern" value="/_ah/.*"/>	
 	
 	<package name="default" namespace="/" extends="struts-default">
-		<default-interceptor-ref name="paramsPrepareParamsStack"/>
 	
-        <action name="">
-			<result>/index.jsp</result>
+		<interceptors>
+			<interceptor name="login" class="uk.org.woodcraft.bookings.auth.LoginInterceptor" />
+
+			<interceptor-stack name="defaultLoginStackWithPrepareParams">
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="login"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+            
+            <!-- For actions not requiring the user to be logged in -->
+            <interceptor-stack name="defaultInsecureStackWithPrepareParams">
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+		</interceptors>
+		
+		
+		<default-interceptor-ref name="defaultLoginStackWithPrepareParams"/>
+
+		<default-action-ref name="index" />
+	
+	    <global-results>
+            <result name="login" type="freemarker">/templates/auth/login.ftl</result>
+            <result name="login-success" type="freemarker">/templates/index.ftl</result>
+        </global-results>
+	
+        <action name="index">
+			<result type="freemarker">/templates/index.ftl</result>
 		</action>
 		
-		<action name="login">
-			<result type="freemarker">/templates/auth/login.ftl</result>
-		</action>
-
 		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="preSignup">
+			<interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 			<result type="freemarker">/templates/auth/signup.ftl</result>
 		</action>
 
-		<action name="processLogin" method="login" class="uk.org.woodcraft.bookings.auth.BasicLoginAction">
-			<result>/success.jsp</result>
-			<result name="input">/login.jsp</result>
-		</action>
-
 		<action name="processSignup" class="uk.org.woodcraft.bookings.auth.SignupAction">
+			<interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 			<result>/success.jsp</result>
 			<result name="input">/signup.jsp</result>
 		</action>
 		
 		<action name="confirmEmail" class="uk.org.woodcraft.bookings.auth.ConfirmEmailAction">
+			<interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 			<result>/success.jsp</result>
 			<result name="input">/signup.jsp</result>
 		</action>
@@ -42,11 +107,7 @@
 		</action>
 	</package>
 	
-	<package name="admin" namespace="/admin" extends="struts-default">
-		<default-interceptor-ref name="paramsPrepareParamsStack"/>
-		<action name="createtestdata" method="setUp" class="uk.org.woodcraft.bookings.admin.CreateTestDataAction">
-			<result>/success.jsp</result>
-		</action>		
+	<package name="admin" namespace="/admin" extends="default">	
 		
 		<action name="orgList" method="list" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result type="freemarker">/templates/datamodel/organisationList.ftl</result>
@@ -60,6 +121,15 @@
 		<action name="orgDelete" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result type="redirect">orgList</result>
 		</action>
+	</package>
+	
+	<!--  THIS IS INSECURE! -->
+	<package name="dev" namespace="/developer" extends="default">
+		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
+		
+		<action name="createtestdata" method="setUp" class="uk.org.woodcraft.bookings.admin.CreateTestDataAction">
+			<result>/success.jsp</result>
+		</action>	
 	</package>
 	
 </struts>

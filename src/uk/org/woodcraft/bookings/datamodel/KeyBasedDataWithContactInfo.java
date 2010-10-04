@@ -9,6 +9,8 @@ import javax.jdo.annotations.Persistent;
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
 public abstract class KeyBasedDataWithContactInfo extends KeyBasedData {
 
+	private static final long serialVersionUID = 1L;
+
 	@Persistent
 	protected String email;
 	

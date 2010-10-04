@@ -11,6 +11,8 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 @PersistenceCapable(detachable="true")
 public class Event extends KeyBasedData  implements NamedEntity{
 	
+	private static final long serialVersionUID = 1L;
+
 	@Persistent
 	private String name; 
 	

@@ -12,6 +12,8 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(detachable="true")
 public class Village extends KeyBasedData implements NamedEntity{
 
+	private static final long serialVersionUID = 1L;
+
 	@SuppressWarnings("unused")
 	private Village() {
 		// For JDO

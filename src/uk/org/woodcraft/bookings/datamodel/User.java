@@ -7,6 +7,9 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import uk.org.woodcraft.bookings.auth.PasswordUtils;
+import uk.org.woodcraft.bookings.persistence.CannedQueries;
+
+import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(detachable="true")
 public class User implements Serializable {
@@ -25,6 +28,12 @@ public class User implements Serializable {
 	
 	@Persistent(serialized="true")
 	private Accesslevel accessLevel;
+	
+	@Persistent
+	private Key organisationKey;
+	
+	@Persistent
+	private Key unitKey;
 	
 	public User(String email, String name, String password, Accesslevel accessLevel) {
 		this.email = email;
@@ -92,6 +101,32 @@ public class User implements Serializable {
 	public int hashCode() {
 		if (this.email == null) return 0;
 		return this.email.hashCode();
+	}
+
+	public Key getOrganisationKey() {
+		return organisationKey;
+	}
+
+	public void setOrganisationKey(Key organisationKey) {
+		this.organisationKey = organisationKey;
+	}
+
+	public Organisation getOrganisation()
+	{
+		return CannedQueries.orgByKey(organisationKey);
+	}
+	
+	public Key getUnitKey() {
+		return unitKey;
+	}
+	
+	public void setUnitKey(Key unitKey) {
+		this.unitKey = unitKey;
+	}
+	
+	public Unit getUnit()
+	{
+		return CannedQueries.unitByKey(unitKey);
 	}
 	
 }

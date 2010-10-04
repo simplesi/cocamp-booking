@@ -27,15 +27,6 @@ public class BasicTestDataFixture extends TestFixture {
 		try {
 			//tx.begin();
 			
-			
-			// Users
-			User user1 = new User("globaladmin@example.com", "Global Admin 1", "password", Accesslevel.GLOBAL_ADMIN);
-			User user2 = new User("orgadmin@example.com", "Org Admin 1", "password", Accesslevel.ORG_ADMIN);
-			User user3 = new User("unitadmin@example.com", "Unit Admin 1", "password", Accesslevel.UNIT_ADMIN);
-			User user4 = new User("unassigned@example.com", "Unassigned 1", "password", Accesslevel.UNASSIGNED);
-			pm.makePersistentAll(user1, user2, user3, user4);
-			
-			
 			// Events
 			List<Event> events = new ArrayList<Event>();
 			Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true);
@@ -57,7 +48,8 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			// Organisations
 			List<Organisation> organisations = new ArrayList<Organisation>();
-			organisations.add(new Organisation("Woodcraft Folk", true));
+			Organisation orgWcf = new Organisation("Woodcraft Folk", true);
+			organisations.add(orgWcf);
 			organisations.add(new Organisation("Unapproved organisation", false));
 			pm.makePersistentAll(organisations);
 			
@@ -88,6 +80,27 @@ public class BasicTestDataFixture extends TestFixture {
 			bookings.add(new Booking("Person in unapproved, homeless unit", units.get(1), event1));
 			bookings.add(new Booking("Test person in other event", unit1, events.get(1)));
 			pm.makePersistentAll(bookings);
+			
+			
+			// Users
+			User user1 = new User("globaladmin@example.com", "Global Admin 1", "password", Accesslevel.GLOBAL_ADMIN);
+			user1.setOrganisationKey(orgWcf.getKeyCheckNotNull());
+			user1.setUnitKey(unit1.getKeyCheckNotNull());
+			
+			User user2 = new User("orgadmin@example.com", "Org Admin 1", "password", Accesslevel.ORG_ADMIN);
+			user2.setOrganisationKey(orgWcf.getKeyCheckNotNull());
+			user2.setUnitKey(unit1.getKeyCheckNotNull());
+			
+			User user3 = new User("unitadmin@example.com", "Unit Admin 1", "password", Accesslevel.UNIT_ADMIN);
+			user3.setOrganisationKey(orgWcf.getKeyCheckNotNull());
+			user3.setUnitKey(unit1.getKeyCheckNotNull());
+			
+			User user4 = new User("unassigned@example.com", "Unassigned 1", "password", Accesslevel.UNASSIGNED);
+			user4.setOrganisationKey(orgWcf.getKeyCheckNotNull());
+			user4.setUnitKey(unit1.getKeyCheckNotNull());
+			
+			pm.makePersistentAll(user1, user2, user3, user4);
+			
 			
 			//tx.commit();
 		} catch(Exception e) {

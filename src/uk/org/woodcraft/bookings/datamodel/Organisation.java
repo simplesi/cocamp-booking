@@ -12,6 +12,8 @@ import com.google.appengine.api.datastore.Text;
 @PersistenceCapable(detachable="true")
 public class Organisation extends KeyBasedDataWithContactInfo implements NamedEntity{
 		
+	private static final long serialVersionUID = 1L;
+
 	public Organisation(String name, boolean approved) {
 		this.name = name;
 		this.approved = approved;

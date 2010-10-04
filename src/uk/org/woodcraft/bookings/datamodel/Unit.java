@@ -13,11 +13,18 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable(detachable="true")
-public class Unit extends KeyBasedData implements NamedEntity{
+public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 	
+	private static final long serialVersionUID = 1L;
+
 	@SuppressWarnings("unused")
 	private Unit() {
 		// For JDO
+	}
+	
+	public Unit(Organisation org)
+	{
+		this.organisationKey = org.getKeyCheckNotNull();
 	}
 	
 	public Unit(String name, Organisation org, boolean approved) {
@@ -31,9 +38,6 @@ public class Unit extends KeyBasedData implements NamedEntity{
 	
 	@Persistent
 	private Key organisationKey;
-	
-	@Persistent(dependent = "true", defaultFetchGroup = "true")
-	private ContactInfo contactInfo;
 	
 	@Persistent
 	private Text notes;
@@ -87,11 +91,6 @@ public class Unit extends KeyBasedData implements NamedEntity{
 	}
 
 
-	public void setContactInfo(ContactInfo contactInfo) {
-		this.contactInfo = contactInfo;
-	}
-
-
 	public void setDefaultVillageForEvent(Event event, Village defaultVillage) {
 		CannedQueries.persistDefaultVillageKeyForUnit(event, this, defaultVillage);
 	}
@@ -103,11 +102,6 @@ public class Unit extends KeyBasedData implements NamedEntity{
 		if (key == null) return null;
 		
 		return (CannedQueries.villageByKey(key));
-	}
-
-
-	public ContactInfo getContactInfo() {
-		return contactInfo;
 	}
 
 

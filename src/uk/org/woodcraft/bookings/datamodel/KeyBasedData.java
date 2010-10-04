@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.datamodel;
 
+import java.io.Serializable;
+
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
@@ -12,7 +14,9 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public abstract class KeyBasedData {
+public abstract class KeyBasedData implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	
 	@PrimaryKey
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
@@ -44,6 +48,7 @@ public abstract class KeyBasedData {
 	}
 	
 	public void setWebKey(String webKey) {
+		if( webKey == null || webKey.length() == 0) return;
 		key = KeyFactory.stringToKey(webKey);
 	}
 	

@@ -11,6 +11,8 @@ import com.google.appengine.api.datastore.Key;
 @PersistenceCapable(detachable="true")
 public class Booking extends KeyBasedData implements NamedEntity{
 
+	private static final long serialVersionUID = 1L;
+
 	@Persistent
 	private String name;
 

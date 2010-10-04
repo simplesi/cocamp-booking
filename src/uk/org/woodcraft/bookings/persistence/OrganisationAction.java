@@ -66,10 +66,7 @@ public class OrganisationAction extends ActionSupport implements ModelDriven<Org
 	@Override
 	public void prepare() throws Exception {
 		
-		// Avoid re-work
-		if (organisation != null) return;
-		
-		if (webKey != null) 
+		if (webKey != null && webKey.length() > 0 ) 
 		{
 			organisation = CannedQueries.orgByKey(KeyFactory.stringToKey(webKey));
 		} else {

@@ -48,6 +48,8 @@
 <!--[if IE 9 ]>    <body class="ie9"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
 
+<#include "/templates/userbar.ftl"/>
+
   <div id="container">
     <header>
 		<img src="/graphics/cocamp.png" alt="CoCamp Logo" />
