@@ -9,24 +9,35 @@ public class SecurityModel {
 
 	public static void checkGlobalOperationAllowed(Operation operation)
 	{
-		checkAllowed(operation, null, null);
+		checkAllowed(operation, null, null, null);
 	}
 	
 	public static void checkAllowed(Operation operation, Organisation org)
 	{
-		checkAllowed(operation, org, null);
+		checkAllowed(operation, org, null, null);
 	}
 	
 	public static void checkAllowed(Operation operation, Unit unit)
 	{
-		checkAllowed(operation,  null, unit);
+		checkAllowed(operation,  null, unit, null);
 	}
 	
-	public static void checkAllowed(Operation operation, Organisation org, Unit unit)
+	public static void checkAllowed(Operation operation, User user)
 	{
+		checkAllowed(operation,  null, null, user);
+	}
+	
+	public static void checkAllowed(Operation operation, Organisation checkOrg, Unit checkUnit, User checkUser)
+	{
+		boolean permitted = false;
+		
+		// If this is a new unit / org, anyone can touch it
+		if(checkOrg != null && checkOrg.isNew()) permitted = true;
+		if(checkUnit != null && checkUnit.isNew()) permitted = true;
+		if(checkUser != null && checkUser.isNew()) permitted = true;
+		
 		User user = SessionUtils.currentUser(false);
 		
-		boolean permitted = false;
 		if (user != null) {
 			switch (user.getAccessLevel()) {
 			case GLOBAL_ADMIN:
@@ -34,19 +45,20 @@ public class SecurityModel {
 				break;
 				
 			case ORG_ADMIN:
-				if(user.getOrganisation().equals(org)) permitted = true;
-				if(unit != null && unit.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
+				if(user.getOrganisation().equals(checkOrg)) permitted = true;
+				if(checkUnit != null && checkUnit.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
+				if(checkUser != null && checkUser.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
 	
 			case UNIT_ADMIN:
-				if(user.getUnit().equals(unit)) permitted = true;
+				if(user.getUnit().equals(checkUnit)) permitted = true;
+				if(checkUser != null && checkUser.getUnitKey().equals(user.getUnitKey())) permitted = true;
 				
 			default:
+				if (user.equals(checkUser)) permitted = true;
 			}
 		}
 		
-		// If this is a new unit / org, anyone can touch it
-		if(org != null && org.isNew()) permitted = true;
-		if(unit != null && unit.isNew()) permitted = true;
+
 		
 		if (!permitted)	throw new SecurityException("You do not have the right security access to do that action");
 	}

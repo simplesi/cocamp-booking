@@ -1,4 +1,4 @@
-package uk.org.woodcraft.bookings.testdata;
+package uk.org.woodcraft.bookings.test;
 
 import org.junit.After;
 import org.junit.Before;

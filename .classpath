@@ -14,6 +14,7 @@
 	<classpathentry kind="lib" path="lib/struts-2.2.1/commons-io-1.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/struts-2.2.1/javassist-3.13.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/struts2-jquery-plugin-2.4.1.jar"/>
+	<classpathentry kind="lib" path="lib/mockrunner-servlet.jar"/>
 	<classpathentry kind="var" path="APPENGINE_HOME"/>
 	<classpathentry kind="var" path="APPENGINE_HOME/lib/impl/appengine-api-labs.jar"/>
 	<classpathentry kind="var" path="APPENGINE_HOME/lib/impl/appengine-api-stubs.jar"/>

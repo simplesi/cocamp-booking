@@ -98,19 +98,30 @@
 		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 		<default-action-ref name="signup" />
 		
-		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="preSignup">
-			<result type="freemarker">/templates/auth/signup.ftl</result>
+		<action name="signup" class="uk.org.woodcraft.bookings.auth.UserAction" method="edit">
+			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
 		</action>
 
-		<action name="process" class="uk.org.woodcraft.bookings.auth.SignupAction">
+		<action name="processSignup" class="uk.org.woodcraft.bookings.auth.UserAction" method="processSignup">
 			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
-			<result type="redirect">confirmEmail</result>
+			<result name="email-confirm" type="redirect">confirmEmail</result>
 		</action>
 		
 		<action name="confirmEmail" class="uk.org.woodcraft.bookings.auth.ConfirmEmailAction">
 			<result name="input" type="freemarker">/templates/auth/emailConfirm.ftl</result>
-			<result name="success" type="freemarker">/templates/auth/login.ftl</result>
+			<result name="success" type="redirect">/index</result>
 		</action>
+		
+		<action name="addOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+			<result name="success" type="redirect">signup</result>
+		</action>
+		
+		<action name="addUnit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+			<result name="success" type="redirect">signup</result>
+		</action>
+		
 		
 	</package>
 	

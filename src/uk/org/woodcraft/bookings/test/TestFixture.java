@@ -1,4 +1,4 @@
-package uk.org.woodcraft.bookings.testdata;
+package uk.org.woodcraft.bookings.test;
 
 public abstract class TestFixture {
 

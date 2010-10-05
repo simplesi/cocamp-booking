@@ -10,7 +10,7 @@ import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.Village;
 import uk.org.woodcraft.bookings.persistence.PMF;
-import uk.org.woodcraft.bookings.testdata.TestFixture;
+import uk.org.woodcraft.bookings.test.TestFixture;
 
 import com.opensymphony.xwork2.ActionSupport;
 

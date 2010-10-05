@@ -1,4 +1,4 @@
-package uk.org.woodcraft.bookings.testdata;
+package uk.org.woodcraft.bookings.test;
 
 import static org.junit.Assert.assertEquals;
 

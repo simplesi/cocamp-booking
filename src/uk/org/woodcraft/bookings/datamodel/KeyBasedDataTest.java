@@ -8,9 +8,9 @@ import javax.jdo.ObjectState;
 import org.junit.Test;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
-import uk.org.woodcraft.bookings.testdata.BaseFixtureTestCase;
-import uk.org.woodcraft.bookings.testdata.TestConstants;
-import uk.org.woodcraft.bookings.testdata.TestFixture;
+import uk.org.woodcraft.bookings.test.BaseFixtureTestCase;
+import uk.org.woodcraft.bookings.test.TestConstants;
+import uk.org.woodcraft.bookings.test.TestFixture;
 
 public class KeyBasedDataTest extends BaseFixtureTestCase{
 

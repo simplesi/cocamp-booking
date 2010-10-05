@@ -16,10 +16,10 @@ import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
-import uk.org.woodcraft.bookings.testdata.BaseFixtureTestCase;
-import uk.org.woodcraft.bookings.testdata.TestConstants;
-import uk.org.woodcraft.bookings.testdata.TestFixture;
-import uk.org.woodcraft.bookings.testdata.TestUtils;
+import uk.org.woodcraft.bookings.test.BaseFixtureTestCase;
+import uk.org.woodcraft.bookings.test.TestConstants;
+import uk.org.woodcraft.bookings.test.TestFixture;
+import uk.org.woodcraft.bookings.test.TestUtils;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -213,12 +213,35 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		User user2 = CannedQueries.getUserByEmail("orgadmin@example.com");
 		assertEquals("Org Admin 1", user2.getName());
 	}
+	
+	@Test
+	public void testAllUsers() {
+		Collection<User> users = CannedQueries.allUsers();
+		TestUtils.assertNames(users, "System User", "Global Admin 1", "Org Admin 1", "Unit Admin 1", "Unassigned 1", "Other Org 1");
+		assertDetached(users);
+		
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
+		users = CannedQueries.allUsersForOrg(org);
+		TestUtils.assertNames(users, "Global Admin 1", "Org Admin 1", "Unit Admin 1", "Unassigned 1");
+		assertDetached(users);
+	
+		Unit unit = CannedQueries.unitByName("Unit 1", org);		
+		users = CannedQueries.allUsersForUnit(unit);
+		TestUtils.assertNames(users, "Global Admin 1", "Org Admin 1", "Unit Admin 1");
+		assertDetached(users);
+	}
 
 	@Test
 	public void testGetByKey() {
 		User user1 = CannedQueries.getByKey(User.class, "globaladmin@example.com");
 		assertEquals("Global Admin 1", user1.getName());
 		assertDetached(user1);
+		
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
+		Organisation org2 = CannedQueries.getByKey(Organisation.class, org.getKey());
+		assertEquals(org, org2);
+		assertDetached(org2);
+		
 	}
 	
 	@Test

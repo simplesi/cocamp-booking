@@ -349,6 +349,44 @@ public class CannedQueries {
 		return getByKey(User.class, email);
 	}
 	
+	public static Collection<User> allUsers(Organisation org, Unit unit)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(User.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setOrdering("name");
+		
+		if (org != null) {
+			query.setFilter("organisationKey == orgKeyParam");
+			query.declareParameters("Key orgKeyParam");
+			return queryDetachAndClose(User.class, query, org.getKey());
+		}
+		
+		if (unit != null) {
+			query.setFilter("unitKey == unitKeyParam");
+			query.declareParameters("Key unitKeyParam");
+			return queryDetachAndClose(User.class, query, unit.getKey());
+		}
+		
+		return queryDetachAndClose(User.class, query);
+	}
+
+	public static Collection<User> allUsers()
+	{
+		return allUsers(null, null);
+	}
+	
+	public static Collection<User> allUsersForOrg(Organisation org)
+	{
+		return allUsers(org, null);
+	}
+	
+	public static Collection<User> allUsersForUnit(Unit unit)
+	{
+		return allUsers(null, unit);
+	}
+	
 	public static <T> T getByKey(Class<T> clazz, Object key)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -371,6 +409,7 @@ public class CannedQueries {
 		System.out.println("Saving object with state: " + JDOHelper.getObjectState(objectToSave));
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
 		//Transaction tx = pm.currentTransaction();
 		try {
 			//tx.begin();

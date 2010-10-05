@@ -14,7 +14,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public abstract class KeyBasedData implements Serializable{
+public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	
 	private static final long serialVersionUID = 1L;
 	

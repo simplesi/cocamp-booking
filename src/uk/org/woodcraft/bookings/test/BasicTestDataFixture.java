@@ -1,4 +1,4 @@
-package uk.org.woodcraft.bookings.testdata;
+package uk.org.woodcraft.bookings.test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,7 @@ import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
+import uk.org.woodcraft.bookings.persistence.CoreData;
 import uk.org.woodcraft.bookings.persistence.PMF;
 
 public class BasicTestDataFixture extends TestFixture {
@@ -26,6 +27,8 @@ public class BasicTestDataFixture extends TestFixture {
 		//Transaction tx = pm.currentTransaction();
 		try {
 			//tx.begin();
+			
+			CoreData.createCoreData();
 			
 			// Events
 			List<Event> events = new ArrayList<Event>();
@@ -50,7 +53,9 @@ public class BasicTestDataFixture extends TestFixture {
 			List<Organisation> organisations = new ArrayList<Organisation>();
 			Organisation orgWcf = new Organisation("Woodcraft Folk", true);
 			organisations.add(orgWcf);
-			organisations.add(new Organisation("Unapproved organisation", false));
+			
+			Organisation otherOrg = new Organisation("Unapproved organisation", false);
+			organisations.add(otherOrg);
 			pm.makePersistentAll(organisations);
 			
 			// Units
@@ -65,7 +70,8 @@ public class BasicTestDataFixture extends TestFixture {
 			units.add(unit2);
 			
 			units.add(new Unit("Unapproved unit for wcf", organisations.get(0), false));
-			units.add(new Unit("Unapproved unit", organisations.get(1), false));
+			Unit otherOrgUnit = new Unit("Unapproved unit", organisations.get(1), false);
+			units.add(otherOrgUnit);
 			pm.makePersistentAll(units);
 			
 			// Unit village defaults
@@ -97,9 +103,13 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			User user4 = new User("unassigned@example.com", "Unassigned 1", "password", Accesslevel.UNASSIGNED);
 			user4.setOrganisationKey(orgWcf.getKeyCheckNotNull());
-			user4.setUnitKey(unit1.getKeyCheckNotNull());
+			user4.setUnitKey(unit2.getKeyCheckNotNull());
 			
-			pm.makePersistentAll(user1, user2, user3, user4);
+			User user5 = new User("otherorg@example.com", "Other Org 1", "password", Accesslevel.ORG_ADMIN);
+			user5.setOrganisationKey(otherOrg.getKeyCheckNotNull());
+			user5.setUnitKey(otherOrgUnit.getKeyCheckNotNull());
+			
+			pm.makePersistentAll(user1, user2, user3, user4, user5);
 			
 			
 			//tx.commit();

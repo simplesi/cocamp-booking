@@ -32,8 +32,6 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	@Persistent
 	private Text notes; // internal comments about the organisation, non-searchable
 	
-
-	
 	public String getName() {
 		return name;
 	}

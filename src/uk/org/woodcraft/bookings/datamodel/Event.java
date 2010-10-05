@@ -9,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 @PersistenceCapable(detachable="true")
-public class Event extends KeyBasedData  implements NamedEntity{
+public class Event extends KeyBasedDataWithAudit implements NamedEntity{
 	
 	private static final long serialVersionUID = 1L;
 

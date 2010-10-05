@@ -6,11 +6,12 @@ import org.junit.runners.Suite;
 
 import uk.org.woodcraft.bookings.auth.SignupAcceptanceTest;
 import uk.org.woodcraft.bookings.datamodel.KeyBasedDataTest;
+import uk.org.woodcraft.bookings.datamodel.KeyBasedDataWithAuditTest;
 import uk.org.woodcraft.bookings.datamodel.UserTest;
 import uk.org.woodcraft.bookings.persistence.CannedQueriesTest;
-import uk.org.woodcraft.bookings.testdata.FixtureTest;
-import uk.org.woodcraft.bookings.testdata.LocalDatastoreTest;
-import uk.org.woodcraft.bookings.testdata.TestUtilsTest;
+import uk.org.woodcraft.bookings.test.FixtureTest;
+import uk.org.woodcraft.bookings.test.LocalDatastoreTest;
+import uk.org.woodcraft.bookings.test.TestUtilsTest;
 
 // Add your test class here to have it run
 @RunWith(Suite.class)
@@ -21,7 +22,8 @@ import uk.org.woodcraft.bookings.testdata.TestUtilsTest;
         LocalDatastoreTest.class,
         UserTest.class,
         SignupAcceptanceTest.class,
-        KeyBasedDataTest.class
+        KeyBasedDataTest.class,
+        KeyBasedDataWithAuditTest.class
         })
 
 public class AllTests {

@@ -15,7 +15,13 @@ public class SessionUtils {
 	
 	public static User currentUser(boolean throwIfNotSignedIn)
 	{
-		User user = (User) ActionContext.getContext().getSession().get(SessionConstants.USER_HANDLE);
+		ActionContext context = ActionContext.getContext();
+		User user = null;
+		
+		// Fetch it from the session
+		if(context != null)
+			user = (User) ActionContext.getContext().getSession().get(SessionConstants.USER_HANDLE);
+		
 		if(user == null && throwIfNotSignedIn) throw new SecurityException("You must be logged in to perform this action");
 		
 		return user;

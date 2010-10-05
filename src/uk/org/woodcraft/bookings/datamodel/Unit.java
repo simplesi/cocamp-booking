@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable(detachable="true")
@@ -63,6 +64,15 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 	
 	public Key getOrganisationKey() {
 		return organisationKey;
+	}
+	
+	public void setOrganisationWebKey(String webKey) {
+		organisationKey = KeyFactory.stringToKey(webKey);
+	}
+	
+	public String getOrganisationWebKey() {
+		if (organisationKey == null) return null;
+		return organisationKey.toString();
 	}
 
 

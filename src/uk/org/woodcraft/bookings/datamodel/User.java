@@ -2,6 +2,7 @@ package uk.org.woodcraft.bookings.datamodel;
 
 import java.io.Serializable;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -10,9 +11,10 @@ import uk.org.woodcraft.bookings.auth.PasswordUtils;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(detachable="true")
-public class User implements Serializable {
+public class User implements Serializable, Keyed<String>, NamedEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +36,14 @@ public class User implements Serializable {
 	
 	@Persistent
 	private Key unitKey;
+	
+	// Track whether this is a new or an existing object
+	// Use of Boolean (Rather than boolean) to get round JDO confusion about this property
+	@NotPersistent
+	private boolean isNew = false;
+	
+	public User() {
+	}
 	
 	public User(String email, String name, String password, Accesslevel accessLevel) {
 		this.email = email;
@@ -111,6 +121,18 @@ public class User implements Serializable {
 		this.organisationKey = organisationKey;
 	}
 
+	public String getOrganisationWebKey()
+	{
+		if (this.organisationKey != null) 
+			return KeyFactory.keyToString(organisationKey);
+		
+		return null;
+	}
+	
+	public void setOrganisationWebKey(String organisationWebKey) {
+		this.organisationKey = KeyFactory.stringToKey(organisationWebKey);
+	}
+	
 	public Organisation getOrganisation()
 	{
 		return CannedQueries.orgByKey(organisationKey);
@@ -124,9 +146,42 @@ public class User implements Serializable {
 		this.unitKey = unitKey;
 	}
 	
+	public String getUnitWebKey() {
+		if (unitKey != null)
+			return KeyFactory.keyToString(unitKey);
+		return null;
+	}
+	
+	public void setUnitWebKey(String unitWebKey) {
+		unitKey = KeyFactory.stringToKey(unitWebKey);
+	}
+	
 	public Unit getUnit()
 	{
 		return CannedQueries.unitByKey(unitKey);
+	}
+
+	@Override
+	public void setKey(String key) {
+		setEmail(key);
+	}
+
+	@Override
+	public String getKey() {
+		return getEmail();
+	}
+
+	public void setIsNew(boolean isNew) {
+		this.isNew = isNew;
+	}
+
+	public boolean isNew() {
+		return isNew;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 	
 }

@@ -20,7 +20,6 @@ public abstract class KeyBasedDataWithContactInfo extends KeyBasedData {
 	@Persistent
 	protected String address;
 	
-	
 	public void setEmail(String email)
 	{
 		this.email = email;

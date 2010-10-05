@@ -37,7 +37,7 @@ public class ConfirmEmailAction extends ActionSupport{
 		}
 		
 		// FIXME: Need to work out how to assign their true role
-		user.setAccessLevel(Accesslevel.UNASSIGNED);
+		user.setAccessLevel(Accesslevel.UNIT_ADMIN);
 		CannedQueries.save(user);
 		
 		addActionMessage("User email address was confirmed. Please log in");
