@@ -113,11 +113,17 @@
 		</action>
 		
 		<action name="addOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
-			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
-			<result name="success" type="redirect">signup</result>
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
+		</action>
+		<action name="saveOrg" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
+			<result type="redirect">signup</result>
 		</action>
 		
 		<action name="addUnit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+		</action>
+		<action name="saveUnit" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
 			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 			<result name="success" type="redirect">signup</result>
 		</action>
@@ -135,7 +141,7 @@
 		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
 			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 		</action>
-		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+		<action name="saveUnit" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
 			<result type="redirect">listForOrg</result>
 		</action>
 		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.UnitAction">
@@ -150,7 +156,7 @@
 		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
 		</action>
-		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+		<action name="saveOrg" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result type="redirect">list</result>
 		</action>
 		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">

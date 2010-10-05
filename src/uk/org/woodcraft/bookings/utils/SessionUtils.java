@@ -13,6 +13,11 @@ import com.opensymphony.xwork2.ActionContext;
 public class SessionUtils {
 
 	
+	public static boolean userIsLoggedIn()
+	{
+		return (currentUser(false) != null);
+	}
+	
 	public static User currentUser(boolean throwIfNotSignedIn)
 	{
 		ActionContext context = ActionContext.getContext();

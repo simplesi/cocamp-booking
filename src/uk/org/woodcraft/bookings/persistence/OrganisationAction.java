@@ -1,23 +1,30 @@
 package uk.org.woodcraft.bookings.persistence;
 
 import java.util.Collection;
+import java.util.Map;
+
+import org.apache.struts2.interceptor.SessionAware;
 
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
+import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
+import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 import com.google.appengine.api.datastore.KeyFactory;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 
-public class OrganisationAction extends ActionSupport implements ModelDriven<Organisation>, Preparable{
+public class OrganisationAction extends ActionSupport implements ModelDriven<Organisation>, Preparable, SessionAware{
 
 	private static final long serialVersionUID = 1L;
 	
 	String webKey;
 	Organisation organisation = null;
 	private Collection<Organisation> organisationList;
+
+	private Map<String, Object> session;
 
 	@Override
 	public Organisation getModel() {
@@ -39,6 +46,13 @@ public class OrganisationAction extends ActionSupport implements ModelDriven<Org
 		
 		SecurityModel.checkAllowed(Operation.WRITE, organisation);
 		CannedQueries.save(organisation);
+		
+		// They're in the signup process, so put it in the session so it appears in the dropdown
+		if (! SessionUtils.userIsLoggedIn())
+		{
+			session.put(SessionConstants.SIGNUP_ORG, organisation);
+		}
+		
 		return SUCCESS;
 	}
 	
@@ -79,6 +93,11 @@ public class OrganisationAction extends ActionSupport implements ModelDriven<Org
 		} else {
 			organisation = new Organisation();
 		}
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 
 }

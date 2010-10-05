@@ -18,8 +18,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 	
 	private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
-	private Unit() {
+	public Unit() {
 		// For JDO
 	}
 	

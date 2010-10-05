@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.struts2.interceptor.SessionAware;
+
 import uk.org.woodcraft.bookings.datamodel.Accesslevel;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
@@ -16,13 +18,17 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 
-public class UserAction extends ActionSupport implements ModelDriven<User>, Preparable{
+public class UserAction extends ActionSupport implements ModelDriven<User>, Preparable, SessionAware{
 
 	private static final long serialVersionUID = 1L;
 	
 	String email;
 	User user = null;
 	private Collection<User> userList;
+	private String defaultOrgWebKey;
+	private String defaultUnitWebKey;
+
+	private Map<String, Object> session;
 
 	public String edit() {
 		if (user == null) return ERROR;
@@ -88,15 +94,37 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 		return "email-confirm";
 	}
 
-	
+	// For the signup process
 	public Collection<Organisation> getAllOrgs()
 	{
-		return CannedQueries.allOrgs(false);
+		Collection<Organisation> orgs = CannedQueries.allOrgs(false);
+		Organisation userAddedOrg = (Organisation)session.get(SessionConstants.SIGNUP_ORG);
+		if (userAddedOrg != null) {
+			orgs.add(userAddedOrg);
+		}
+		
+		return orgs;
+	}
+	
+	public String getDefaultOrgWebKey()
+	{
+		return defaultOrgWebKey;
 	}
 
+	// For the signup process
 	public Collection<Unit> getAllUnits()
 	{
-		return CannedQueries.allUnits(false);
+		Collection<Unit> units = CannedQueries.allUnits(false);
+		Unit userAddedUnit = (Unit)session.get(SessionConstants.SIGNUP_UNIT);
+		if (userAddedUnit != null) {
+			units.add(userAddedUnit);
+		}
+		return units;
+	}
+	
+	public String getDefaultUnitWebKey()
+	{
+		return defaultUnitWebKey;
 	}
 	
 	public String getEmail() {
@@ -145,6 +173,17 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 		{
 			user = new User();
 			user.setIsNew(true);
+		
+			// Handle the defaults if someone's created their own org/unit
+			Organisation userAddedOrg = (Organisation)session.get(SessionConstants.SIGNUP_ORG);
+			if (userAddedOrg != null) {
+				defaultOrgWebKey = userAddedOrg.getWebKey();
+			}
+			
+			Unit userAddedUnit = (Unit)session.get(SessionConstants.SIGNUP_UNIT);
+			if (userAddedUnit != null) {
+				defaultUnitWebKey = userAddedUnit.getWebKey();
+			}
 		}
 	}
 
@@ -159,5 +198,10 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 
 	public Collection<User> getUserList() {
 		return userList;
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 }
