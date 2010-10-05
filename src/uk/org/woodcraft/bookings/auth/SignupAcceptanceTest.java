@@ -56,7 +56,7 @@ public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 		// unclear how to do this
 		
 		testUser = CannedQueries.getUserByEmail(email);
-		assertEquals(Accesslevel.UNASSIGNED, testUser.getAccessLevel());
+		assertEquals(Accesslevel.UNIT_ADMIN, testUser.getAccessLevel());
 		assertTrue(testUser.checkPassword(password));
 	}
 	
