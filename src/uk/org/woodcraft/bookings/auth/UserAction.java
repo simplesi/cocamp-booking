@@ -175,14 +175,17 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 			user.setIsNew(true);
 		
 			// Handle the defaults if someone's created their own org/unit
-			Organisation userAddedOrg = (Organisation)session.get(SessionConstants.SIGNUP_ORG);
-			if (userAddedOrg != null) {
-				defaultOrgWebKey = userAddedOrg.getWebKey();
-			}
 			
-			Unit userAddedUnit = (Unit)session.get(SessionConstants.SIGNUP_UNIT);
-			if (userAddedUnit != null) {
-				defaultUnitWebKey = userAddedUnit.getWebKey();
+			if(session != null) {
+				Organisation userAddedOrg = (Organisation)session.get(SessionConstants.SIGNUP_ORG);
+				if (userAddedOrg != null) {
+					defaultOrgWebKey = userAddedOrg.getWebKey();
+				}
+				
+				Unit userAddedUnit = (Unit)session.get(SessionConstants.SIGNUP_UNIT);
+				if (userAddedUnit != null) {
+					defaultUnitWebKey = userAddedUnit.getWebKey();
+				}
 			}
 		}
 	}
