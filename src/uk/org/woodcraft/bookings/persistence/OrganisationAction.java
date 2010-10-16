@@ -1,103 +1,47 @@
 package uk.org.woodcraft.bookings.persistence;
 
-import java.util.Collection;
-import java.util.Map;
-
-import org.apache.struts2.interceptor.SessionAware;
-
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
-import com.google.appengine.api.datastore.KeyFactory;
-import com.opensymphony.xwork2.ActionSupport;
-import com.opensymphony.xwork2.ModelDriven;
-import com.opensymphony.xwork2.Preparable;
+import com.google.appengine.api.datastore.Key;
 
-public class OrganisationAction extends ActionSupport implements ModelDriven<Organisation>, Preparable, SessionAware{
+public class OrganisationAction extends BasePersistenceAction<Organisation>{
 
 	private static final long serialVersionUID = 1L;
 	
-	String webKey;
-	Organisation organisation = null;
-	private Collection<Organisation> organisationList;
-
-	private Map<String, Object> session;
-
-	@Override
-	public Organisation getModel() {
-		return organisation;
-	}
-	
-	public void setWebKey(String key)
-	{
-		webKey = key;
-	}
-	
-	public String edit() {
-		if (organisation == null) return ERROR;
-		SecurityModel.checkAllowed(Operation.READ, organisation);
-		return INPUT;
-	}
-	
 	public String save() {
 		
-		SecurityModel.checkAllowed(Operation.WRITE, organisation);
-		CannedQueries.save(organisation);
+		super.save();
 		
 		// They're in the signup process, so put it in the session so it appears in the dropdown
 		if (! SessionUtils.userIsLoggedIn())
 		{
-			session.put(SessionConstants.SIGNUP_ORG, organisation);
+			setSessionObject(SessionConstants.SIGNUP_ORG, getModel());
 		}
 		
 		return SUCCESS;
 	}
 	
-	public String delete() {
-		SecurityModel.checkAllowed(Operation.WRITE, organisation);
-		CannedQueries.delete(organisation);
-		return SUCCESS;
-	}
-	
 	public String list() {
+		
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
-		setOrganisationList(CannedQueries.allOrgs(true));
+		setModelList(CannedQueries.allOrgs(true));
 		return SUCCESS;
-	}
-
-	public void setOrganisationList(Collection<Organisation> organisationList) {
-		this.organisationList = organisationList;
-	}
-
-	public Collection<Organisation> getOrganisationList() {
-		return organisationList;
-	}
-
-	public Organisation getOrganisation() {
-		return organisation;
-	}
-
-	public void setOrganisation(Organisation organisation) {
-		this.organisation = organisation;
 	}
 
 	@Override
 	public void prepare() throws Exception {
 		
-		if (webKey != null && webKey.length() > 0 ) 
+		Key key = getWebKeyAsKey();
+		if (key != null)
 		{
-			organisation = CannedQueries.orgByKey(KeyFactory.stringToKey(webKey));
+			setModel(CannedQueries.orgByKey(key));
 		} else {
-			organisation = new Organisation();
+			setModel(new Organisation());
 		}
-	}
-
-	@Override
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
 	}
 
 }

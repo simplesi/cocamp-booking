@@ -260,6 +260,11 @@ public class CannedQueries {
 		return getByKey(Unit.class, key);
 	}
 	
+	public static Booking bookingByKey(Key key)
+	{
+		return getByKey(Booking.class, key);
+	}
+	
 	public static Collection<Booking> bookingsForUnit(Unit unit, Event event)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();

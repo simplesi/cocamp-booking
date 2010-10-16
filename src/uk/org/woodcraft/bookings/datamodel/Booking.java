@@ -42,8 +42,8 @@ public class Booking extends KeyBasedData implements NamedEntity{
 		// For JDO
 	}
 	
-	public Booking( String name, Unit unit, Event event) {
-		this.name = name;
+	public Booking(Unit unit, Event event)
+	{
 		this.unitKey = unit.getKeyCheckNotNull();
 		
 		//FIXME: Could be optimized to not pull back village
@@ -53,6 +53,11 @@ public class Booking extends KeyBasedData implements NamedEntity{
 		this.eventKey = event.getKeyCheckNotNull();
 		this.arrivalDate = event.getPublicEventStart();
 		this.departureDate = event.getPublicEventEnd();
+	}
+	
+	public Booking( String name, Unit unit, Event event) {
+		this(unit, event);
+		this.name = name;
 	}
 	
 	

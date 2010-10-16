@@ -1,8 +1,8 @@
-<!-- Indices written at Tue, 5 Oct 2010 14:26:55 UTC -->
+<!-- Indices written at Tue, 5 Oct 2010 15:40:44 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 2 times in query history -->
     <datastore-index kind="Organisation" ancestor="false" source="auto">
         <property name="approved" direction="asc"/>
         <property name="name" direction="asc"/>

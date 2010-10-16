@@ -1,37 +1,52 @@
 package uk.org.woodcraft.bookings.auth;
 
+import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
+import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 public class SecurityModel {
-
+	
 	public static void checkGlobalOperationAllowed(Operation operation)
 	{
-		checkAllowed(operation, null, null, null);
+		checkAllowed(operation, null, null, null, null);
+	}
+	
+	public static void checkAllowed(Operation operation, Object object)
+	{
+		if (object instanceof Organisation)
+			checkAllowed(operation, (Organisation)object, null, null, null);
+		else if (object instanceof Unit)
+			checkAllowed(operation, null, (Unit)object, null, null);
+		else if (object instanceof User)
+			checkAllowed(operation, null, null, (User)object, null);
+		else if (object instanceof Booking)
+			checkAllowed(operation, null, null, null, (Booking)object);
 	}
 	
 	public static void checkAllowed(Operation operation, Organisation org)
 	{
-		checkAllowed(operation, org, null, null);
+		checkAllowed(operation, org, null, null, null);
 	}
 	
 	public static void checkAllowed(Operation operation, Unit unit)
 	{
-		checkAllowed(operation,  null, unit, null);
+		checkAllowed(operation,  null, unit, null, null);
 	}
 	
 	public static void checkAllowed(Operation operation, User user)
 	{
-		checkAllowed(operation,  null, null, user);
+		checkAllowed(operation,  null, null, user, null);
 	}
 	
-	public static void checkAllowed(Operation operation, Organisation checkOrg, Unit checkUnit, User checkUser)
+	// TODO: Move this to a secured iterface on the ModelObject instead
+	public static void checkAllowed(Operation operation, Organisation checkOrg, Unit checkUnit, User checkUser, Booking checkBooking)
 	{
 		boolean permitted = false;
 		
-		// If this is a new unit / org, anyone can touch it
+		// If this is a new unit / org, anyone can touch it, since they can be created in signup
 		if(checkOrg != null && checkOrg.isNew()) permitted = true;
 		if(checkUnit != null && checkUnit.isNew()) permitted = true;
 		if(checkUser != null && checkUser.isNew()) permitted = true;
@@ -48,11 +63,15 @@ public class SecurityModel {
 				if(user.getOrganisation().equals(checkOrg)) permitted = true;
 				if(checkUnit != null && checkUnit.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
 				if(checkUser != null && checkUser.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
-	
+				if(checkBooking != null) 
+				{
+					Unit unit= CannedQueries.unitByKey(checkBooking.getUnitKey());
+					if (unit.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
+				}
 			case UNIT_ADMIN:
 				if(user.getUnit().equals(checkUnit)) permitted = true;
 				if(checkUser != null && checkUser.getUnitKey().equals(user.getUnitKey())) permitted = true;
-				
+				if(checkBooking.getUnitKey().equals(user.getUnitKey())) permitted = true;
 			default:
 				if (user.equals(checkUser)) permitted = true;
 			}
