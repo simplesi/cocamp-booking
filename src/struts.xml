@@ -170,6 +170,15 @@
 		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
 		</action>
+		
+		<action name="listForUnit" method="listForUnit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
+		</action>
+		
+		<action name="listForOrg" method="listForOrg" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
+		</action>
+		
 		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
 		</action>
