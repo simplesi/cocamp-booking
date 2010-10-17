@@ -86,7 +86,7 @@
 		</action>
 				
 		<action name="logout" class="uk.org.woodcraft.bookings.auth.LogoutAction">
-			<result type="redirect">index</result>
+			<result type="redirect">/index</result>
 		</action>		
 				
 		<action name="wcfbookings" class="uk.org.woodcraft.bookings.WcfBookingsAction">
@@ -142,10 +142,11 @@
 			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 		</action>
 		<action name="saveUnit" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
-			<result type="redirect">listForOrg</result>
+			<result type="redirect">list</result>
+			<result name="input">edit</result>
 		</action>
 		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.UnitAction">
-			<result type="redirect">listForOrg</result>
+			<result type="redirect">list</result>
 		</action>
 	</package>
 	
@@ -157,9 +158,25 @@
 			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
 		</action>
 		<action name="saveOrg" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input">edit</result>
 			<result type="redirect">list</result>
 		</action>
 		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result type="redirect">list</result>
+		</action>
+	</package>
+
+	<package name="booking" namespace="/booking" extends="default">		
+		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
+		</action>
+		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
+		</action>
+		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result type="redirect">list</result>
+		</action>
+		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result type="redirect">list</result>
 		</action>
 	</package>

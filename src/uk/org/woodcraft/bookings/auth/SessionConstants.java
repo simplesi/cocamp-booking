@@ -8,4 +8,6 @@ public class SessionConstants {
 	
 	public static final String SIGNUP_ORG  = "SIGNUP_ORG";
 	public static final String SIGNUP_UNIT = "SIGNUP_UNIT";
+	
+	public static final String LOGIN_REDIRECT = "LOGIN_REDIRECT";
 }

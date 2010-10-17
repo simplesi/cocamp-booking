@@ -51,7 +51,7 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	public String getNotes() {
 		return notes.getValue();
 	}
-
+	
 	public void setNotes(Text notes) {
 		this.notes = notes;
 	}
@@ -59,6 +59,8 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	public void setNotes(String notes) {
 		this.notes = new Text(notes);
 	}
+	
+
 
 	public Collection<Unit> getUnits(boolean includeUnapproved) {
 	

@@ -2,7 +2,7 @@
 <#include "/templates/header.ftl">
 <table>
 <tr><th>Name</th><th>Approved</th><th>Edit</th><th>Delete</th></tr>
-<#list UnitList as unit>
+<#list ModelList as unit>
 <tr><td>${unit.name}</td>
 <td>${unit.approved?string("yes", "no")}</td>
 <td>

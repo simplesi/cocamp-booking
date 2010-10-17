@@ -1,16 +1,11 @@
-<!-- Indices written at Tue, 5 Oct 2010 15:40:44 UTC -->
+<!-- Indices written at Sun, 17 Oct 2010 17:00:21 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 2 times in query history -->
-    <datastore-index kind="Organisation" ancestor="false" source="auto">
-        <property name="approved" direction="asc"/>
-        <property name="name" direction="asc"/>
-    </datastore-index>
-
     <!-- Used 1 time in query history -->
-    <datastore-index kind="Unit" ancestor="false" source="auto">
-        <property name="approved" direction="asc"/>
+    <datastore-index kind="Booking" ancestor="false" source="auto">
+        <property name="eventKey" direction="asc"/>
+        <property name="unitKey" direction="asc"/>
         <property name="name" direction="asc"/>
     </datastore-index>
 

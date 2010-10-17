@@ -71,7 +71,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 	
 	public String getOrganisationWebKey() {
 		if (organisationKey == null) return null;
-		return organisationKey.toString();
+		return KeyFactory.keyToString(organisationKey);
 	}
 
 
@@ -80,8 +80,8 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 	}
 
 
-	public Text getNotes() {
-		return notes;
+	public String getNotes() {
+		return notes.getValue();
 	}
 
 
@@ -89,6 +89,9 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 		this.notes = notes;
 	}
 
+	public void setNotes(String notes) {
+		this.notes = new Text(notes);
+	}
 
 	public boolean isApproved() {
 		return approved;

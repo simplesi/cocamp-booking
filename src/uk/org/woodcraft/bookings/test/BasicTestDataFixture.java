@@ -6,6 +6,7 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 
 import uk.org.woodcraft.bookings.datamodel.Accesslevel;
+import uk.org.woodcraft.bookings.datamodel.AppSetting;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
@@ -111,6 +112,10 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			pm.makePersistentAll(user1, user2, user3, user4, user5);
 			
+			
+			// Application settings
+			AppSetting defaultEventSetting = new AppSetting(AppSetting.DEFAULT_EVENT, event1.getWebKey());
+			pm.makePersistent(defaultEventSetting);
 			
 			//tx.commit();
 		} catch(Exception e) {

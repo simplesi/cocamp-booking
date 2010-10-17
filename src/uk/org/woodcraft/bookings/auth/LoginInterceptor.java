@@ -1,6 +1,7 @@
 package uk.org.woodcraft.bookings.auth;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
@@ -8,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.StrutsStatics;
 
+import uk.org.woodcraft.bookings.datamodel.AppSetting;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
@@ -78,6 +80,16 @@ public class LoginInterceptor implements Interceptor {
 	            // Process the user's login attempt.
 	            if (processLoginAttempt (request, session) ) {
 	                // The login succeeded send them the login-success page.
+	            	
+	            	// If they were originally going somewhere else, try and send them there again
+	            	String intendedUri = (String) session.getAttribute(SessionConstants.LOGIN_REDIRECT);
+	            	if( intendedUri != null)
+	            	{
+	            		session.removeAttribute(SessionConstants.LOGIN_REDIRECT);
+	            		((HttpServletResponse)context.get(StrutsStatics.HTTP_RESPONSE)).sendRedirect(intendedUri);
+	            	}
+	            	
+	            	// Otherwise, go to the default
 	                return "login-success";
 	            } else {
 	                // The login failed. Set an error if we can on the action.
@@ -90,6 +102,9 @@ public class LoginInterceptor implements Interceptor {
 
 	        // Either the login attempt failed or the user hasn't tried to login yet, 
 	        // and we need to send the login form.
+	       String requestedURI = request.getRequestURI();
+	       session.setAttribute(SessionConstants.LOGIN_REDIRECT, requestedURI);
+	        
 	        return "login";
 	    } else {
 	        return invocation.invoke ();
@@ -108,7 +123,7 @@ public class LoginInterceptor implements Interceptor {
 	        // The user has successfully logged in. Store their user object in 
 	        // their HttpSession, and their home org and unit. Then return true.
 	        session.setAttribute(SessionConstants.USER_HANDLE, user);
-	        SessionUtils.setCurrentOrgAndUnit(session, user.getOrganisation(), user.getUnit());
+	        SessionUtils.setCurrentUserDetails(session,  AppSetting.getDefaultEvent(), user.getOrganisation(), user.getUnit());
 	        
 	        return true;
 	    } else {

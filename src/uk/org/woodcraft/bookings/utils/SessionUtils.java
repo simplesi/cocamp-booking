@@ -2,6 +2,8 @@ package uk.org.woodcraft.bookings.utils;
 
 import javax.servlet.http.HttpSession;
 
+import uk.org.woodcraft.bookings.auth.Operation;
+import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
@@ -47,9 +49,15 @@ public class SessionUtils {
 		return (Event) ActionContext.getContext().getSession().get(SessionConstants.CURRENT_EVENT);
 	}
 	
-	public static void setCurrentOrgAndUnit(HttpSession session, Organisation org, Unit unit)
+	public static void setCurrentUserDetails(HttpSession session, Event event, Organisation org, Unit unit)
 	{
+		SecurityModel.checkAllowed(Operation.READ, event);
+		session.setAttribute(SessionConstants.CURRENT_EVENT, event);
+		
+		SecurityModel.checkAllowed(Operation.READ, org);
 		session.setAttribute(SessionConstants.CURRENT_ORG, org);
+		
+		SecurityModel.checkAllowed(Operation.READ, unit);
 		session.setAttribute(SessionConstants.CURRENT_UNIT, unit);
 	}
 }

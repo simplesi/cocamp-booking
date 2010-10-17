@@ -25,8 +25,6 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 	String email;
 	User user = null;
 	private Collection<User> userList;
-	private String defaultOrgWebKey;
-	private String defaultUnitWebKey;
 
 	private Map<String, Object> session;
 
@@ -105,11 +103,6 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 		
 		return orgs;
 	}
-	
-	public String getDefaultOrgWebKey()
-	{
-		return defaultOrgWebKey;
-	}
 
 	// For the signup process
 	public Collection<Unit> getAllUnits()
@@ -121,12 +114,7 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 		}
 		return units;
 	}
-	
-	public String getDefaultUnitWebKey()
-	{
-		return defaultUnitWebKey;
-	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -177,15 +165,21 @@ public class UserAction extends ActionSupport implements ModelDriven<User>, Prep
 			// Handle the defaults if someone's created their own org/unit
 			
 			if(session != null) {
-				Organisation userAddedOrg = (Organisation)session.get(SessionConstants.SIGNUP_ORG);
-				if (userAddedOrg != null) {
-					defaultOrgWebKey = userAddedOrg.getWebKey();
-				}
 				
 				Unit userAddedUnit = (Unit)session.get(SessionConstants.SIGNUP_UNIT);
 				if (userAddedUnit != null) {
-					defaultUnitWebKey = userAddedUnit.getWebKey();
+					// use the org of the unit if possible so we get consistency
+					user.setOrganisationKey(userAddedUnit.getOrganisationKey());
+					user.setUnitKey(userAddedUnit.getKey());
+					return;
 				}
+				
+				Organisation userAddedOrg = (Organisation)session.get(SessionConstants.SIGNUP_ORG);
+				if (userAddedOrg != null) {
+					user.setOrganisationKey(userAddedOrg.getKey());
+				}
+				
+				
 			}
 		}
 	}

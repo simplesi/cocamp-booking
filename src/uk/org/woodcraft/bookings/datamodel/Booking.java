@@ -5,6 +5,9 @@ import java.util.Date;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.DateUtils;
+
 import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
 
@@ -37,6 +40,12 @@ public class Booking extends KeyBasedData implements NamedEntity{
 	@Persistent
 	private Key villageKey = null;
 	
+	/**
+	 *  Has this booking been cancelled, and if so, on what date?
+	 */
+	@Persistent
+	private Date cancellationDate;
+	
 	@SuppressWarnings("unused")
 	private Booking() {
 		// For JDO
@@ -67,6 +76,36 @@ public class Booking extends KeyBasedData implements NamedEntity{
 
 	public void setDob(Date dob) {
 		this.dob = dob;
+	}
+	
+	/**
+	 * Age group as of the first day of the event
+	 * @return
+	 */
+	public String getAgeGroup() {
+		if (this.dob == null) return "";
+		
+		Event event = CannedQueries.eventByKey(eventKey);		
+		int age = DateUtils.ageOnDay(dob, event.getPublicEventStart() );
+		
+		if(age < 6)
+		{
+			return "Woodchip";
+		} else if (age < 10)
+		{
+			return "Elfin";
+		} else if (age < 13 )
+		{
+			return "Pioneer";
+		} else if (age < 16)
+		{
+			return "Venturer";
+		} else if (age < 21)
+		{
+			return "DF";
+		} 
+		
+		return "Adult";
 	}
 
 	public Email getEmail() {
@@ -129,6 +168,18 @@ public class Booking extends KeyBasedData implements NamedEntity{
 	
 	public String toString() {
 		return getName();
+	}
+	
+	public boolean isCancelled() {
+		return getCancellationDate() != null;
+	}
+
+	public void setCancellationDate(Date cancellationDate) {
+		this.cancellationDate = cancellationDate;
+	}
+
+	public Date getCancellationDate() {
+		return cancellationDate;
 	}
 	
 }

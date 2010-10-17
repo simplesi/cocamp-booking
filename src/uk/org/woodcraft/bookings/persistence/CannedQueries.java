@@ -54,6 +54,11 @@ public class CannedQueries {
 		return querySingleDetachAndClose(Event.class, query, eventName);
 	}
 	
+	public static Event eventByKey(Key key)
+	{
+		return getByKey(Event.class, key);
+	}
+	
 	public static Collection<Village> villagesForEvent(Event event)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -394,6 +399,8 @@ public class CannedQueries {
 	
 	public static <T> T getByKey(Class<T> clazz, Object key)
 	{
+		// TODO: Implement caching here
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		T result = null;
 		try {
