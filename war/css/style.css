@@ -56,7 +56,7 @@ del { text-decoration: line-through; }
 abbr[title], dfn[title] { border-bottom:1px dotted #000; cursor:help; }
 
 /* tables still need cellspacing="0" in the markup */
-table { border-collapse:collapse; border-spacing:5px; border: 1px black; }
+table { border-collapse:collapse; border-spacing:0; }
 
 hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 0; padding:0; }
 
@@ -92,7 +92,6 @@ pre, code, kbd, samp { font-family: monospace, sans-serif; }
  */
 
 
-/* #444 looks better than black: twitter.com/H_FJ/statuses/11800719859 */ 
 body, select, input, textarea { color:#444; }
 
 /* Headers (h1,h2,etc) have no default font-size or margin, you'll want to define those yourself. */
@@ -162,14 +161,15 @@ font[size=+4] {
 h1,h2,h3,h4,h5,h6 { font-weight: bold; text-rendering: optimizeLegibility; }
 
 /* maxvoltar.com/archive/-webkit-font-smoothing */
-html { -webkit-font-smoothing: antialiased; }
+/* Remove tweak: irrelevant for Safari 5 and new Chrome releases*/
+/* html { -webkit-font-smoothing: antialiased; } */
 
  
 /* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
 a:hover, a:active { outline: none; }
 
-a, a:active, a:visited { color:#607890; }
-a:hover { color:#036; }
+a, a:active, a:visited { text-decoration: none; color: #3e764e; }
+a:hover { color: #275e36; }
 
 
 ul { margin-left:30px; }
@@ -247,13 +247,59 @@ button {  width: auto; overflow: visible; }
 /* Hide visually and from screenreaders, but maintain layout */
 .invisible { visibility: hidden; }
 
-/* >> The Magnificent CLEARFIX << */
-.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
-.clearfix { display: inline-block; }
-* html .clearfix { height: 1%; } /* Hides from IE-mac \*/
-.clearfix { display: block; }
+
+/* CSS Sticky Footer */
+*
+{   margin:0;padding:0;   } 
+
+html, body
+{   color: #444444;   height: 100%;
+	background-color: #e0e4df;
+/* 	background-color: #DDE4DA; */
+}
+
+#wrap 
+{   min-height: 100%;   }
+
+#main
+{   overflow:auto;
+	padding-bottom: 45px;   /* must be same height as the footer */
+	padding-top: 75px;
+	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Verdana, sans-serif;
+	width: 100%;
+	min-height: 300px;
+}
 
 
+footer
+{	background-color: #ededed;	                                
+	position: relative;
+	margin-top: -45px; /* negative value of footer height */
+	height: 44px; /* footer height*/
+	border-top: 1px;
+	border-style:solid;
+	border-color: #d6d6d6;
+	width: 100%;
+	clear:both;
+	text-align: center;
+}
+	
+#footerInner
+{	height: 30px; font-size: 9pt; padding-top: 14px; color: #b3b3b3;	text-align: center;	margin-right: auto;	margin-left: auto; width: 750px;
+}
+
+footer a, span
+{	padding: 0px 10px 0px 10px;
+}
+
+/*Opera Fix*/
+body:before /* thanks to Maleika (Kohoutec)*/
+{   content:"";
+    height:100%;
+    float:left;
+    width:0;
+    margin-top:-32767px;/* thank you Erik J - negate effect of float*/
+}
 
 
 
@@ -262,12 +308,93 @@ button {  width: auto; overflow: visible; }
  */
 
 
+header
+{	background-image: url(/graphics/headerSmoothBg.png);
+/*     background-image: url(/graphics/headerTexturedBg.png); */
+	background-repeat: repeat-x;	margin-right: auto;	margin-left: auto;    width: 100%;    height: 70px;
+}
 
+#headerInner
+{	background-image: url(/graphics/headerSmooth.png);
+/*     background-image: url(/graphics/headerTextured.png); */
+    margin-right: auto;	margin-left: auto;    height: 70px;   width: 750px;   padding: 0px 125px;
+}
 
+#contentWrap
+{	min-height: 400px;  margin-right: auto;	margin-left: auto;	margin-bottom: 0px;	margin-top: 0px;
+	width: 750px;	 /* background-color: #ffef7e; */
+}
 
+#main p
+{	
+	/*text-shadow: #FBFBFB 0px 1px 0px;	*/
+	/*text-shadow: #FFF 0px 1px 0px; */
+	text-shadow: 0px 1px #f3f3f3;
+	line-height: 175%;	         
+	padding: 5px 0px 15px 0px;
+}
 
+#nav
+{	font-size: medium;
+	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Verdana, sans-serif;
+	position: relative;
+	height: 70px;
+	color: white;
+	clear:both;
+}
 
+#nav li
+{   list-style-type: none;
+	height: 43px;
+	float: left;
+	padding: 24px 20px 0px 20px;
+	color: white;
+}
 
+#nav li:hover
+{   /* background-color: #1f4c2b; */   
+/*     text-decoration: underline; */
+  	text-shadow: 0px 2px 5px #142d1f;
+}
+
+#nav a
+{   color: white;
+	text-decoration: none;
+
+}
+
+#title
+{
+	background-position: 0 60%;
+	height: 70px;
+	padding-left: 25px;
+	padding-bottom: 12px;
+	padding-right: 25px;
+	padding-top: 12px;
+	margin-left:-30px;
+	background-image: url('/graphics/title.png');
+	width: 280px;
+	background-repeat: no-repeat;
+	text-indent: -3000px;
+}
+
+#nav .right
+{   float: right;   }
+
+.wwFormTable td
+{   padding: 7px;   }
+
+.wwFormTable td:hover
+{   background:pink   }
+
+.wwFormTable label
+{      }
+
+.wwFormTable input[type=text], input[type=password]
+{   background-color: #eef6ea;   border: solid #AAA 1px;
+	height: 1.8em;
+	padding: 2px 5px;
+}
 
 
 

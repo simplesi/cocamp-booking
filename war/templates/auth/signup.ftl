@@ -1,4 +1,4 @@
-<#assign pagetitle = 'Signup'>
+<#assign pagetitle = 'Sign Up'>
 <#include "/templates/header.ftl">
 
  <@s.actionmessage/>
@@ -13,12 +13,13 @@
  				  doubleLabel="Unit" doubleName="unitWebKey" doubleList="allUnits" doubleListKey="webKey" doubleListValue="Name"
  				  	doubleHeaderValue="--- Please Select ---" DoubleHeaderKey=""
  				  />
- 				  <@s.url action="addOrg" id="addOrgURL"/>
- 				  <@s.a href="${addOrgURL}">Add an organisation</@s.a>
- 				  <@s.url action="addUnit" id="addUnitURL"/>
- 				  <@s.a href="${addUnitURL}">Add a unit</@s.a>
+
  				  
  <@s.submit name="signup" value="Sign up"></@s.submit>
  </@s.form>
- 
+
+ <@s.url action="addOrg" id="addOrgURL"/><@s.a href="${addOrgURL}">Add an organisation</@s.a>
+ <br/>
+ <@s.url action="addUnit" id="addUnitURL"/><@s.a href="${addUnitURL}">Add a unit</@s.a>
+ 				   
 <#include "/templates/footer.ftl">

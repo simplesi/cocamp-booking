@@ -48,11 +48,21 @@
 <!--[if IE 9 ]>    <body class="ie9"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <body> <!--<![endif]-->
 
-<#include "/templates/userbar.ftl"/>
+<div id="wrap">
+        <header>
+                <div id="headerInner">
+            		<div id="nav">
+            		  <ul>
+            			<li id="title"><a href="/" title="CoCamp Home">CoCamp Bookings</a></li>
+            			<li class="right"><@s.url id="signupURL" action="signup/"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
+            			<li class="right"><@s.url id="loginURL" action="login/"/><@s.a href="${loginURL}">Log In</@s.a></li>
+                      </ul>
+            		</div>
+                </div>
+        </header>
+  
+        <div id="main">
+            <#include "/templates/userbar.ftl"/>
+                <div id="contentWrap">
+                    <div id="content">
 
-  <div id="container">
-    <header>
-		<img src="/graphics/cocamp.png" alt="CoCamp Logo" />
-    </header>
-    
-    <div id="main">
