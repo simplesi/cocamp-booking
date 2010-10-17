@@ -3,6 +3,8 @@ package uk.org.woodcraft.bookings.persistence;
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
+import uk.org.woodcraft.bookings.datamodel.Organisation;
+import uk.org.woodcraft.bookings.datamodel.Unit;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -13,6 +15,20 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	@Override
 	public String save() {
 		return super.save();
+	}
+	
+	public String listForUnit() {		
+		Unit unit = getCurrentUnit();		
+		SecurityModel.checkAllowed(Operation.READ, unit);
+		setModelList(CannedQueries.bookingsForUnit(unit, getCurrentEvent()));
+		return SUCCESS;
+	}
+	
+	public String listForOrg() {
+		Organisation org = getCurrentOrganisation();		
+		SecurityModel.checkAllowed(Operation.READ, org);
+		setModelList(CannedQueries.bookingsForOrg(org, getCurrentEvent()));
+		return SUCCESS;
 	}
 	
 	public String list() {

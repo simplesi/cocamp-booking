@@ -1,5 +1,6 @@
 package uk.org.woodcraft.bookings.persistence;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -281,6 +282,32 @@ public class CannedQueries {
 		query.declareParameters("Key unitKeyParam, Key eventKeyParam");
 		
 		return queryDetachAndClose(Booking.class, query, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
+	}
+	
+	public static Collection<Booking> bookingsForOrg(Organisation org, Event event)
+	{
+		Collection<Unit> unitsInOrg = unitsForOrg(org.getKey(), false);
+		
+		// FIXME: Batch this?
+		if(unitsInOrg.size() > 30)
+			throw new RuntimeException("Cannot retrieve bookings for more than 30 units in an organisation");
+		
+		Collection<Key> unitKeys = new ArrayList<Key>(unitsInOrg.size());
+		for(Unit unit : unitsInOrg)
+		{
+			unitKeys.add(unit.getKey());
+		}
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Booking.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key; import java.util.Collection");
+		query.setOrdering("name");
+		query.setFilter("unitKeysParam.contains(unitKey) && eventKey == eventKeyParam");
+		query.declareParameters("Collection unitKeysParam, Key eventKeyParam");
+
+		
+		return queryDetachAndClose(Booking.class, query, unitKeys, event.getKeyCheckNotNull());
 	}
 	
 	/**
