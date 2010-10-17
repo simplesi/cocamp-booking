@@ -10,6 +10,7 @@ import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.Event;
+import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 
 import com.google.appengine.api.datastore.Key;
@@ -102,6 +103,11 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 	public Unit getCurrentUnit()
 	{
 		return (Unit)getSessionObject(SessionConstants.CURRENT_UNIT);
+	}
+	
+	public Organisation getCurrentOrganisation()
+	{
+		return (Organisation)getSessionObject(SessionConstants.CURRENT_ORG);
 	}
 	
 	public Event getCurrentEvent()

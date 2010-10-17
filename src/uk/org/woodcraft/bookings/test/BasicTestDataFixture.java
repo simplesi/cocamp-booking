@@ -70,7 +70,8 @@ public class BasicTestDataFixture extends TestFixture {
 			unit2.addEventRegistration(event1);
 			units.add(unit2);
 			
-			units.add(new Unit("Unapproved unit for wcf", organisations.get(0), false));
+			Unit unapprovedWcfUnit = new Unit("Unapproved unit for wcf", organisations.get(0), false);
+			units.add(unapprovedWcfUnit);
 			Unit otherOrgUnit = new Unit("Unapproved unit", organisations.get(1), false);
 			units.add(otherOrgUnit);
 			pm.makePersistentAll(units);
@@ -84,7 +85,7 @@ public class BasicTestDataFixture extends TestFixture {
 			List<Booking> bookings = new ArrayList<Booking>();
 			bookings.add(new Booking("Test person", unit1, event1));
 			bookings.add(new Booking("Test person 2", unit1, event1));		
-			bookings.add(new Booking("Person in unapproved, homeless unit", units.get(1), event1));
+			bookings.add(new Booking("Person in unapproved, homeless unit", unapprovedWcfUnit, event1));
 			bookings.add(new Booking("Test person in other event", unit1, events.get(1)));
 			pm.makePersistentAll(bookings);
 			
