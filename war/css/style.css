@@ -103,19 +103,19 @@ big {
  font-size: larger;
  }
 h1 {
- font-size: xx-large;
- }
-h2 {
  font-size: x-large;
  }
-h3 {
+h2 {
  font-size: large;
  }
-h4 {
+h3 {
  font-size: medium;
  }
-h5 {
+h4 {
  font-size: small;
+ }
+h5 {
+ font-size: xx-small;
  }
 h6 {
  font-size: xx-small;
@@ -158,7 +158,7 @@ font[size=+4] {
  }
  
 /* www.aestheticallyloyal.com/public/optimize-legibility/ */ 
-h1,h2,h3,h4,h5,h6 { font-weight: bold; text-rendering: optimizeLegibility; }
+h1,h2,h3,h4,h5,h6 { padding-bottom: 5px; color: #555555; font-weight: bold; text-rendering: optimizeLegibility; }
 
 /* maxvoltar.com/archive/-webkit-font-smoothing */
 /* Remove tweak: irrelevant for Safari 5 and new Chrome releases*/
@@ -168,8 +168,8 @@ h1,h2,h3,h4,h5,h6 { font-weight: bold; text-rendering: optimizeLegibility; }
 /* Accessible focus treatment: people.opera.com/patrickl/experiments/keyboard/test */
 a:hover, a:active { outline: none; }
 
-a, a:active, a:visited { text-decoration: none; color: #3e764e; }
-a:hover { color: #275e36; }
+a, a:active, a:visited { text-decoration: none; color: #c32027; }
+a:hover { color: #f22731; }
 
 
 ul { margin-left:30px; }
@@ -202,16 +202,11 @@ input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
 /* hand cursor on clickable input elements */
 label, input[type=button], input[type=submit], button { cursor: pointer; }
 
-
-/* These selection declarations have to be separate.
-   No text-shadow: twitter.com/miketaylr/status/12228805301 
-   Also: hot pink. */
-::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
-::selection { background:#FF5E99; color:#fff; text-shadow: none; } 
+::-moz-selection{ background: #AF1C22; color:#fff; text-shadow: none; }
+::selection { background:#AF1C22; color: white; text-shadow: none; } 
 
 /*  j.mp/webkit-tap-highlight-color */
-a:link { -webkit-tap-highlight-color: #FF5E99; } 
-
+a:link { -webkit-tap-highlight-color: #AF1C22; } 
 
 /* always force a scrollbar in non-IE */
 html { overflow-y: scroll; }
@@ -254,8 +249,8 @@ button {  width: auto; overflow: visible; }
 
 html, body
 {   color: #444444;   height: 100%;
-	background-color: #e0e4df;
-/* 	background-color: #DDE4DA; */
+	background-color: #e0dede;
+	text-shadow: 0px 1px #f0f0f0;
 }
 
 #wrap 
@@ -272,13 +267,13 @@ html, body
 
 
 footer
-{	background-color: #ededed;	                                
+{	color: #666666;	background-color: #ececec;	                                
 	position: relative;
 	margin-top: -45px; /* negative value of footer height */
 	height: 44px; /* footer height*/
 	border-top: 1px;
 	border-style:solid;
-	border-color: #d6d6d6;
+	border-color: #cccccc;
 	width: 100%;
 	clear:both;
 	text-align: center;
@@ -309,29 +304,33 @@ body:before /* thanks to Maleika (Kohoutec)*/
 
 
 header
-{	background-image: url(/graphics/headerSmoothBg.png);
+{	border-bottom-width: 1px;	border-style: solid;	border-color: #cccccc;	background-color: #ececec;
 /*     background-image: url(/graphics/headerTexturedBg.png); */
-	background-repeat: repeat-x;	margin-right: auto;	margin-left: auto;    width: 100%;    height: 70px;
+	background-repeat: repeat-x;	margin-right: auto;	margin-left: auto;    width: 100%;    height: 71px;
 }
 
 #headerInner
-{	background-image: url(/graphics/headerSmooth.png);
+{
 /*     background-image: url(/graphics/headerTextured.png); */
-    margin-right: auto;	margin-left: auto;    height: 70px;   width: 750px;   padding: 0px 125px;
+                                                              
+                                                              
+                                                              
+    border-style: none;
+                                                              
+                                                              
+                                                              
+    color: #444444;
+                                                              
+    margin-right: auto;	margin-left: auto;    height: 70px;   width: 750px;
 }
 
 #contentWrap
 {	min-height: 400px;  margin-right: auto;	margin-left: auto;	margin-bottom: 0px;	margin-top: 0px;
-	width: 750px;	 /* background-color: #ffef7e; */
+	width: 750px;
 }
 
 #main p
-{	
-	/*text-shadow: #FBFBFB 0px 1px 0px;	*/
-	/*text-shadow: #FFF 0px 1px 0px; */
-	text-shadow: 0px 1px #f3f3f3;
-	line-height: 175%;	         
-	padding: 5px 0px 15px 0px;
+{   padding-left: 0px;   padding-bottom: 5px;   padding-right: 0px;   padding-top: 10px;   line-height: 175%;
 }
 
 #nav
@@ -339,7 +338,7 @@ header
 	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Verdana, sans-serif;
 	position: relative;
 	height: 70px;
-	color: white;
+	color: #444444;
 	clear:both;
 }
 
@@ -348,20 +347,18 @@ header
 	height: 43px;
 	float: left;
 	padding: 24px 20px 0px 20px;
-	color: white;
+	color: #444444;
 }
 
-#nav li:hover
-{   /* background-color: #1f4c2b; */   
-/*     text-decoration: underline; */
-  	text-shadow: 0px 2px 5px #142d1f;
+
+#nav a:hover, a:active
+{   color: #ee252c;
+  	text-shadow: 0px 1px 2px #fafdff;
 }
 
 #nav a
-{   color: white;
-	text-decoration: none;
+{   color: #ce2026;   }
 
-}
 
 #title
 {
@@ -384,17 +381,44 @@ header
 .wwFormTable td
 {   padding: 7px;   }
 
-.wwFormTable td:hover
-{   background:pink   }
+.wwFormTable tr:hover
+{   background-color: #e7e7e7;   }
 
 .wwFormTable label
-{      }
+{   position: relative;   top: 5px;   }
 
-.wwFormTable input[type=text], input[type=password]
-{   background-color: #eef6ea;   border: solid #AAA 1px;
+.wwFormTable input[type=text], input[type=password], textarea, select
+{   background-color: #e7e7e7;
+    border: solid #b8b8b8 1px;
 	height: 1.8em;
 	padding: 2px 5px;
+	width: 15em;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
 }
+
+.wwFormTable textarea
+{   height: 5em;   }
+
+.errorMessage li
+{   text-align: center;   padding-bottom: 5px;   padding-top: 5px;   left: -25px;   position: relative;   background-color: #c11e24;
+    color: #eeeeee;
+    border-radius: 4px;
+	-moz-border-radius: 4px;
+	text-shadow: none;
+	list-style-type: none;
+	width: 100%;
+}
+
+.errorMessage ul
+{   width: 100%;
+}
+
+:focus 
+{   outline: 0;   }
+
+
+
 
 
 
