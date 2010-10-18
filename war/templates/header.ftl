@@ -53,8 +53,8 @@
             		<div id="nav">
             		  <ul>
             			<li id="title"><a href="/" title="CoCamp Home">CoCamp Bookings</a></li>
-            			<li class="right"><@s.url id="signupURL" action="/signup/"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
-            			<li class="right"><@s.url id="loginURL" action="/login/"/><@s.a href="${loginURL}">Log In</@s.a></li>
+            			<li class="right"><@s.url id="signupURL" value="/signup/"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
+            			<li class="right"><@s.url id="loginURL" value="/login/"/><@s.a href="${loginURL}">Log In</@s.a></li>
                       </ul>
             		</div>
                 </div>
