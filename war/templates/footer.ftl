@@ -1,8 +1,8 @@
-                </div> <!--! end of #content -->
-            </div> <!--! end of #contentWrap -->
+            </div> <!--! end of #content -->
+        </div> <!--! end of #contentWrap -->
     </div>  <!--! end of #main -->
 </div>  <!--! end of #wrap -->
-  
+
 <footer>
     <div id="footerInner">
         <span>&copy; CoCamp</span> <a href="/privacy">Privacy</a> | <a href="/terms">Terms</a>
