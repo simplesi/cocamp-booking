@@ -12,10 +12,6 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 
 	private static final long serialVersionUID = 1L;
 	
-	@Override
-	public String save() {
-		return super.save();
-	}
 	
 	public String listForUnit() {		
 		Unit unit = getCurrentUnit();		
