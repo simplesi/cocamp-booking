@@ -6,6 +6,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.pricing.PricingFactory;
+import uk.org.woodcraft.bookings.pricing.PricingStrategy;
 import uk.org.woodcraft.bookings.utils.DateUtils;
 
 import com.google.appengine.api.datastore.Email;
@@ -41,6 +43,12 @@ public class Booking extends KeyBasedData implements NamedEntity{
 	private Key villageKey = null;
 	
 	/**
+	 * The price of the booking, in pence
+	 */
+	@Persistent
+	private long price;
+	
+	/**
 	 *  Has this booking been cancelled, and if so, on what date?
 	 */
 	@Persistent
@@ -62,6 +70,7 @@ public class Booking extends KeyBasedData implements NamedEntity{
 		this.eventKey = event.getKeyCheckNotNull();
 		this.arrivalDate = event.getPublicEventStart();
 		this.departureDate = event.getPublicEventEnd();
+		updatePrice();
 	}
 	
 	public Booking( String name, Unit unit, Event event) {
@@ -122,6 +131,7 @@ public class Booking extends KeyBasedData implements NamedEntity{
 
 	public void setArrivalDate(Date arrivalDate) {
 		this.arrivalDate = arrivalDate;
+		updatePrice();
 	}
 
 	public Date getDepartureDate() {
@@ -130,6 +140,7 @@ public class Booking extends KeyBasedData implements NamedEntity{
 
 	public void setDepartureDate(Date departureDate) {
 		this.departureDate = departureDate;
+		updatePrice();
 	}
 
 	public String getName() {
@@ -176,10 +187,24 @@ public class Booking extends KeyBasedData implements NamedEntity{
 
 	public void setCancellationDate(Date cancellationDate) {
 		this.cancellationDate = cancellationDate;
+		updatePrice();
 	}
 
 	public Date getCancellationDate() {
 		return cancellationDate;
+	}
+
+	public void setPrice(long price) {
+		this.price = price;
+	}
+
+	public long getPrice() {
+		return price;
+	}
+	
+	public void updatePrice() {
+		PricingStrategy pricer = PricingFactory.getPricingStrategy();
+		setPrice(pricer.priceOf(this));
 	}
 	
 }
