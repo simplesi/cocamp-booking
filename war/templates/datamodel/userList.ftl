@@ -5,6 +5,7 @@
 <table>
     <tr>
         <th>Name</th>
+        <th>Email</th>
         <th>Org</th>
         <th>Unit</th>
         <th>Status</th>
@@ -15,9 +16,10 @@
     <#list ModelList as user>
         <tr>
             <td>${user.name}</td>
+            <td>${user.email}</td>
             <td>${user.organisationName}</td>
             <td>${user.unitName}</td>
-            <td>${user.accessLevel}</td>
+            <td>${user.accessLevel.displayName}</td>
             <td>
                 <@s.url id="editURL" action="edit" email="${user.email}" />
                 <@s.a href="${editURL}">Edit</@s.a>

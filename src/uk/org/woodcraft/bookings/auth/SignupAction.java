@@ -11,6 +11,7 @@ import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.email.EmailUtils;
 import uk.org.woodcraft.bookings.persistence.BasePersistenceAction;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Configuration;
 
 public class SignupAction extends BasePersistenceAction<User>{
 
@@ -76,6 +77,7 @@ public class SignupAction extends BasePersistenceAction<User>{
 	
 	private void sendUserConfirmEmail(User user)
 	{
+		
 		String subject = "Please confirm your email address";
 		String body = "Someone signed up for CoCamp bookings using your email address. \n\n" 
 					+ "If this was you, please go to the following link to confirm this email and enter the booking system. " 
@@ -85,10 +87,12 @@ public class SignupAction extends BasePersistenceAction<User>{
 		EmailUtils.emailUser(user, subject, body);
 	}
 	
+	
 	private String buildUserConfirmUrl(User user)
 	{
-		// FIXME: Make this work in struts
-		StringBuilder url = new StringBuilder("http://localhost:8888/cocamp-booking/confirmEmail?");
+		String baseUrl = Configuration.get().getProperty("baseurl");
+		
+		StringBuilder url = new StringBuilder( baseUrl + "signup/confirmEmail?");
 		
 		Map<String,String> params = new HashMap<String, String>();
 		params.put("email", user.getEmail());
