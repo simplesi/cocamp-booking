@@ -27,5 +27,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-codec-1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/config"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
