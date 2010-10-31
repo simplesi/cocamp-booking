@@ -7,7 +7,9 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.PasswordUtils;
+import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Key;
@@ -95,6 +97,25 @@ public class User implements Serializable, Keyed<String>, NamedEntity {
 
 	public void setAccessLevel(Accesslevel accessLevel) {
 		this.accessLevel = accessLevel;
+	}
+	
+	/**
+	 * For administrator form
+	 * @return
+	 */
+	public String getAccessLevelString() {
+		return accessLevel.name();
+	}
+	
+	/**
+	 * For administrator form
+	 * @return
+	 */
+	public void setAccessLevelString(String accessLevelString) {
+		// Only for administrators
+		SecurityModel.checkGlobalOperationAllowed(Operation.WRITE);
+		
+		this.accessLevel = Accesslevel.valueOf(accessLevelString);
 	}
 	
 	@Override

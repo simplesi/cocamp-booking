@@ -10,10 +10,13 @@ List all events<br/>
 <@s.a href="${unitListAllURL}">List all Units</@s.a><br/>
 
 <@s.url id="bookingListAllURL" action="booking/list"/>
-<@s.a href="${bookingListAllURL}">List all bookings</@s.a>
+<@s.a href="${bookingListAllURL}">List all bookings</@s.a><br/>
 
+<@s.url id="userListAllURL" action="user/list"/>
+<@s.a href="${userListAllURL}">List all users</@s.a>
+</p>
 
-<h2>Organisation administrator</h2>
+<h2>${Session.CURRENT_ORG.name}</h2>
 <p>
 <@s.url id="myOrgEditURL" action="org/edit" webKey="${Session.CURRENT_ORG.webKey}"/>
 <@s.a href="${myOrgEditURL}">Edit My Organisation</@s.a><br/>
@@ -25,7 +28,7 @@ List all events<br/>
 <@s.a href="${myOrgBookingListURL}">List bookings for my organisation</@s.a><br/>
 </p>
 
-<h2>Unit admin</h2>
+<h2>${Session.CURRENT_UNIT.name}</h2>
 <p>
 <@s.url id="myUnitEditURL" action="unit/edit" webKey="${Session.CURRENT_UNIT.webKey}"/>
 <@s.a href="${myUnitEditURL}">Edit My Unit</@s.a><br/>
