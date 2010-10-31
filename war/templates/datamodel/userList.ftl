@@ -1,6 +1,8 @@
 <#assign pagetitle = 'Users'>
 
 <#include "/templates/header.ftl">
+<@s.actionmessage/>
+<@s.actionerror/>
 
 <table>
     <tr>

@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.auth;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,9 +102,13 @@ public class SignupAction extends BasePersistenceAction<User>{
 		params.put("hash", SignupUtils.generateEmailConfirmHash(user));	
 		//UrlHelper.buildParametersString(params, url);
 		
-		// FIXME: Use UrlHelper, encode properly
-		url.append("email=" + params.get("email"));
-		url.append("&hash=" + params.get("hash"));		
+		// FIXME: Use UrlHelper
+		try {
+			url.append("email=" + URLEncoder.encode(params.get("email"), "UTF-8"));
+			url.append("&hash=" + URLEncoder.encode(params.get("hash"), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}		
 		return url.toString();
 	}
 

@@ -110,7 +110,7 @@
 		
 		<action name="confirmEmail" class="uk.org.woodcraft.bookings.auth.ConfirmEmailAction">
 			<result name="input" type="freemarker">/templates/auth/emailConfirm.ftl</result>
-			<result name="success" type="redirect">/index</result>
+			<result name="success" type="freemarker">/templates/auth/login.ftl</result>
 		</action>
 		
 		<action name="addOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
@@ -211,20 +211,20 @@
 		</action>
 	</package>
 	
-	<!--  THIS IS INSECURE! -->
+	<!--  These actions must be protected using SecurityModel.checkIsDevMode() in the action code themselves-->
 	<package name="dev" namespace="/developer" extends="default">
 		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 		
 		<action name="createtestdata" method="execute" class="uk.org.woodcraft.bookings.dev.CreateTestDataAction">
-			<result>/success.jsp</result>
+			<result type="freemarker">/templates/success.ftl</result>
 		</action>	
 		
 		<action name="runQueries" method="execute" class="uk.org.woodcraft.bookings.dev.RunQueriesAction">
-			<result>/success.jsp</result>
+			<result type="freemarker">/templates/success.ftl</result>
 		</action>	
 		
 		<action name="preDeployment" method="execute" class="uk.org.woodcraft.bookings.dev.PreDeploymentAction">
-			<result>/success.jsp</result>
+			<result type="freemarker">/templates/success.ftl</result>
 		</action>	
 	</package>
 	
