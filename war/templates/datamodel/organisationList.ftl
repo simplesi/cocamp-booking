@@ -1,6 +1,8 @@
 <#assign pagetitle = 'Organisations'>
 
 <#include "/templates/header.ftl">
+<@s.actionmessage/>
+<@s.actionerror/>
 
 <table>
     <tr>

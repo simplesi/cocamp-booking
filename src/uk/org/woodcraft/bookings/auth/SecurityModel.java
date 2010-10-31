@@ -72,7 +72,7 @@ public class SecurityModel {
 			case UNIT_ADMIN:
 				if(user.getUnit().equals(checkUnit)) permitted = true;
 				if(checkUser != null && checkUser.getUnitKey().equals(user.getUnitKey())) permitted = true;
-				if(checkBooking.getUnitKey().equals(user.getUnitKey())) permitted = true;
+				if(checkBooking != null && checkBooking.getUnitKey().equals(user.getUnitKey())) permitted = true;
 			default:
 				if (user.equals(checkUser)) permitted = true;
 			}

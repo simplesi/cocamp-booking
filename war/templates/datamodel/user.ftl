@@ -1,7 +1,7 @@
 <#assign pagetitle = 'User edit'>
 <#include "/templates/header.ftl">
-
-<@s.actionerror/>
+ <@s.actionmessage/>
+ <@s.actionerror/>
 <@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
 <@s.form id="user" action="save" method="post">
  	<@s.textfield name="name" label="Name"></@s.textfield>
