@@ -135,7 +135,15 @@ public class User implements Serializable, Keyed<String>, NamedEntity {
 	
 	public Organisation getOrganisation()
 	{
+		if(organisationKey == null) return null;
 		return CannedQueries.orgByKey(organisationKey);
+	}
+	
+	public String getOrganisationName()
+	{
+		Organisation org = getOrganisation();
+		if(org == null) return "";
+		return org.getName();
 	}
 	
 	public Key getUnitKey() {
@@ -158,7 +166,16 @@ public class User implements Serializable, Keyed<String>, NamedEntity {
 	
 	public Unit getUnit()
 	{
+		if(unitKey == null) return null;
 		return CannedQueries.unitByKey(unitKey);
+	}
+	
+	public String getUnitName()
+	{
+		Unit unit = getUnit();
+		if (unit == null) return "";
+		
+		return unit.getName();
 	}
 
 	@Override

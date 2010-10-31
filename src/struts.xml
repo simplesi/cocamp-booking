@@ -7,6 +7,10 @@
 	<include file="struts-default.xml"></include>
 	<constant name="struts.action.excludePattern" value="/_ah/.*"/>	
 	
+	<constant name="struts.devMode" value="true" />
+	
+	<!-- constant name="struts.ui.templateDir" value="templates/struts" -->
+	<constant name="struts.ui.theme" value="css_xhtml" />
 	<package name="default" namespace="/" extends="struts-default">
 	
 		<interceptors>
@@ -89,20 +93,17 @@
 			<result type="redirect">/index</result>
 		</action>		
 				
-		<action name="wcfbookings" class="uk.org.woodcraft.bookings.WcfBookingsAction">
-			<result>/success.jsp</result>
-		</action>
 	</package>
 	
 	<package name="signup" namespace="/signup" extends="default">
 		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 		<default-action-ref name="signup" />
 		
-		<action name="signup" class="uk.org.woodcraft.bookings.auth.UserAction" method="edit">
+		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="edit">
 			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
 		</action>
 
-		<action name="processSignup" class="uk.org.woodcraft.bookings.auth.UserAction" method="processSignup">
+		<action name="processSignup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="processSignup">
 			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
 			<result name="email-confirm" type="redirect">confirmEmail</result>
 		</action>
@@ -127,8 +128,6 @@
 			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 			<result name="success" type="redirect">signup</result>
 		</action>
-		
-		
 	</package>
 	
 	<package name="unit" namespace="/unit" extends="default">		
@@ -165,6 +164,22 @@
 			<result type="redirect">list</result>
 		</action>
 	</package>
+	
+	<package name="user" namespace="/user" extends="default">		
+		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result type="freemarker">/templates/datamodel/userList.ftl</result>
+		</action>
+		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
+		</action>
+		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input">edit</result>
+			<result type="redirect">list</result>
+		</action>
+		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result type="redirect">list</result>
+		</action>
+	</package>
 
 	<package name="booking" namespace="/booking" extends="default">		
 		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.BookingAction">
@@ -187,6 +202,12 @@
 		</action>
 		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result type="redirect">list</result>
+		</action>
+	</package>
+	
+	<package name="nav" namespace="/nav" extends="default">
+		<action name="switch" method="execute" class="uk.org.woodcraft.bookings.SwitchTargetAction">
+			<result type="redirect">/index</result>
 		</action>
 	</package>
 	

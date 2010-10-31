@@ -20,7 +20,7 @@ public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 		String email = "newuser@example.com";
 		String password = "testpassword";
 		
-		UserAction signup = new UserAction();
+		SignupAction signup = new SignupAction();
 		try {
 			signup.prepare();
 		} catch (Exception e) {
@@ -69,7 +69,7 @@ public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 		User existingUser = new User(email, "Existing user", password, Accesslevel.ORG_ADMIN);
 		CannedQueries.save(existingUser);
 		
-		UserAction signup = new UserAction();
+		SignupAction signup = new SignupAction();
 		try {
 			signup.prepare();
 		} catch (Exception e) {
