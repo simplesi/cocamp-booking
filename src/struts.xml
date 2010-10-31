@@ -215,7 +215,15 @@
 	<package name="dev" namespace="/developer" extends="default">
 		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 		
-		<action name="createtestdata" method="setUp" class="uk.org.woodcraft.bookings.admin.CreateTestDataAction">
+		<action name="createtestdata" method="execute" class="uk.org.woodcraft.bookings.dev.CreateTestDataAction">
+			<result>/success.jsp</result>
+		</action>	
+		
+		<action name="runQueries" method="execute" class="uk.org.woodcraft.bookings.dev.RunQueriesAction">
+			<result>/success.jsp</result>
+		</action>	
+		
+		<action name="preDeployment" method="execute" class="uk.org.woodcraft.bookings.dev.PreDeploymentAction">
 			<result>/success.jsp</result>
 		</action>	
 	</package>

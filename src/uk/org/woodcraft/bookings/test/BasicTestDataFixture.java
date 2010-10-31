@@ -43,7 +43,7 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			// Villages
 			List<Village> villages = new ArrayList<Village>();
-			Village village1 = new Village("Village 1", event1);
+			Village village1 = new Village(TestConstants.VILLAGE1_NAME, event1);
 			villages.add(village1);
 			villages.add(new Village("Village 2", event1));
 			villages.add(new Village("Empty village", event1));
@@ -52,7 +52,7 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			// Organisations
 			List<Organisation> organisations = new ArrayList<Organisation>();
-			Organisation orgWcf = new Organisation("Woodcraft Folk", true);
+			Organisation orgWcf = new Organisation(TestConstants.ORG1_NAME, true);
 			organisations.add(orgWcf);
 			
 			Organisation otherOrg = new Organisation("Unapproved organisation", false);
@@ -61,7 +61,7 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			// Units
 			List<Unit> units = new ArrayList<Unit>();
-			Unit unit1 = new Unit("Unit 1", organisations.get(0), true);
+			Unit unit1 = new Unit(TestConstants.UNIT1_NAME, organisations.get(0), true);
 			unit1.addEventRegistration(event1);
 			unit1.addEventRegistration(event2);	
 			units.add(unit1);
@@ -91,7 +91,7 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			
 			// Users
-			User user1 = new User("globaladmin@example.com", "Global Admin 1", "password", Accesslevel.GLOBAL_ADMIN);
+			User user1 = new User(TestConstants.USER_ADMIN_EMAIL, "Global Admin 1", "password", Accesslevel.GLOBAL_ADMIN);
 			user1.setOrganisationKey(orgWcf.getKeyCheckNotNull());
 			user1.setUnitKey(unit1.getKeyCheckNotNull());
 			

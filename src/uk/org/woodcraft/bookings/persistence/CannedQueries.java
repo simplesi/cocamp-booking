@@ -386,7 +386,7 @@ public class CannedQueries {
 		return getByKey(User.class, email);
 	}
 	
-	public static Collection<User> allUsers(Organisation org, Unit unit)
+	private static Collection<User> allUsers(Organisation org, Unit unit)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		

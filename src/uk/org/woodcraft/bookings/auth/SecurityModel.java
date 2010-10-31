@@ -5,6 +5,7 @@ import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Configuration;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 public class SecurityModel {
@@ -80,5 +81,13 @@ public class SecurityModel {
 
 		
 		if (!permitted)	throw new SecurityException("You do not have the right security access to do that action");
+	}
+	
+	public static void checkIsDevMode()
+	{
+		if(! Configuration.get().getBooleanProperty("isDev"))
+		{
+			throw new SecurityException("This action can only be performed on a development intance");
+		}
 	}
 }
