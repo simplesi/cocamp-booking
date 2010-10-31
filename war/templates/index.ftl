@@ -1,11 +1,15 @@
 <#assign pagetitle = 'Main menu'>
 <#include "/templates/header.ftl">
 
+<#if Session.USER.accessLevel.isSuperUser>
 <h2>Global administrator</h2>
 <p>
-List all events<br/>
+<@s.url id="eventListURL" action="event/list" />
+<@s.a href="${eventListURL}">List all events</@s.a><br/>
+
 <@s.url id="orgListURL" action="org/list" />
 <@s.a href="${orgListURL}">List all organisations</@s.a><br/>
+
 <@s.url id="unitListAllURL" action="unit/listAll" />
 <@s.a href="${unitListAllURL}">List all Units</@s.a><br/>
 
@@ -15,7 +19,8 @@ List all events<br/>
 <@s.url id="userListAllURL" action="user/list"/>
 <@s.a href="${userListAllURL}">List all users</@s.a>
 </p>
-
+</#if>
+<#if Session.USER.accessLevel.canChangeUnit>
 <h2>${Session.CURRENT_ORG.name}</h2>
 <p>
 <@s.url id="myOrgEditURL" action="org/edit" webKey="${Session.CURRENT_ORG.webKey}"/>
@@ -27,6 +32,7 @@ List all events<br/>
 <@s.url id="myOrgBookingListURL" action="booking/listForOrg"/>
 <@s.a href="${myOrgBookingListURL}">List bookings for my organisation</@s.a><br/>
 </p>
+</#if>
 
 <h2>${Session.CURRENT_UNIT.name}</h2>
 <p>
