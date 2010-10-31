@@ -181,6 +181,22 @@
 		</action>
 	</package>
 
+	<package name="event" namespace="/event" extends="default">		
+		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result type="freemarker">/templates/datamodel/eventList.ftl</result>
+		</action>
+		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input" type="freemarker">/templates/datamodel/event.ftl</result>
+		</action>
+		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input">edit</result>
+			<result type="redirect">list</result>
+		</action>
+		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result type="redirect">list</result>
+		</action>
+	</package>
+
 	<package name="booking" namespace="/booking" extends="default">		
 		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>

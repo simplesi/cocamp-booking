@@ -31,9 +31,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity{
 	@Persistent
 	private boolean isCurrentlyOpen; 
 	
-	@SuppressWarnings("unused")
-	private Event() {
-		// For JDO
+	public Event() {
 	}
 	
 	public Event(String name, Date from, Date to, boolean isCurrentlyOpen) {
@@ -79,7 +77,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity{
 		this.isCurrentlyOpen = isCurrentlyOpen;
 	}
 
-	public boolean isCurrentlyOpen() {
+	public boolean getIsCurrentlyOpen() {
 		return isCurrentlyOpen;
 	}
 	

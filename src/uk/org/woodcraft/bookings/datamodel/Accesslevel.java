@@ -49,5 +49,9 @@ public enum Accesslevel {
 		return canManageUsers;
 	}
 	
+	public boolean getIsSuperUser() {
+		return GLOBAL_ADMIN.equals(this);
+	}
+	
 	
 }
