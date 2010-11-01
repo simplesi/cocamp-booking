@@ -4,6 +4,7 @@
 
 <h2>Unit Edit</h2>
 
+<@s.actionmessage/>
 <@s.actionerror/>
 
 <@s.form id="unit" action="saveUnit" method="post">

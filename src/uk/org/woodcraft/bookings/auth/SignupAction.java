@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.auth;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.email.EmailUtils;
 import uk.org.woodcraft.bookings.persistence.BasePersistenceAction;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Configuration;
 
 public class SignupAction extends BasePersistenceAction<User>{
 
@@ -76,28 +79,36 @@ public class SignupAction extends BasePersistenceAction<User>{
 	
 	private void sendUserConfirmEmail(User user)
 	{
-		String subject = "Please confirm your email address";
+		
+		String subject = "Co-Camp Booking - Activate your account";
 		String body = "Someone signed up for CoCamp bookings using your email address. \n\n" 
 					+ "If this was you, please go to the following link to confirm this email and enter the booking system. " 
 					+ "If this was not you, please disregard this email. \n"
-					+ buildUserConfirmUrl(user);
+					+ buildUserConfirmUrl(user)
+					+ "\n\nThanks,The Co-Camp Team";
 		System.out.println(body);
 		EmailUtils.emailUser(user, subject, body);
 	}
 	
+	
 	private String buildUserConfirmUrl(User user)
 	{
-		// FIXME: Make this work in struts
-		StringBuilder url = new StringBuilder("http://localhost:8888/cocamp-booking/confirmEmail?");
+		String baseUrl = Configuration.get().getProperty("baseurl");
+		
+		StringBuilder url = new StringBuilder( baseUrl + "signup/confirmEmail?");
 		
 		Map<String,String> params = new HashMap<String, String>();
 		params.put("email", user.getEmail());
 		params.put("hash", SignupUtils.generateEmailConfirmHash(user));	
 		//UrlHelper.buildParametersString(params, url);
 		
-		// FIXME: Use UrlHelper, encode properly
-		url.append("email=" + params.get("email"));
-		url.append("&hash=" + params.get("hash"));		
+		// FIXME: Use UrlHelper
+		try {
+			url.append("email=" + URLEncoder.encode(params.get("email"), "UTF-8"));
+			url.append("&hash=" + URLEncoder.encode(params.get("hash"), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			throw new RuntimeException(e);
+		}		
 		return url.toString();
 	}
 

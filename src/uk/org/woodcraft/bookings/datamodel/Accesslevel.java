@@ -2,38 +2,56 @@ package uk.org.woodcraft.bookings.datamodel;
 
 public enum Accesslevel {
 
-	GLOBAL_ADMIN(true, true, true),
-	ORG_ADMIN(true, false, true),
-	UNIT_ADMIN(true, false, false),
-	UNASSIGNED(false),
-	AWAITING_EMAIL_CONFIRM(false),
-	NO_LOGIN(false);
+	GLOBAL_ADMIN("Global Admin", true, true, true, true),
+	ORG_ADMIN("Organisation bookings secretary", true, false, true, false),
+	UNIT_ADMIN("Unit booking secretary", true, false, false, false),
+	UNASSIGNED("Unassigned user"),
+	AWAITING_EMAIL_CONFIRM("New user pending approval"),
+	NO_LOGIN("System user");
 	
+	private final String displayName;
 	private final boolean canLogin;
 	private final boolean canChangeOrg;
 	private final boolean canChangeUnit;
+	private final boolean canManageUsers;
 	
-	private Accesslevel(boolean permitLogin) {
-		this(permitLogin, false, false);
+	private Accesslevel(String displayName) {
+		this(displayName, false, false, false, false);
 	}
 	
-	Accesslevel(boolean permitLogin, boolean canChangeOrg, boolean canChangeUnit)
+	Accesslevel(String displayName, boolean permitLogin, boolean canChangeOrg, boolean canChangeUnit, boolean canManageUsers)
 	{
+		this.displayName = displayName;
 		this.canLogin = permitLogin;
 		this.canChangeOrg = canChangeOrg;
 		this.canChangeUnit = canChangeUnit;
+		this.canManageUsers = canManageUsers;
+	}
+	
+	public String getDisplayName()
+	{
+		return displayName;
 	}
 
 	public boolean getCanLogin() {
 		return canLogin;
 	}
 	
-	public Boolean getCanChangeOrg() {
+	public boolean getCanChangeOrg() {
 		return canChangeOrg;
 	}
 	
-	public Boolean getCanChangeUnit() {
+	public boolean getCanChangeUnit() {
 		return canChangeUnit;
 	}
+	
+	public boolean getCanManageUsers() {
+		return canManageUsers;
+	}
+	
+	public boolean getIsSuperUser() {
+		return GLOBAL_ADMIN.equals(this);
+	}
+	
 	
 }

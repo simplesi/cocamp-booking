@@ -27,7 +27,7 @@ public class SwitchTargetAction extends ActionSupport implements SessionAware{
 	
 	public String execute() {
 		
-		if(eventKey != null)
+		if(eventKey != null && eventKey.length() > 0)
 		{
 			Event currentEvent = (Event)sessionData.get(SessionConstants.CURRENT_EVENT);
 			if (!currentEvent.getWebKey().equals(eventKey))
@@ -43,7 +43,7 @@ public class SwitchTargetAction extends ActionSupport implements SessionAware{
 			}
 		}
 		
-		if(orgKey != null)
+		if(orgKey != null && orgKey.length() > 0)
 		{
 			Organisation currentOrg = (Organisation)sessionData.get(SessionConstants.CURRENT_ORG);
 			if (!currentOrg.getWebKey().equals(orgKey))
@@ -59,7 +59,7 @@ public class SwitchTargetAction extends ActionSupport implements SessionAware{
 			}
 		}
 		
-		if(unitKey != null)
+		if(unitKey != null && unitKey.length() > 0)
 		{
 			Unit currentUnit = (Unit)sessionData.get(SessionConstants.CURRENT_UNIT);
 			if (!currentUnit.getWebKey().equals(unitKey))

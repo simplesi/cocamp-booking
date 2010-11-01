@@ -1,8 +1,9 @@
-package uk.org.woodcraft.bookings.admin;
+package uk.org.woodcraft.bookings.dev;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
+import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
@@ -18,7 +19,9 @@ public class CreateTestDataAction extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("rawtypes")
-	public String setUp(){
+	public String execute(){
+		
+		SecurityModel.checkIsDevMode();
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		

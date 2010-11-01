@@ -20,13 +20,13 @@ public class ConfirmEmailAction extends ActionSupport{
 
 		if (user == null)
 		{
-			addActionMessage("User "+email+" was not recognised, please try again.");
+			addActionError("User "+email+" was not recognised, please try again.");
 			return INPUT;
 		}
 		
 		if(!SignupUtils.checkEmailHash(user, hash))
 		{
-			addActionMessage("Unable to validate input for user, please try again");
+			addActionError("Unable to validate input for user, please try again");
 			return INPUT;
 		}
 		

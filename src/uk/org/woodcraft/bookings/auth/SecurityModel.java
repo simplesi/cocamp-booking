@@ -5,6 +5,7 @@ import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Configuration;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 public class SecurityModel {
@@ -71,7 +72,7 @@ public class SecurityModel {
 			case UNIT_ADMIN:
 				if(user.getUnit().equals(checkUnit)) permitted = true;
 				if(checkUser != null && checkUser.getUnitKey().equals(user.getUnitKey())) permitted = true;
-				if(checkBooking.getUnitKey().equals(user.getUnitKey())) permitted = true;
+				if(checkBooking != null && checkBooking.getUnitKey().equals(user.getUnitKey())) permitted = true;
 			default:
 				if (user.equals(checkUser)) permitted = true;
 			}
@@ -80,5 +81,13 @@ public class SecurityModel {
 
 		
 		if (!permitted)	throw new SecurityException("You do not have the right security access to do that action");
+	}
+	
+	public static void checkIsDevMode()
+	{
+		if(! Configuration.get().getBooleanProperty("isDev"))
+		{
+			throw new SecurityException("This action can only be performed on a development intance");
+		}
 	}
 }

@@ -1,9 +1,10 @@
 <#assign pagetitle = 'Log In'>
 <#include "/templates/header.ftl">
 
-<div style="float: right;">
     <@s.actionmessage/>
     <@s.actionerror/>
+
+<div style="float: right;">
         
     <@s.form action="index" method="post">
     	<@s.hidden name="LOGIN_ATTEMPT" value="1"/>

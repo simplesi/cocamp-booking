@@ -110,7 +110,7 @@
 		
 		<action name="confirmEmail" class="uk.org.woodcraft.bookings.auth.ConfirmEmailAction">
 			<result name="input" type="freemarker">/templates/auth/emailConfirm.ftl</result>
-			<result name="success" type="redirect">/index</result>
+			<result name="success" type="freemarker">/templates/auth/login.ftl</result>
 		</action>
 		
 		<action name="addOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
@@ -181,6 +181,22 @@
 		</action>
 	</package>
 
+	<package name="event" namespace="/event" extends="default">		
+		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result type="freemarker">/templates/datamodel/eventList.ftl</result>
+		</action>
+		<action name="edit" method="edit" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input" type="freemarker">/templates/datamodel/event.ftl</result>
+		</action>
+		<action name="save" method="save" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input">edit</result>
+			<result type="redirect">list</result>
+		</action>
+		<action name="delete" method="delete" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result type="redirect">list</result>
+		</action>
+	</package>
+
 	<package name="booking" namespace="/booking" extends="default">		
 		<action name="list" method="list" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
@@ -211,12 +227,20 @@
 		</action>
 	</package>
 	
-	<!--  THIS IS INSECURE! -->
+	<!--  These actions must be protected using SecurityModel.checkIsDevMode() in the action code themselves-->
 	<package name="dev" namespace="/developer" extends="default">
 		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 		
-		<action name="createtestdata" method="setUp" class="uk.org.woodcraft.bookings.admin.CreateTestDataAction">
-			<result>/success.jsp</result>
+		<action name="createtestdata" method="execute" class="uk.org.woodcraft.bookings.dev.CreateTestDataAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>	
+		
+		<action name="runQueries" method="execute" class="uk.org.woodcraft.bookings.dev.RunQueriesAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>	
+		
+		<action name="preDeployment" method="execute" class="uk.org.woodcraft.bookings.dev.PreDeploymentAction">
+			<result type="freemarker">/templates/success.ftl</result>
 		</action>	
 	</package>
 	
