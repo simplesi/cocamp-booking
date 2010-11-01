@@ -305,28 +305,47 @@ body:before /* thanks to Maleika (Kohoutec)*/
 
 header
 {	border-bottom-width: 1px;	border-style: solid;	border-color: #cccccc;	background-color: #ececec;
-/*     background-image: url(/graphics/headerTexturedBg.png); */
 	background-repeat: repeat-x;	margin-right: auto;	margin-left: auto;    width: 100%;    height: 71px;
 }
 
 #headerInner
-{
-/*     background-image: url(/graphics/headerTextured.png); */
-                                                              
-                                                              
-                                                              
-    border-style: none;
-                                                              
-                                                              
-                                                              
+{   border-style: none;
     color: #444444;
-                                                              
     margin-right: auto;	margin-left: auto;    height: 70px;   width: 750px;
 }
 
 #contentWrap
 {	min-height: 400px;  margin-right: auto;	margin-left: auto;	margin-bottom: 0px;	margin-top: 0px;
 	width: 750px;
+}
+
+#content h2
+{	padding-bottom: 3px;
+}
+
+#content ul
+{	padding-bottom:	20px;
+	margin-left: 3px;
+}
+
+#content li
+{	list-style-type: none;
+}
+
+#content table
+{	text-align: left;
+}
+
+#content th, td
+{	padding: 4px 20px 2px 0px;
+}
+
+#content th
+{	border-bottom: 1px;		border-style: solid;	border-color: #CCC;
+}
+
+#content td #row-alt
+{	background-color: #E0D8D8;
 }
 
 #main p
@@ -378,16 +397,22 @@ header
 #nav .right
 {   float: right;   }
 
-.wwFormTable td
+
+#userbar
+{   border-left:1px #CCC solid;
+	padding: 20px;
+	float:right;
+}
+#content td
 {   padding: 7px;   }
 
-.wwFormTable tr:hover
+#content tr:hover
 {   background-color: #e7e7e7;   }
 
-.wwFormTable label
-{   position: relative;   top: 5px;   }
+#content label
+{   position: relative;   top: 5px;   padding-bottom: 0px;}
 
-.wwFormTable input[type=text], input[type=password], textarea, select
+#content input[type=text], input[type=password], textarea, select
 {   background-color: #e7e7e7;
     border: solid #b8b8b8 1px;
 	height: 1.8em;
@@ -397,8 +422,12 @@ header
 	-moz-border-radius: 4px;
 }
 
-.wwFormTable textarea
+#content textarea
 {   height: 5em;   }
+
+#content .wwgrp, .wwlbl, .wwctrl
+{	/*background-color: pink;
+*/}
 
 .errorMessage li
 {   text-align: center;   padding-bottom: 5px;   padding-top: 5px;   left: -25px;   position: relative;   background-color: #c11e24;

@@ -1,5 +1,5 @@
 <#if Session?exists && Session.USER?exists>
-<div style="border:1px black solid; float:right;">
+<div id="userbar">
     You are logged in as: ${Session.USER.name}<br/>
 	<@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
 	<@s.form action="nav/switch">
