@@ -3,7 +3,7 @@
 <#include "/templates/header.ftl">
  
 <h2>Organisation Edit</h2>
-
+<@s.actionmessage/>
 <@s.actionerror/>
 
 <@s.form id="organisation" action="saveOrg" method="post">

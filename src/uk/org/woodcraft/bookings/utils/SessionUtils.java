@@ -54,7 +54,8 @@ public class SessionUtils {
 		SecurityModel.checkAllowed(Operation.READ, event);
 		session.setAttribute(SessionConstants.CURRENT_EVENT, event);
 		
-		SecurityModel.checkAllowed(Operation.READ, org);
+		// Not needed as we're only using this org
+		//SecurityModel.checkAllowed(Operation.READ, org);
 		session.setAttribute(SessionConstants.CURRENT_ORG, org);
 		
 		SecurityModel.checkAllowed(Operation.READ, unit);
