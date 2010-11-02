@@ -16,11 +16,9 @@
         Age group for event: ${model.ageGroup}<br/>
         <@s.textfield name="arrivalDate" label="Arrival Date"/>
         <@s.textfield name="departureDate" label="Departure Date"/>
-        
-        
-        
+
         <@s.submit name="Save" value="Save"/>
-        <@s.submit value="Cancel" name="redirect-action:list"/>
+        <@s.submit value="Cancel" id="booking_Cancel" name="redirect-action:list"/>
     </@s.push>
 </@s.form>
 

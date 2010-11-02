@@ -15,7 +15,7 @@
         <@s.textarea name="address" label="Address"/>
         <@s.textarea name="notes" label="Notes"/>
         <@s.submit name="Save" value="Save" />
-        <@s.submit value="Cancel" name="redirect-action:list"/>
+        <@s.submit value="Cancel" id="organization_Cancel" name="redirect-action:list"/>
     </@s.push>
 </@s.form>
 

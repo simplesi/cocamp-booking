@@ -52,16 +52,20 @@
                 <div id="headerInner">
             		<div id="nav">
             		  <ul>
-            			<li id="title"><a href="/" title="CoCamp Home">CoCamp Bookings</a></li>
-            			<li class="right"><@s.url id="signupURL" value="/signup/"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
-            			<li class="right"><@s.url id="loginURL" value="/login/"/><@s.a href="${loginURL}">Log In</@s.a></li>
+            			<a href="/" title="CoCamp Home"><li id="title">CoCamp Bookings</li></a>
+            			<#if !Session.USER??>
+            				<li class="right"><@s.url id="signupURL" value="/signup/"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
+            				<li class="right"><@s.url id="loginURL" value="/login/"/><@s.a href="${loginURL}">Log In</@s.a></li>
+            			<#else>
+            				<li class="right"><@s.url id="logoutURL" action="logout"/><@s.a href="${logoutURL}">Log Out</@s.a></li>
+            			</#if>
                       </ul>
             		</div>
                 </div>
         </header>
   
         <div id="main">
-            <#include "/templates/userbar.ftl"/>
-                <div id="contentWrap">
+            <div id="contentWrap">
+	            <#include "/templates/userbar.ftl"/>
                     <div id="content">
 
