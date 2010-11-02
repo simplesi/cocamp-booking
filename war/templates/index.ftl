@@ -5,7 +5,7 @@
 <ul>
 <li><@s.url id="eventListURL" action="event/list" /><@s.a href="${eventListURL}">List all events</@s.a></li>
 <li><@s.url id="orgListURL" action="org/list" /><@s.a href="${orgListURL}">List all organisations</@s.a></li>
-<li><@s.url id="unitListAllURL" action="unit/listAll" /><@s.a href="${unitListAllURL}">List all Units</@s.a></li>
+<li><@s.url id="unitListAllURL" action="unit/listAll" /><@s.a href="${unitListAllURL}">List all units</@s.a></li>
 <li><@s.url id="bookingListAllURL" action="booking/list"/><@s.a href="${bookingListAllURL}">List all bookings</@s.a></li>
 </ul>
 

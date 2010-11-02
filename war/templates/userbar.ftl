@@ -1,6 +1,6 @@
 <#if Session?exists && Session.USER?exists>
 <div id="userbar">
-    You are logged in as: ${Session.USER.name}<br/>
+    You are logged in as: ${Session.USER.name}<br><br>
 	<@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
 	<@s.form action="nav/switch">
 	
@@ -27,8 +27,6 @@
 	  <@s.submit name="Go" value="Go"></@s.submit>
 	    </@s.form>
 	 </@s.bean>
-    
-    <@s.url id="logoutURL" action="logout"/>
-    <@s.a href="${logoutURL}">Logout</@s.a>
+
 </div>
 </#if>

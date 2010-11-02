@@ -200,10 +200,7 @@ input[type="checkbox"] { vertical-align: bottom; *vertical-align: baseline; }
 .ie6 input { vertical-align: text-bottom; }
 
 /* hand cursor on clickable input elements */
-label, input[type=button], input[type=submit], button { cursor: pointer; }
-
-::-moz-selection{ background: #AF1C22; color:#fff; text-shadow: none; }
-::selection { background:#AF1C22; color: white; text-shadow: none; } 
+label, input[type=button], input[type=submit], button { cursor: pointer; } 
 
 /*  j.mp/webkit-tap-highlight-color */
 a:link { -webkit-tap-highlight-color: #AF1C22; } 
@@ -380,8 +377,7 @@ header
 
 
 #title
-{
-	background-position: 0 60%;
+{	background-position: 0 60%;
 	height: 70px;
 	padding-left: 25px;
 	padding-bottom: 12px;
@@ -415,9 +411,8 @@ header
 #content input[type=text], input[type=password], textarea, select
 {   background-color: #e7e7e7;
     border: solid #b8b8b8 1px;
-	height: 1.8em;
-	padding: 2px 5px;
-	width: 15em;
+	padding: 8px;
+	width: 18em;
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 }
@@ -426,8 +421,22 @@ header
 {   height: 5em;   }
 
 #content .wwgrp, .wwlbl, .wwctrl
-{	/*background-color: pink;
-*/}
+{	/*background-color: pink;*/
+}
+
+#content .wwlbl, #userbar .wwlbl
+{   margin-bottom: -10px; /* Risky, could affect footerStick */
+}
+
+#content .wwgrp, #userbar .wwgrp
+{   padding-bottom: 10px;
+}
+
+#wwctrl_signup_signup, #wwctrl_booking_Save, #wwctrl_booking_Cancel, 
+#wwctrl_organisation_Save, #wwctrl_organization_Cancel, #wwctrl_unit_Save
+{	width: 18em;
+	padding: 5px 10px 0px 10px;
+}
 
 .errorMessage li
 {   text-align: center;   padding-bottom: 5px;   padding-top: 5px;   left: -25px;   position: relative;   background-color: #c11e24;
