@@ -49,7 +49,10 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	}
 
 	public String getNotes() {
+		if(notes == null) return "";
+		
 		return notes.getValue();
+		
 	}
 	
 	public void setNotes(Text notes) {
