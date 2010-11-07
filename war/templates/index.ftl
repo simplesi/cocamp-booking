@@ -1,6 +1,9 @@
 <#assign pagetitle = 'Main menu'>
 <#include "/templates/header.ftl">
 
+<@s.actionmessage/>
+<@s.actionerror/>
+
 <h2>Global administrator</h2>
 <ul>
 <li><@s.url id="userListURL" namespace="/manageAll" action="listUsers" /><@s.a href="${userListURL}">List all users</@s.a></li>

@@ -55,6 +55,8 @@ public class RunQueriesAction extends ActionSupport{
 		
 		// Booking queries
 		Collection<Booking> bookings = CannedQueries.bookingsForOrg(org1, event1);
+		CannedQueries.bookingsForEvent(event1);
+		CannedQueries.bookingsForUnitAllEvents(unit1);
 		CannedQueries.bookingsForUnit(unit1, event1);
 		CannedQueries.bookingsForVillage(village1);
 		CannedQueries.bookingsHomeless(event1);

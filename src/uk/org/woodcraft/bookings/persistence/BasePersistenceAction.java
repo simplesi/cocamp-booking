@@ -28,7 +28,8 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 	ModelObject modelObject = null;
 
 	private Collection<ModelObject> modelObjectList;
-	private boolean confirmedDelete = false;
+	private String confirmDelete = "";
+	private String cancelDelete = "";
 	
 	public void setModel(ModelObject modelObject) {
 		this.modelObject = modelObject;
@@ -87,12 +88,16 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 		
 		if(!checkDeleteConditionsMet())
 		{
-			return "index";
+			return ERROR;
 		}
 
-		if(deleteRequiresConfirmation() && !confirmedDelete)
+		if(deleteRequiresConfirmation() && getConfirmDelete().length() == 0)
 		{
-			return "confirm-delete";
+			if (getCancelDelete().length() > 0)
+				return "cancel-delete";
+			else
+				return "confirm-delete";
+			
 		} else {
 			return deleteNoConfirm();
 		}
@@ -150,7 +155,20 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 		return (Event)getSessionObject(SessionConstants.CURRENT_EVENT);
 	}
 
-	public void setConfirmedDelete(boolean confirmedDelete) {
-		this.confirmedDelete = confirmedDelete;
+
+	public void setConfirmDelete(String confirmDelete) {
+		this.confirmDelete = confirmDelete;
+	}
+
+	public String getConfirmDelete() {
+		return confirmDelete;
+	}
+
+	public void setCancelDelete(String cancelDelete) {
+		this.cancelDelete = cancelDelete;
+	}
+
+	public String getCancelDelete() {
+		return cancelDelete;
 	}
 }

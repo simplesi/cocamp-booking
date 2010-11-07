@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.jdo.JDOHelper;
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
@@ -284,6 +283,19 @@ public class CannedQueries {
 		return queryDetachAndClose(Booking.class, query, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
 	}
 	
+	public static Collection<Booking> bookingsForUnitAllEvents(Unit unit)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Booking.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setOrdering("name");
+		query.setFilter("unitKey == unitKeyParam");
+		query.declareParameters("Key unitKeyParam");
+		
+		return queryDetachAndClose(Booking.class, query, unit.getKeyCheckNotNull());
+	}
+	
 	public static Collection<Booking> bookingsForOrg(Organisation org, Event event)
 	{
 		Collection<Unit> unitsInOrg = unitsForOrg(org.getKey(), false);
@@ -350,6 +362,20 @@ public class CannedQueries {
 		return queryDetachAndClose(Booking.class, query, event.getKeyCheckNotNull());
 	}
 	
+	public static Collection<Booking> bookingsForEvent(Event event)
+	{
+		if (event == null) throw new IllegalArgumentException("Cannot retrieve bookings for a null event.");
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Booking.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setOrdering("name");
+		query.setFilter("eventKey == eventKeyParam");
+		query.declareParameters("Key eventKeyParam");
+		
+		return queryDetachAndClose(Booking.class, query, event.getKeyCheckNotNull());
+	}
 
 	public static Key defaultVillageKeyForUnit(Event event, Unit unit)
 	{	

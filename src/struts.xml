@@ -7,6 +7,8 @@
 	<include file="struts-default.xml"></include>
 	<constant name="struts.action.excludePattern" value="/_ah/.*"/>	
 	
+	<constant name="struts.action.extension" value=",action"/>
+	
 	<constant name="struts.devMode" value="true" />
 	
 	<!-- constant name="struts.ui.templateDir" value="templates/struts" -->
@@ -15,13 +17,16 @@
 	
 		<interceptors>
 			<interceptor name="login" class="uk.org.woodcraft.bookings.auth.LoginInterceptor" />
+			<interceptor name="redirectMessage" class="uk.org.woodcraft.bookings.interceptors.RedirectMessageInterceptor" />
 
 			<interceptor-stack name="defaultLoginStackWithPrepareParams">
+				<interceptor-ref name="redirectMessage" />
                 <interceptor-ref name="exception"/>
                 <interceptor-ref name="alias"/>
                 <interceptor-ref name="i18n"/>
                 <interceptor-ref name="checkbox"/>
                 <interceptor-ref name="multiselect"/>
+
                 <interceptor-ref name="params">
                     <param name="excludeParams">dojo\..*,^struts\..*</param>
                 </interceptor-ref>
@@ -136,9 +141,13 @@
 	
 	<package name="manageUnit" namespace="/manageUnit" extends="default">	
 	    <action name="index">
+	    	<result name="input" type="freemarker">/templates/index.ftl</result>
 			<result type="freemarker">/templates/index.ftl</result>
 		</action>
 		<action name="redirectToIndex">
+			<result name="input" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">index</param>
 			</result>
@@ -158,9 +167,13 @@
 
 		<!-- For bookings in this unit -->
 		<action name="listBookings" method="listForUnit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="freemarker">/templates/datamodel/bookingList.ftl</result>
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
 		</action>	
 		<action name="redirectToBookingList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listBookings</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">listBookings</param>
 			</result>
@@ -173,12 +186,13 @@
 			<result type="redirect">redirectToBookingList</result>
 		</action>
 		<action name="deleteBooking" method="delete" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToBookingList</result> -->
+			<result name="error" type="redirectAction">index</result>
+			<result name="cancel-delete" type="redirect">redirectToBookingList</result>
 			<result type="redirect">redirectToBookingList</result>
 		</action>
 		<action name="cancelEditBooking">
-			<result type="redirect">redirectToBookingList</result>
-		</action>
-		<action name="cancelDelete">
 			<result type="redirect">redirectToBookingList</result>
 		</action>
 		
@@ -186,9 +200,13 @@
 	
 	<package name="manageOrg" namespace="/manageOrg" extends="manageUnit">	
 		<action name="index">
+			<result name="input" type="freemarker">/templates/index.ftl</result>
 			<result type="freemarker">/templates/index.ftl</result>
 		</action>
 		<action name="redirectToIndex">
+			<result name="input" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">index</param>
 			</result>
@@ -208,9 +226,13 @@
 		
 		<!-- For units in the org -->
 		<action name="listUnits" method="list" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unitList.ftl</result>
 			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
 		</action>
 		<action name="redirectToUnitList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listUnits</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">listUnits</param>
 			</result>
@@ -221,6 +243,10 @@
 		</action>
 		<action name="deleteUnit" method="delete" class="uk.org.woodcraft.bookings.persistence.UnitAction">
 			<result type="redirect">redirectToUnitList</result>
+			<result name="cancel-delete" type="redirect">redirectToUnitList</result>
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToUnitList</result> -->
+			<result name="error" type="redirectAction">index</result>
 		</action>
 		<action name="cancelEditUnit">
 			<result type="redirect">redirectToUnitList</result>
@@ -228,9 +254,13 @@
 			
 		<!--  For org bookings -->
 		<action name="listBookings" method="listForOrg" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="freemarker">/templates/datamodel/bookingList.ftl</result>
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
 		</action>	
 		<action name="redirectToBookingList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listBookings</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">listBookings</param>
 			</result>
@@ -241,8 +271,12 @@
 	<package name="manageAll" namespace="/manageAll" extends="manageOrg">
 		<action name="index">
 			<result type="freemarker">/templates/index.ftl</result>
+			<result name="input" type="freemarker">/templates/index.ftl</result>
 		</action>	
 		<action name="redirectToIndex">
+			<result name="input" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">index</param>
 			</result>
@@ -250,9 +284,13 @@
 		
 		<!-- For all orgs -->	
 		<action name="listOrgs" method="list" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisationList.ftl</result>
 			<result type="freemarker">/templates/datamodel/organisationList.ftl</result>
 		</action>
 		<action name="redirectToOrgList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listOrgs</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">listOrgs</param>
 			</result>
@@ -262,6 +300,10 @@
 		</action>
 		<action name="deleteOrg" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result type="redirect">redirectToOrgList</result>
+			<result name="cancel-delete" type="redirect">redirectToOrgList</result>
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToOrgList</result> -->
+			<result name="error" type="redirectAction">index</result>
 		</action>
 		<action name="cancelEditOrg">
 			<result type="redirect">redirectToOrgList</result>
@@ -270,9 +312,13 @@
 		
 		<!-- For all units -->
 		<action name="listUnits" method="listAll" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unitList.ftl</result>
 			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
 		</action>
 		<action name="redirectToUnitList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listUnits</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">listUnits</param>
 			</result>
@@ -293,9 +339,13 @@
 			
 		<!--  For all events -->
 		<action name="listEvents" method="list" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input" type="chain">listEvents</result>
 			<result type="freemarker">/templates/datamodel/eventList.ftl</result>
 		</action>
 		<action name="redirectToEventList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listEvents</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">listEvents</param>
 			</result>
@@ -309,6 +359,10 @@
 		</action>
 		<action name="deleteEvent" method="delete" class="uk.org.woodcraft.bookings.persistence.EventAction">
 			<result type="redirect">redirectToEventList</result>
+			<result name="cancel-delete" type="redirect">redirectToEventList</result>
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToEventList</result> -->
+			<result name="error" type="redirectAction">index</result>
 		</action>
 		<action name="cancelEditEvent">
 			<result type="redirect">redirectToEventList</result>
@@ -316,9 +370,13 @@
 			
 		<!-- For all users -->
 		<action name="listUsers" method="list" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input" type="freemarker">/templates/datamodel/userList.ftl</result>
 			<result type="freemarker">/templates/datamodel/userList.ftl</result>
 		</action>
 		<action name="redirectToUserList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listUsers</param>
+			</result>
 			<result type="redirectAction">
 				<param name="actionName">listUsers</param>
 			</result>
@@ -330,8 +388,12 @@
 			<result name="input" type="redirect">editUser</result>
 			<result type="redirect">redirectToUserList</result>
 		</action>
-		<action name="deleteUsers" method="delete" class="uk.org.woodcraft.bookings.persistence.UserAction">
+		<action name="deleteUser" method="delete" class="uk.org.woodcraft.bookings.persistence.UserAction">
 			<result type="redirect">redirectToUserList</result>
+			<result name="cancel-delete" type="redirect">redirectToUserList</result>
+			 <!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToUserList</result> -->
+			<result name="error" type="redirectAction">index</result>
 		</action>
 		<action name="cancelEditUser">
 			<result type="redirect">redirectToUserList</result>

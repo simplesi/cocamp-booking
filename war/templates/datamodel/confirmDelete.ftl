@@ -8,15 +8,15 @@
 <@s.actionerror/>
 
 <@s.push value="model">
-<h3>${name}</h3>
+<h3>'${name}'</h3>
 <p>Are you sure you wish to delete this item? Deleted items can not be recovered.</p>
 </p>
 	<@s.form id="deleteItem" method="post">    
         <@s.hidden name="webKey"/>
-        <@s.hidden name="confirmedDelete" value="true"/>
+        <@s.hidden name="email"/>
    
-        <@s.submit name="Delete" value="Delete"/>
-        <@s.submit value="Cancel" id="Cancel" action="cancelDelete"/>
+        <@s.submit name="Delete" name="confirmDelete" value="Delete"/>
+        <@s.submit value="Cancel" name="cancelDelete" id="Cancel" />
     
 	</@s.form>
 </@s.push>
