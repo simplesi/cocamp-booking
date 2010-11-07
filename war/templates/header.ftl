@@ -54,7 +54,7 @@
             		<div id="nav">
             		  <ul>
             			<a href="/" title="CoCamp Home"><li id="title">CoCamp Bookings</li></a>
-            			<#if !Session.USER??>
+            			<#if (Session?exists && ! Session.USER?? ) || !Session?exists >
             				<li class="right"><@s.url id="signupURL" value="/signup/"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
             				<li class="right"><@s.url id="loginURL" value="/login/"/><@s.a href="${loginURL}">Log In</@s.a></li>
             			<#else>
@@ -63,7 +63,7 @@
                       </ul>
             		</div>
 	                <div id="menu">              
-	                <#if Session.USER??>
+	                <#if Session?exists && Session.USER??>
 		                <@menu.useMenuDisplayer name="CSSListMenu" id="primary-nav">
 						  <@menu.displayMenu name="ManageUnit"/>						  
 						  <@menu.displayMenu name="ManageOrg"/>
