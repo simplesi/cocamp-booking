@@ -52,8 +52,7 @@ public class SwitchTargetAction extends ActionSupport implements SessionAware{
 				if(newOrg == null)
 					throw new IllegalArgumentException("Org matching key "+orgKey+" not found");
 				
-				// Will throw if not permissioned
-				SecurityModel.checkAllowed(Operation.READ, newOrg);
+				//We don't permission by organisation - use unit instead
 				
 				sessionData.put(SessionConstants.CURRENT_ORG, newOrg);				
 			}

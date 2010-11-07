@@ -8,20 +8,16 @@
     <tr>
         <th>Name</th>
         <th>Open for bookings?</th>
-        <th>Edit</th>
         <th>Delete</th>
     </tr>
     
     <#list ModelList as event>
+    <@s.url id="editURL" action="editEvent" webKey="${event.webKey}" />
         <tr>
-            <td>${event.name}</td>
+            <td><@s.a href="${editURL}">${event.name}</@s.a></td>
             <td>${event.isCurrentlyOpen?string("yes", "no")}</td>
             <td>
-                <@s.url id="editURL" action="edit" webKey="${event.webKey}" />
-                <@s.a href="${editURL}">Edit</@s.a>
-            </td>
-            <td>
-                <@s.url id="deleteURL" action="delete" webKey="${event.webKey}" />
+                <@s.url id="deleteURL" action="deleteEvent" webKey="${event.webKey}" />
                 <@s.a href="${deleteURL}">Delete</@s.a>
             </td>
         </tr>

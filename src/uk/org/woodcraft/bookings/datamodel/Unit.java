@@ -80,7 +80,9 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 	}
 
 
-	public String getNotes() {
+	public String getNotesString() {
+		if(notes == null) return ""; 
+		
 		return notes.getValue();
 	}
 
@@ -89,7 +91,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 		this.notes = notes;
 	}
 
-	public void setNotes(String notes) {
+	public void setNotesString(String notes) {
 		this.notes = new Text(notes);
 	}
 

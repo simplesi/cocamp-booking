@@ -445,7 +445,7 @@ public class CannedQueries {
 	
 	public static <T> T save(T objectToSave)
 	{
-		System.out.println("Saving object with state: " + JDOHelper.getObjectState(objectToSave));
+//		System.out.println("Saving object with state: " + JDOHelper.getObjectState(objectToSave));
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		

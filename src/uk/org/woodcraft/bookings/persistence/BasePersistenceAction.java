@@ -28,6 +28,7 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 	ModelObject modelObject = null;
 
 	private Collection<ModelObject> modelObjectList;
+	private boolean confirmedDelete = false;
 	
 	public void setModel(ModelObject modelObject) {
 		this.modelObject = modelObject;
@@ -67,8 +68,38 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 		return SUCCESS;
 	}
 	
+	/**
+	 * To be overridden to true for those that want a confirmed delete
+	 * @return
+	 */
+	protected boolean deleteRequiresConfirmation()
+	{
+		return false;
+	}
+	
+	protected boolean checkDeleteConditionsMet()
+	{
+		return true;
+	}
+	
 	public String delete() {
 		SecurityModel.checkAllowed(Operation.WRITE, modelObject);
+		
+		if(!checkDeleteConditionsMet())
+		{
+			return "index";
+		}
+
+		if(deleteRequiresConfirmation() && !confirmedDelete)
+		{
+			return "confirm-delete";
+		} else {
+			return deleteNoConfirm();
+		}
+		
+	}
+	
+	private String deleteNoConfirm() {
 		CannedQueries.delete(modelObject);
 		return SUCCESS;
 	}
@@ -76,6 +107,10 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
+	}
+
+	protected Map<String,Object> getSession() {
+		return session;
 	}
 	
 	protected Object getSessionObject(String key) {
@@ -113,5 +148,9 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 	public Event getCurrentEvent()
 	{
 		return (Event)getSessionObject(SessionConstants.CURRENT_EVENT);
+	}
+
+	public void setConfirmedDelete(boolean confirmedDelete) {
+		this.confirmedDelete = confirmedDelete;
 	}
 }
