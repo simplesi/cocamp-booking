@@ -1,3 +1,4 @@
+<#assign menu=JspTaglibs["/WEB-INF/struts-menu.tld"]>
 <!doctype html>
 <html lang="en" class="no-js">
 <head>
@@ -61,11 +62,23 @@
             			</#if>
                       </ul>
             		</div>
-                </div>
+	                <div id="menu">              
+	                <#if Session.USER??>
+		                <@menu.useMenuDisplayer name="CSSListMenu" id="primary-nav">
+						  <@menu.displayMenu name="ManageUnit"/>						  
+						  <@menu.displayMenu name="ManageOrg"/>
+						  <#if Session.USER.accessLevel.isSuperUser>
+						  	<@menu.displayMenu name="ManageAll"/>
+						  </#if>
+						</@menu.useMenuDisplayer>
+					</#if>
+					</div>
+				</div>
         </header>
   
         <div id="main">
             <div id="contentWrap">
 	            <#include "/templates/userbar.ftl"/>
+	       
                     <div id="content">
 

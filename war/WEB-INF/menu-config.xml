@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<MenuConfig>
+ <Displayers>
+    <Displayer   name="CSSListMenu"
+                 type="net.sf.navigator.displayer.CSSListMenuDisplayer"/>
+  </Displayers>
+<Menus>
+  <Menu name="ManageUnit" title="My Unit" >
+       <Item name="UnitBookings" 	title="Bookings">
+           <Item name="UnitBookingsList"   	title="Current Bookings"		location="/manageUnit/listBookings"/>
+           <Item name="UnitBookingsAdd"   	title="Add Bookings"			location="/manageUnit/editBooking"/>
+       </Item>
+       <Item name="UnitEdit" 	title="Unit details" location="/manageUnit/editUnit"/>        
+  </Menu>
+  
+  <Menu name="ManageOrg" title="My Organisation" >
+       <Item name="OrgBookings" 	title="Bookings">
+           <Item name="OrgBookingsList"   	title="Current Bookings"		location="/manageOrg/listBookings"/>
+       </Item>
+       <Item name="OrgUnits" 		title="Units">
+           <Item name="OrgUnitsList"   	title="List units in organisation"	location="/manageOrg/listUnits"/>
+           <Item name="OrgUnitsAdd"   	title="Add a new unit"	location="/manageOrg/editUnit"/>
+       </Item>
+       <Item name="OrgEdit" 	title="Organisation details" location="/manageOrg/editOrg"/>        
+  </Menu>
+  
+  <Menu name="ManageAll" title="Admin" >
+       <Item name="AdminApprovals" 		title="Pending approvals" 		location="/manageAll/approvalList"/>
+       <Item name="AdminUsers" 			title="Users" 					location="/manageAll/listUsers"/>
+       <Item name="AdminEvents" 		title="Events" 					location="/manageAll/listEvents"/>
+       <Item name="AdminOrgs" 			title="Organisations" 			location="/manageAll/listOrgs"/>
+       <Item name="AdminUnits" 			title="Units" 					location="/manageAll/listUnits"/>
+       <Item name="AdminBookings" 		title="Bookings" 				location="/manageAll/listBookings"/>
+  </Menu>
+</Menus>
+</MenuConfig>
