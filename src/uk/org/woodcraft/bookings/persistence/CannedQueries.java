@@ -1,6 +1,7 @@
 package uk.org.woodcraft.bookings.persistence;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -112,6 +113,17 @@ public class CannedQueries {
 		return queryDetachAndClose(Organisation.class, query);
 	}
 	
+	public static Collection<Organisation> allUnapprovedOrgs()
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Organisation.class);
+		query.setOrdering("name");	
+		query.setFilter("approved == false");
+		
+		return queryDetachAndClose(Organisation.class, query);
+	}
+	
 	/**
 	 * Get org matching a given name
 	 * @param orgName The org name
@@ -162,6 +174,17 @@ public class CannedQueries {
 		query.setOrdering("name");
 		
 		if(!includeUnapproved) query.setFilter("approved == true");
+		
+		return queryDetachAndClose(Unit.class, query);
+	}
+	
+	public static Collection<Unit> allUnapprovedUnits()
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Unit.class);
+		query.setOrdering("name");
+		query.setFilter("approved == false");
 		
 		return queryDetachAndClose(Unit.class, query);
 	}
@@ -412,14 +435,14 @@ public class CannedQueries {
 		return getByKey(User.class, email);
 	}
 	
-	private static Collection<User> allUsers(Organisation org, Unit unit)
+	private static Collection<User> allUsers(Organisation org, Unit unit, boolean unapprovedOnly)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query query = pm.newQuery(User.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
 		query.setOrdering("name");
-		
+			
 		if (org != null) {
 			query.setFilter("organisationKey == orgKeyParam");
 			query.declareParameters("Key orgKeyParam");
@@ -432,22 +455,29 @@ public class CannedQueries {
 			return queryDetachAndClose(User.class, query, unit.getKey());
 		}
 		
+		if(unapprovedOnly) 
+			query.setFilter("approved == false");
 		return queryDetachAndClose(User.class, query);
 	}
 
 	public static Collection<User> allUsers()
 	{
-		return allUsers(null, null);
+		return allUsers(null, null, false);
+	}
+	
+	public static Collection<User> allUnapprovedUsers()
+	{
+		return allUsers(null, null, true);
 	}
 	
 	public static Collection<User> allUsersForOrg(Organisation org)
 	{
-		return allUsers(org, null);
+		return allUsers(org, null, false);
 	}
 	
 	public static Collection<User> allUsersForUnit(Unit unit)
 	{
-		return allUsers(null, unit);
+		return allUsers(null, unit, false);
 	}
 	
 	public static <T> T getByKey(Class<T> clazz, Object key)
@@ -471,6 +501,11 @@ public class CannedQueries {
 	
 	public static <T> T save(T objectToSave)
 	{
+		return save(Arrays.asList(objectToSave)).iterator().next();
+	}
+	
+	public static <T> Collection<T> save(Collection<T> objectsToSave)
+	{
 //		System.out.println("Saving object with state: " + JDOHelper.getObjectState(objectToSave));
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -478,7 +513,7 @@ public class CannedQueries {
 		//Transaction tx = pm.currentTransaction();
 		try {
 			//tx.begin();
-			objectToSave = pm.makePersistent(objectToSave);
+			objectsToSave = pm.makePersistentAll(objectsToSave);
 			//tx.commit();
 		} catch (Exception e){
 			//if (tx.isActive()) 
@@ -489,16 +524,22 @@ public class CannedQueries {
 		finally {
 			pm.close();
 		}
-		return objectToSave;
+		return objectsToSave;
 	}
 	
 	public static void delete(Object objectToDelete)
+	{
+		 delete(Arrays.asList(objectToDelete));
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public static void delete(List objectsToDelete)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
 		try {
 			tx.begin();
-			pm.deletePersistent(objectToDelete);
+			pm.deletePersistentAll(objectsToDelete);
 			tx.commit();
 		} catch(Exception e) {
 			if (tx.isActive()) 

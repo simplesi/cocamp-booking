@@ -6,6 +6,7 @@
 
 <h2>Global administrator</h2>
 <ul>
+<li><@s.url id="approvalListURL" namespace="/manageAll" action="approvalList" /><@s.a href="${approvalListURL}">View entries pending approval</@s.a></li>
 <li><@s.url id="userListURL" namespace="/manageAll" action="listUsers" /><@s.a href="${userListURL}">List all users</@s.a></li>
 <li><@s.url id="eventListURL" namespace="/manageAll" action="listEvents" /><@s.a href="${eventListURL}">List all events</@s.a></li>
 <li><@s.url id="orgListURL" namespace="/manageAll" action="listOrgs" /><@s.a href="${orgListURL}">List all organisations</@s.a></li>

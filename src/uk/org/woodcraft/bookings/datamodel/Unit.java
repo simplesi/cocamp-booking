@@ -14,7 +14,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable(detachable="true")
-public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
+public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -74,7 +74,10 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 		return KeyFactory.keyToString(organisationKey);
 	}
 
-
+	public Organisation getOrganisation() {
+		return CannedQueries.orgByKey(getOrganisationKey());
+	}
+	
 	public void setOrganisation(Organisation organisation) {
 		this.organisationKey = organisation.getKeyCheckNotNull();
 	}
@@ -135,5 +138,22 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity{
 
 	public Set<Key> getEventsRegistered() {
 		return eventsRegistered;
+	}
+
+	@Override
+	public String getDeleteConditionError() {
+		Collection<Booking> bookingsForUnit = CannedQueries.bookingsForUnitAllEvents(this);
+		
+		if (bookingsForUnit.size() > 0)
+		{
+			return String.format("'%s' cannot be deleted as it still has %d bookings registered (possibly across different events). These must be deleted first.", 		
+					getName(), bookingsForUnit.size());
+		}
+		return "";
+	}
+
+	@Override
+	public boolean deleteRequiresConfirmation() {
+		return true;
 	}
 }

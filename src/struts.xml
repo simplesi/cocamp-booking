@@ -398,6 +398,31 @@
 		<action name="cancelEditUser">
 			<result type="redirect">redirectToUserList</result>
 		</action>	
+		
+		
+		<!--  admin approval pages -->
+		<action name="approvalList" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkApproveUsers" method="bulkApproveUsers" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkDeleteUsers" method="bulkDeleteUsers" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkApproveOrgs" method="bulkApproveOrgs" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkDeleteOrgs" method="bulkDeleteOrgs" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkApproveUnits" method="bulkApproveUnits" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkDeleteUnits" method="bulkDeleteUnits" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>		
+		
 	</package>
 
 

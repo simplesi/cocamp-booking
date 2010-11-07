@@ -13,7 +13,7 @@ public class ConfigurationTest {
 		
 		assertEquals("cocamp-local", config.getProperty(Configuration.ENVIRONMENT));
 		
-		assertEquals("http://localhost:8080/", config.getProperty("baseurl"));
+		assertEquals("http://localhost:8888/", config.getProperty("baseurl"));
 		
 	}
 }

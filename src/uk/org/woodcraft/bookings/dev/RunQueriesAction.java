@@ -40,12 +40,14 @@ public class RunQueriesAction extends ActionSupport{
 		// Org queries
 		CannedQueries.allOrgs(false);
 		CannedQueries.allOrgs(true);
+		CannedQueries.allUnapprovedOrgs();
 		Organisation org1 = CannedQueries.orgByName(TestConstants.ORG1_NAME);
 		CannedQueries.orgByKey(org1.getKeyCheckNotNull());
 		
 		// Unit queries
 		CannedQueries.allUnits(false);
 		CannedQueries.allUnits(true);
+		CannedQueries.allUnapprovedUnits();
 		Unit unit1 = CannedQueries.unitByName(TestConstants.UNIT1_NAME, org1);
 		CannedQueries.unitByKey(unit1.getKeyCheckNotNull());
 		CannedQueries.unitsForOrg(org1.getKeyCheckNotNull(), false);
@@ -64,6 +66,7 @@ public class RunQueriesAction extends ActionSupport{
 		
 		// User queries
 		CannedQueries.allUsers();
+		CannedQueries.allUnapprovedUsers();
 		CannedQueries.allUsersForOrg(org1);
 		CannedQueries.allUsersForUnit(unit1);
 		CannedQueries.getUserByEmail(TestConstants.USER_ADMIN_EMAIL);

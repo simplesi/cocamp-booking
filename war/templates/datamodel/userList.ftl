@@ -11,7 +11,6 @@
         <th>Org</th>
         <th>Unit</th>
         <th>Status</th>
-        <th>Edit</th>
         <th>Delete</th>
     </tr>
     

@@ -114,8 +114,4 @@ public class UserAction extends BasePersistenceAction<User>{
 		return units;
 	}
 	
-	protected boolean deleteRequiresConfirmation()
-	{
-		return true;
-	}
 }

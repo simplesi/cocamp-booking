@@ -16,7 +16,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 @PersistenceCapable(detachable="true")
-public class User implements Serializable, Keyed<String>, NamedEntity {
+public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRestricted {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,6 +39,16 @@ public class User implements Serializable, Keyed<String>, NamedEntity {
 	@Persistent
 	private Key unitKey;
 	
+	@Persistent
+	private boolean emailValidated = false;
+	
+	/**
+	 * Has the user been approved by an administrator?
+	 */
+	@Persistent
+	private boolean approved = false;
+	
+	
 	// Track whether this is a new or an existing object
 	// Use of Boolean (Rather than boolean) to get round JDO confusion about this property
 	@NotPersistent
@@ -47,11 +57,14 @@ public class User implements Serializable, Keyed<String>, NamedEntity {
 	public User() {
 	}
 	
+	// For tests only
 	public User(String email, String name, String password, Accesslevel accessLevel) {
 		this.email = email;
 		this.name = name;
 		setPassword(password);
 		this.accessLevel = accessLevel;
+		this.emailValidated = true;
+		this.approved = true;
 	}
 	
 	public String getName() {
@@ -222,9 +235,30 @@ public class User implements Serializable, Keyed<String>, NamedEntity {
 		return getName();
 	}
 	
-	protected boolean deleteRequiresConfirmation()
+	public boolean deleteRequiresConfirmation()
 	{
 		return true;
+	}
+
+	public void setEmailValidated(boolean emailValidated) {
+		this.emailValidated = emailValidated;
+	}
+
+	public boolean getEmailValidated() {
+		return emailValidated;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
+	}
+
+	public boolean getApproved() {
+		return approved;
+	}
+
+	@Override
+	public String getDeleteConditionError() {
+		return "";
 	}
 	
 }

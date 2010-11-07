@@ -9,7 +9,7 @@ import javax.jdo.annotations.Persistent;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 @PersistenceCapable(detachable="true")
-public class Event extends KeyBasedDataWithAudit implements NamedEntity{
+public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -87,6 +87,23 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity{
 	
 	public String toString() {
 		return getName();
+	}
+
+	@Override
+	public String getDeleteConditionError() {
+		Collection<Booking> bookingsForEvent = CannedQueries.bookingsForEvent(this);
+		
+		if (bookingsForEvent.size() > 0)
+		{
+			return String.format("'%s' cannot be deleted as it still has %d bookings registered. These must be deleted first.", 		
+					getName(), bookingsForEvent.size());
+		}
+		return "";
+	}
+
+	@Override
+	public boolean deleteRequiresConfirmation() {
+		return true;
 	}
 		
 }

@@ -37,7 +37,7 @@ public class SignupAction extends BasePersistenceAction<User>{
 			}
 		}
 		
-		getModel().setAccessLevel(Accesslevel.AWAITING_EMAIL_CONFIRM);
+		getModel().setAccessLevel(Accesslevel.UNIT_ADMIN);
 		
 		CannedQueries.save(getModel());
 		sendUserConfirmEmail(getModel());

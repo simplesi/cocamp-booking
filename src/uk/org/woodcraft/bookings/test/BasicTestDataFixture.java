@@ -95,6 +95,7 @@ public class BasicTestDataFixture extends TestFixture {
 			user1.setOrganisationKey(orgWcf.getKeyCheckNotNull());
 			user1.setUnitKey(unit1.getKeyCheckNotNull());
 			
+			
 			User user2 = new User("orgadmin@example.com", "Org Admin 1", "password", Accesslevel.ORG_ADMIN);
 			user2.setOrganisationKey(orgWcf.getKeyCheckNotNull());
 			user2.setUnitKey(unit1.getKeyCheckNotNull());
@@ -103,9 +104,10 @@ public class BasicTestDataFixture extends TestFixture {
 			user3.setOrganisationKey(orgWcf.getKeyCheckNotNull());
 			user3.setUnitKey(unit1.getKeyCheckNotNull());
 			
-			User user4 = new User("unassigned@example.com", "Unassigned 1", "password", Accesslevel.UNASSIGNED);
+			User user4 = new User("unassigned@example.com", "Unassigned 1", "password", Accesslevel.UNIT_ADMIN);
 			user4.setOrganisationKey(orgWcf.getKeyCheckNotNull());
 			user4.setUnitKey(unit2.getKeyCheckNotNull());
+			user4.setApproved(false);
 			
 			User user5 = new User("otherorg@example.com", "Other Org 1", "password", Accesslevel.ORG_ADMIN);
 			user5.setOrganisationKey(otherOrg.getKeyCheckNotNull());

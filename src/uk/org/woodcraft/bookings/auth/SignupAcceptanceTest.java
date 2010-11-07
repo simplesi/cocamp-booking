@@ -37,7 +37,7 @@ public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 		// can't easily do this
 		
 		User testUser = CannedQueries.getUserByEmail(email);
-		assertEquals(Accesslevel.AWAITING_EMAIL_CONFIRM, testUser.getAccessLevel());
+		assertEquals(false, testUser.getEmailValidated());
 		
 		ConfirmEmailAction confirmAction = new ConfirmEmailAction();
 		confirmAction.setEmail(email);
@@ -46,15 +46,16 @@ public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 		// Confirm failed
 		assertEquals (ActionSupport.INPUT, confirmAction.execute());
 		testUser = CannedQueries.getUserByEmail(email);
-		assertEquals(Accesslevel.AWAITING_EMAIL_CONFIRM, testUser.getAccessLevel());
+		assertEquals(false, testUser.getEmailValidated());
 		
 		
 		confirmAction.setHash(SignupUtils.generateEmailConfirmHash(testUser));
 		assertEquals (ActionSupport.SUCCESS,confirmAction.execute());
 		
-		// Confirm succeeded
-		// unclear how to do this
-		
+		// Confirm succeeded	
+		testUser = CannedQueries.getUserByEmail(email);
+		assertEquals(true, testUser.getEmailValidated());
+		assertEquals(false, testUser.getApproved());
 		testUser = CannedQueries.getUserByEmail(email);
 		assertEquals(Accesslevel.UNIT_ADMIN, testUser.getAccessLevel());
 		assertTrue(testUser.checkPassword(password));
