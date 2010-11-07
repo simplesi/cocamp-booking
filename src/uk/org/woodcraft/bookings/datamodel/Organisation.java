@@ -73,4 +73,5 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	public String toString() {
 		return getName();
 	}
+	
 }

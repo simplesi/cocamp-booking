@@ -222,4 +222,9 @@ public class User implements Serializable, Keyed<String>, NamedEntity {
 		return getName();
 	}
 	
+	protected boolean deleteRequiresConfirmation()
+	{
+		return true;
+	}
+	
 }
