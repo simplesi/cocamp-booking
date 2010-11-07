@@ -10,7 +10,7 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable(detachable="true")
-public class Organisation extends KeyBasedDataWithContactInfo implements NamedEntity{
+public class Organisation extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted{
 		
 	private static final long serialVersionUID = 1L;
 
@@ -72,6 +72,23 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	
 	public String toString() {
 		return getName();
+	}
+
+	@Override
+	public String getDeleteConditionError() {
+		Collection<Unit> unitsForOrg = CannedQueries.unitsForOrg(this.getKeyCheckNotNull(), true);
+		
+		if (unitsForOrg.size() > 0)
+		{
+			return String.format("'%s' cannot be deleted as it still has %d units as part of it. These must be deleted first.", 
+					getName(), unitsForOrg.size());
+		}
+		return "";
+	}
+
+	@Override
+	public boolean deleteRequiresConfirmation() {
+		return true;
 	}
 	
 }

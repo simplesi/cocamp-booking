@@ -74,6 +74,10 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		assertEquals(1, approvedOrgs.size());
 		assertEquals("Woodcraft Folk", approvedOrgs.iterator().next().getName());
 		assertDetached(approvedOrgs);
+		
+		Collection<Organisation> unapprovedOrgs = CannedQueries.allUnapprovedOrgs();		
+		TestUtils.assertNames(unapprovedOrgs, "Unapproved organisation");
+		assertDetached(unapprovedOrgs);
 	}
 
 	@Test
@@ -136,6 +140,10 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		assertEquals(2, approvedUnits.size());
 		TestUtils.assertNames(approvedUnits, "Unit 1", "Unit 2");
 		assertDetached(approvedUnits);
+		
+		Collection<Unit> unapprovedUnits = CannedQueries.allUnapprovedUnits();		
+		TestUtils.assertNames(unapprovedUnits, "Unapproved unit for wcf", "Unapproved unit");
+		assertDetached(unapprovedUnits);
 	}
 	
 	@Test
@@ -249,6 +257,11 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Collection<User> users = CannedQueries.allUsers();
 		TestUtils.assertNames(users, "System User", "Global Admin 1", "Org Admin 1", "Unit Admin 1", "Unassigned 1", "Other Org 1");
 		assertDetached(users);
+		
+		users = CannedQueries.allUnapprovedUsers();
+		TestUtils.assertNames(users, "Unassigned 1");
+		assertDetached(users);
+		
 		
 		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
 		users = CannedQueries.allUsersForOrg(org);

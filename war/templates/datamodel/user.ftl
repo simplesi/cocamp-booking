@@ -13,7 +13,8 @@
  				  	doubleHeaderValue="--- Please Select ---" DoubleHeaderKey=""
  				  />
  	<#if Session.USER.accessLevel.canManageUsers>			  
- 	  <@s.select label="Access level" name="accessLevelString" list="accessLevels" listValue="DisplayName" />
+ 	 	<@s.select label="Access level" name="accessLevelString" list="accessLevels" listValue="DisplayName" />
+ 	 	<@s.checkbox label="Is approved" name="approved"/>
  	</#if>
     <@s.submit name="Save user" value="Save user" action="saveUser"/>
     <@s.submit value="Cancel" action="cancelEditUser"/>

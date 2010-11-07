@@ -9,6 +9,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
+import uk.org.woodcraft.bookings.datamodel.DeleteRestricted;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
@@ -86,21 +87,29 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 	public String delete() {
 		SecurityModel.checkAllowed(Operation.WRITE, modelObject);
 		
-		if(!checkDeleteConditionsMet())
+		if(! (getModel() instanceof DeleteRestricted))
 		{
+			return deleteNoConfirm();
+		}
+		
+		DeleteRestricted objectToDelete = (DeleteRestricted) getModel();
+		
+		String preDeleteCheckError = objectToDelete.getDeleteConditionError();
+		if(preDeleteCheckError.length() > 0)
+		{
+			addActionError(preDeleteCheckError);
 			return ERROR;
 		}
 
-		if(deleteRequiresConfirmation() && getConfirmDelete().length() == 0)
+		if(objectToDelete.deleteRequiresConfirmation() && getConfirmDelete().length() == 0)
 		{
 			if (getCancelDelete().length() > 0)
 				return "cancel-delete";
 			else
-				return "confirm-delete";
-			
-		} else {
-			return deleteNoConfirm();
-		}
+				return "confirm-delete";		
+		} 
+		
+		return deleteNoConfirm();
 		
 	}
 	

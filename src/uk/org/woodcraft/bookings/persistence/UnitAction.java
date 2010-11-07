@@ -5,7 +5,6 @@ import java.util.Collection;
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
-import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
@@ -84,24 +83,6 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 	public String getDefaultOrgWebKey()
 	{
 		return defaultOrgWebKey;
-	}
-	
-	protected boolean deleteRequiresConfirmation()
-	{
-		return false;
-	}
-	
-	protected boolean checkDeleteConditionsMet()
-	{
-		Collection<Booking> bookingsForUnit = CannedQueries.bookingsForUnitAllEvents(getModel());
-		
-		if (bookingsForUnit.size() > 0)
-		{
-			addActionError(String.format("This unit cannot be deleted as it still has %d bookings registered (possibly across different events). These must be deleted first.", 		
-					bookingsForUnit.size()));
-			return false;
-		}
-		return true;
 	}
 
 }

@@ -1,6 +1,5 @@
 package uk.org.woodcraft.bookings.auth;
 
-import uk.org.woodcraft.bookings.datamodel.Accesslevel;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
@@ -30,14 +29,13 @@ public class ConfirmEmailAction extends ActionSupport{
 			return INPUT;
 		}
 		
-		if (user.getAccessLevel() != Accesslevel.AWAITING_EMAIL_CONFIRM)
+		if (user.getEmailValidated())
 		{
 			addActionMessage("User email has already been confirmed, no need to do this again. You can log in");
 			return SUCCESS;
 		}
 		
-		// FIXME: Need to work out how to assign their true role
-		user.setAccessLevel(Accesslevel.UNIT_ADMIN);
+		user.setEmailValidated(true);
 		CannedQueries.save(user);
 		
 		addActionMessage("User email address was confirmed. Please log in");

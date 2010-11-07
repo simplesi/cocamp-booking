@@ -5,8 +5,8 @@ public enum Accesslevel {
 	GLOBAL_ADMIN("Global Admin", true, true, true, true),
 	ORG_ADMIN("Organisation bookings secretary", true, false, true, false),
 	UNIT_ADMIN("Unit booking secretary", true, false, false, false),
-	UNASSIGNED("Unassigned user"),
-	AWAITING_EMAIL_CONFIRM("New user pending approval"),
+//	UNASSIGNED("Unassigned user"),
+//	AWAITING_EMAIL_CONFIRM("New user pending approval"),
 	NO_LOGIN("System user");
 	
 	private final String displayName;

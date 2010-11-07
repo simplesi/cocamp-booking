@@ -117,8 +117,9 @@ public class LoginInterceptor implements Interceptor {
 	    String password = request.getParameter(LOGIN_PASSWORD);
 
 	    User user = CannedQueries.getUserByEmail(email);
-	    
-	    if (user != null && user.getAccessLevel().getCanLogin() && user.checkPassword(password))
+	    // FIXME: might want to only allow login of approved users
+	    if (user != null && user.getAccessLevel().getCanLogin() && user.getEmailValidated() && 
+	    		user.checkPassword(password))
 		{
 	        // The user has successfully logged in. Store their user object in 
 	        // their HttpSession, and their home org and unit. Then return true.
