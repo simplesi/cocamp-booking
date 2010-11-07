@@ -28,6 +28,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	
+	<listener>
+  		<listener-class>freemarker.ext.jsp.EventForwarding</listener-class>
+	</listener>
+	
+	<listener>
+	 <listener-class>net.sf.navigator.menu.MenuContextListener</listener-class>
+    </listener>
+	
 </web-app>
 
 
