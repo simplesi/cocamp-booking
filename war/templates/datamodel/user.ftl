@@ -3,7 +3,7 @@
  <@s.actionmessage/>
  <@s.actionerror/>
 <@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
-<@s.form id="user" action="save" method="post">
+<@s.form id="user" method="post">
  	<@s.textfield name="name" label="Name"></@s.textfield>
     <@s.textfield name="email" label="E-mail address"></@s.textfield>
     <@s.password name="password" label="Password"></@s.password>
@@ -15,7 +15,8 @@
  	<#if Session.USER.accessLevel.canManageUsers>			  
  	  <@s.select label="Access level" name="accessLevelString" list="accessLevels" listValue="DisplayName" />
  	</#if>
-    <@s.submit name="Save user" value="Save user"></@s.submit>
+    <@s.submit name="Save user" value="Save user" action="saveUser"/>
+    <@s.submit value="Cancel" action="cancelEditUser"/>
 </@s.form>
 </@s.bean>
 <#include "/templates/footer.ftl">

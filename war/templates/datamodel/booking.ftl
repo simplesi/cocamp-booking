@@ -6,7 +6,7 @@
 
 <@s.actionerror/>
 
-<@s.form id="booking" action="save" method="post">
+<@s.form id="booking" method="post">
     <@s.push value="model">
         <@s.hidden name="webKey"/>
         <@s.textfield name="name" label="Name"/>
@@ -17,8 +17,8 @@
         <@s.textfield name="arrivalDate" label="Arrival Date"/>
         <@s.textfield name="departureDate" label="Departure Date"/>
 
-        <@s.submit name="Save" value="Save"/>
-        <@s.submit value="Cancel" id="booking_Cancel" name="redirect-action:list"/>
+        <@s.submit name="Save" value="Save" action="saveBooking"/>
+        <@s.submit value="Cancel Edit" action="cancelEditBooking"/>
     </@s.push>
 </@s.form>
 

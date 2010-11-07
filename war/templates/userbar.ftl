@@ -2,7 +2,7 @@
 <div id="userbar">
     You are logged in as: ${Session.USER.name}<br><br>
 	<@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
-	<@s.form action="nav/switch">
+	<@s.form action="switch">
 	
 <#-- Utter mess trying to set the value for these selects. Can't work out how to do it, so this hack will have to do for now.
 	 It should be value=Session.CURRENT_EVENT.webKey but OGNL then converts that to null having looked the correct value up, 

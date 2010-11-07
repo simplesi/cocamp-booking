@@ -12,6 +12,11 @@ public class OrganisationAction extends BasePersistenceAction<Organisation>{
 
 	private static final long serialVersionUID = 1L;
 	
+	public String editCurrent() {
+		setModel((Organisation)getSessionObject(SessionConstants.CURRENT_ORG));
+		return edit();
+	}
+	
 	public String save() {
 		
 		super.save();
@@ -21,6 +26,7 @@ public class OrganisationAction extends BasePersistenceAction<Organisation>{
 		{
 			setSessionObject(SessionConstants.SIGNUP_ORG, getModel());
 		}
+		SessionUtils.syncSessionCacheIfRequired(getSession(), SessionConstants.CURRENT_ORG, getModel());
 		
 		return SUCCESS;
 	}

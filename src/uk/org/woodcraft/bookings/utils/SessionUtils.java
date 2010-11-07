@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.utils;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import uk.org.woodcraft.bookings.auth.Operation;
@@ -61,4 +63,18 @@ public class SessionUtils {
 		SecurityModel.checkAllowed(Operation.READ, unit);
 		session.setAttribute(SessionConstants.CURRENT_UNIT, unit);
 	}
+	
+	public static void syncSessionCacheIfRequired(Map<String, Object> session, String key, Object value)
+	{
+		if(session == null) return;
+		
+		Object currentValue = session.get(key);
+		if (currentValue != null)
+		{
+			if (currentValue.equals(value))
+				session.put(key, value);
+		}
+	}
+	
+	
 }

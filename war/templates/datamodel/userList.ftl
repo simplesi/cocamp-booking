@@ -17,17 +17,14 @@
     
     <#list ModelList as user>
         <tr>
-            <td>${user.name}</td>
+            <td><@s.url id="editURL" action="editUser" email="${user.email}" />
+            <@s.a href="${editURL}">${user.name}</@s.a></td>
             <td>${user.email}</td>
             <td>${user.organisationName}</td>
             <td>${user.unitName}</td>
             <td>${user.accessLevel.displayName}</td>
             <td>
-                <@s.url id="editURL" action="edit" email="${user.email}" />
-                <@s.a href="${editURL}">Edit</@s.a>
-            </td>
-            <td>
-                <@s.url id="deleteURL" action="delete" email="${user.email}" />
+                <@s.url id="deleteURL" action="deleteUser" email="${user.email}" />
                 <@s.a href="${deleteURL}">Delete</@s.a>
             </td>
         </tr>

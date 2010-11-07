@@ -73,7 +73,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity{
 		this.name = name;
 	}
 
-	public void setCurrentlyOpen(boolean isCurrentlyOpen) {
+	public void setIsCurrentlyOpen(boolean isCurrentlyOpen) {
 		this.isCurrentlyOpen = isCurrentlyOpen;
 	}
 

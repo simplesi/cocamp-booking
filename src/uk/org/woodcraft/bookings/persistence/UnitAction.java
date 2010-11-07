@@ -17,6 +17,11 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 
 	private String defaultOrgWebKey;
 	
+	public String editCurrent() {
+		setModel((Unit)getSessionObject(SessionConstants.CURRENT_UNIT));
+		return edit();
+	}
+	
 	public String save() {
 		super.save();
 		
@@ -25,7 +30,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 		{
 			setSessionObject(SessionConstants.SIGNUP_UNIT, getModel());
 		}
-		
+		SessionUtils.syncSessionCacheIfRequired(getSession(), SessionConstants.CURRENT_UNIT, getModel());
 		return SUCCESS;
 	}
 	
