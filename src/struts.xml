@@ -425,7 +425,16 @@
 		
 	</package>
 
-
+	<!--  Protected through datastore variable so only run once -->
+	<package name="setup" namespace="/setup" extends="default">
+		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
+		
+		<default-action-ref name="setup" />
+		
+		<action name="setup" method="execute" class="uk.org.woodcraft.bookings.CreateInitialProdDataAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>
+	</package>
 
 
 	<!--  These actions must be protected using SecurityModel.checkIsDevMode() in the action code themselves-->
