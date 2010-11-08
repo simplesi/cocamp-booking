@@ -12,6 +12,8 @@ import com.google.appengine.api.datastore.KeyFactory;
 public class AppSetting {
 
 	public static final String DEFAULT_EVENT = "Default.Event";
+	public static final String SETUP_COMPLETE = "setup.complete";
+	
 	
 	@PrimaryKey
 	@Persistent
@@ -40,12 +42,19 @@ public class AppSetting {
 	public String getKey() {
 		return key;
 	}
-	
 	public static String get(String key)
+	{
+		return get(key, false);
+	}
+	
+	public static String get(String key, boolean ignoreMissing)
 	{
 		AppSetting setting = (CannedQueries.getByKey(AppSetting.class, key));
 		
-		if(setting == null) throw new IllegalArgumentException("Application Setting "+key+" does not exist in the datastore");
+		if(setting == null) {
+			if (ignoreMissing) return "";
+			throw new IllegalArgumentException("Application Setting "+key+" does not exist in the datastore");
+		} 
 		return setting.getValue();
 	}
 	

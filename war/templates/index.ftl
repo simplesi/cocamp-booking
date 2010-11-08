@@ -4,27 +4,14 @@
 <@s.actionmessage/>
 <@s.actionerror/>
 
-<h2>Global administrator</h2>
-<ul>
-<li><@s.url id="approvalListURL" namespace="/manageAll" action="approvalList" /><@s.a href="${approvalListURL}">View entries pending approval</@s.a></li>
-<li><@s.url id="userListURL" namespace="/manageAll" action="listUsers" /><@s.a href="${userListURL}">List all users</@s.a></li>
-<li><@s.url id="eventListURL" namespace="/manageAll" action="listEvents" /><@s.a href="${eventListURL}">List all events</@s.a></li>
-<li><@s.url id="orgListURL" namespace="/manageAll" action="listOrgs" /><@s.a href="${orgListURL}">List all organisations</@s.a></li>
-<li><@s.url id="unitListAllURL" namespace="/manageAll" action="listUnits" /><@s.a href="${unitListAllURL}">List all units</@s.a></li>
-<li><@s.url id="bookingListAllURL" namespace="/manageAll" action="listBookings"/><@s.a href="${bookingListAllURL}">List all bookings</@s.a></li>
-</ul>
+<h2>Welcome to CoCamp bookings!</h2>
+<p>You are logged into the CoCamp Booking system - please use the menus above to navigate around.</p>
+<#if Session.USER.accessLevel.canChangeUnit>
+<p>As an <strong>organisational booking secretary</strong>, you can use the menu in the top-right to change the unit that is being displayed.</p>
+</#if>
+<#if Session.USER.accessLevel.canChangeUnit>
+<p>As an <strong>administrator</strong>, you can also use the menu to change which organisation that is being displayed.</p>
+</#if>
 
-<h2>Manage '${Session.CURRENT_ORG.name}'</h2>
-<ul>
-<li><@s.url id="myOrgEditURL" namespace="/manageOrg" action="editOrg"/><@s.a href="${myOrgEditURL}">Edit organisation details</@s.a></li>
-<li><@s.url id="myUnitListURL" namespace="/manageOrg" action="listUnits"/><@s.a href="${myUnitListURL}">List units</@s.a></li>
-<li><@s.url id="myOrgBookingListURL" namespace="/manageOrg" action="listBookings"/><@s.a href="${myOrgBookingListURL}">List all bookings for my organisation</@s.a></li>
-</ul>
-
-<h2>Manage '${Session.CURRENT_UNIT.name}'</h2>
-<ul>
-<li><@s.url id="myUnitEditURL" namespace="/manageUnit" action="editUnit" webKey="${Session.CURRENT_UNIT.webKey}"/><@s.a href="${myUnitEditURL}">Edit unit details</@s.a></li>
-<li><@s.url id="myUnitBookingListURL" namespace="/manageUnit" action="listBookings"/><@s.a href="${myUnitBookingListURL}">List bookings</@s.a></li>
-</ul>
 
 <#include "/templates/footer.ftl">

@@ -1,6 +1,6 @@
 <#if Session?exists && Session.USER?exists>
 <div id="userbar">
-    You are logged in as: ${Session.USER.name}<br><br>
+    Login: ${Session.USER.name}<br><br>
 	<@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
 	<@s.form action="switch">
 	
@@ -8,9 +8,12 @@
 	 It should be value=Session.CURRENT_EVENT.webKey but OGNL then converts that to null having looked the correct value up, 
 	 and hence nameValue property isn't set
 -->
+	  <#if ( allOpenEvents.size() > 1) >
 	  <@s.select name="navEventKey" label="Event"  headerValue="--- Please Select ---" headerKey=""
 	        	list="allOpenEvents" listKey="webKey" listValue="name" value="%{'${Session.CURRENT_EVENT.webKey}'}" />
-	 
+	  <#else>
+	    	Event : ${Session.CURRENT_EVENT.name}<br/>
+	  </#if>  
 	  <#if Session.USER.accessLevel.canChangeOrg>
 	    
 	    	<@s.select name="navOrgKey" label="Org" headerValue="--- Please Select ---" headerKey=""
