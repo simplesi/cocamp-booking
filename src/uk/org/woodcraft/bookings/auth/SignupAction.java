@@ -84,18 +84,19 @@ public class SignupAction extends BasePersistenceAction<User>{
 		String body = "Someone signed up for CoCamp bookings using your email address. \n\n" 
 					+ "If this was you, please go to the following link to confirm this email and enter the booking system. " 
 					+ "If this was not you, please disregard this email. \n"
-					+ buildUserConfirmUrl(user)
+					+ buildUserConfirmData(user)
 					+ "\n\nThanks,The Co-Camp Team";
 		System.out.println(body);
 		EmailUtils.emailUser(user, subject, body);
 	}
 	
 	
-	private String buildUserConfirmUrl(User user)
+	private String buildUserConfirmData(User user)
 	{
 		String baseUrl = Configuration.get().getProperty("baseurl");
 		
-		StringBuilder url = new StringBuilder( baseUrl + "signup/confirmEmail?");
+		String confirmUrl = baseUrl + "signup/confirmEmail?";
+		StringBuilder url = new StringBuilder( confirmUrl );
 		
 		Map<String,String> params = new HashMap<String, String>();
 		params.put("email", user.getEmail());
@@ -109,7 +110,9 @@ public class SignupAction extends BasePersistenceAction<User>{
 		} catch (UnsupportedEncodingException e) {
 			throw new RuntimeException(e);
 		}		
-		return url.toString();
+		
+		return String.format("%s\n\nAlternatively, please visit %s and enter your email address and the following code: %s", 
+							url.toString(), confirmUrl, params.get("hash"));
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class LogoutAction extends ActionSupport implements SessionAware{
 	private Map<String, Object> session;
 	
 	public String execute(){
-		session.clear();
+		session.remove(SessionConstants.USER_HANDLE);
 		
 		addActionMessage("You were successfully logged out");	
 		return SUCCESS;
