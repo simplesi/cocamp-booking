@@ -9,9 +9,12 @@
 	
 	<constant name="struts.action.extension" value=",action"/>	
 	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.reload" value="true" />
 	
 	<!-- constant name="struts.ui.templateDir" value="templates/struts" -->
 	<constant name="struts.ui.theme" value="css_xhtml" />
+	
+	<constant name="struts.custom.i18n.resources" value="language"/>
 	
 	<package name="default" namespace="/" extends="struts-default">
 	
@@ -23,7 +26,7 @@
 				<interceptor-ref name="redirectMessage" />
                 <interceptor-ref name="exception"/>
                 <interceptor-ref name="alias"/>
-                <interceptor-ref name="i18n"/>
+                <!-- interceptor-ref name="i18n"/ -->
                 <interceptor-ref name="checkbox"/>
                 <interceptor-ref name="multiselect"/>
 
@@ -54,7 +57,7 @@
             <interceptor-stack name="defaultInsecureStackWithPrepareParams">
                 <interceptor-ref name="exception"/>
                 <interceptor-ref name="alias"/>
-                <interceptor-ref name="i18n"/>
+                <!-- interceptor-ref name="i18n"/ -->
                 <interceptor-ref name="checkbox"/>
                 <interceptor-ref name="multiselect"/>
                 <interceptor-ref name="params">

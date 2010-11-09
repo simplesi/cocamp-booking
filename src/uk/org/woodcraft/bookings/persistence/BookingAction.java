@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.persistence;
 
+import java.util.Date;
+
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
@@ -46,4 +48,10 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		}
 	}
 
+	public Date getEarliestDate() {
+		return getCurrentEvent().getPublicEventStart();
+	}
+	public Date getLatestDate() {
+		return getCurrentEvent().getPublicEventEnd();
+	}
 }
