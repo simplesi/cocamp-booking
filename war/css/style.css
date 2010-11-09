@@ -280,7 +280,7 @@ footer
 {	height: 30px; font-size: 9pt; padding-top: 14px; color: #b3b3b3;	text-align: center;	margin-right: auto;	margin-left: auto; width: 750px;
 }
 
-footer a, span
+footer a, footer span
 {	padding: 0px 10px 0px 10px;
 }
 
@@ -430,6 +430,13 @@ header
 
 #content .wwgrp, #userbar .wwgrp
 {   padding-bottom: 10px;
+}
+
+#booking_arrivalDate, #booking_dob, #booking_departureDate, #event_publicEventStart,
+#event_publicEventEnd, #event_internalEventStart, #event_internalEventEnd
+{   background-image: url(/css/custom-theme/images/ui-icon-calendar.png);
+	background-position: 98%;
+	background-repeat: no-repeat;
 }
 
 #wwctrl_signup_signup, #wwctrl_booking_Save, #wwctrl_booking_Cancel, 
