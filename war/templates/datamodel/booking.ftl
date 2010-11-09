@@ -1,7 +1,15 @@
 <#assign pagetitle = 'Booking Edit'>
 
 <#include "/templates/header.ftl">
- 
+
+<script>
+  $(function() {
+  	$( "#booking_dob" ).datepicker();
+  	$( "#booking_arrivalDate" ).datepicker();
+  	$( "#booking_departureDate" ).datepicker();
+  });
+</script>
+
 <h2>Booking Edit</h2>
 
 <@s.actionerror/>

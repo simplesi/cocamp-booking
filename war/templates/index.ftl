@@ -13,5 +13,4 @@
 <p>As an <strong>administrator</strong>, you can also use the menu to change which organisation that is being displayed.</p>
 </#if>
 
-
 <#include "/templates/footer.ftl">

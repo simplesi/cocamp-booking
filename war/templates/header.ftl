@@ -6,23 +6,11 @@
 
   <!-- Using HTML5 Boilerplate v0.9.1 [Documented] http://html5boilerplate.com/ -->
 
-  <!-- www.phpied.com/conditional-comments-block-downloads/ -->
-  <!--[if IE]><![endif]-->
-
-  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
-       Remove this if you use the .htaccess -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <title>CoCamp - ${pagetitle}</title>
   <meta name="description" content="">
   <meta name="author" content="">
-
-  <!--  Mobile Viewport Fix
-        j.mp/mobileviewport & davidbcalhoun.com/2010/viewport-metatag 
-  device-width : Occupy full width of the screen in its current orientation
-  initial-scale = 1.0 retains dimensions instead of zooming out if page height > device height
-  maximum-scale = 1.0 retains dimensions instead of zooming in if page width < device width
-  -->
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
 
   <!-- Place favicon.ico and apple-touch-icon.png in the root of your domain and delete these references -->
@@ -30,14 +18,22 @@
 
   <!-- CSS : implied media="all" -->
   <link rel="stylesheet" href="/css/style.css?v=1">
-
+  <link rel="stylesheet" href="/css/custom-theme/jquery-ui-1.8.6.custom.css" />	
+  <link rel="stylesheet" href="/css/custom-theme/ui.jqgrid.css" />
   <!-- For the less-enabled mobile browsers like Opera Mini -->
   <link rel="stylesheet" media="handheld" href="/css/handheld.css?v=1">
-
  
   <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
   <script src="/js/modernizr-1.5.min.js"></script>
 
+  <!-- Grab Google CDN's jQuery. fall back to local if necessary -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+  <script>!window.jQuery && document.write('<script src="/js/jquery-1.4.2.min.js"><\/script>')</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"></script>
+  <script>!window.jQuery && document.write('<script src="/js/jquery-ui-1.8.6.min.js"><\/script>')</script>
+
+  <script src="/js/grid.locale-en.js"></script>
+  <script src="/js/jquery.jqGrid.min.js"></script>
 </head>
 
 <!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
