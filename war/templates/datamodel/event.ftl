@@ -2,6 +2,15 @@
 
 <#include "/templates/header.ftl">
  
+<script>
+  $(function() {
+  	$( "#event_publicEventStart" ).datepicker();
+  	$( "#event_publicEventEnd" ).datepicker();
+  	$( "#event_internalEventStart" ).datepicker();
+  	$( "#event_internalEventEnd" ).datepicker();
+  });
+</script>
+
 <h2>Event Edit</h2>
 <@s.actionmessage/>
 <@s.actionerror/>
@@ -21,5 +30,8 @@
         <@s.submit value="Cancel" action="cancelEditEvent"/>
     </@s.push>
 </@s.form>
+
+
+  
 
 <#include "/templates/footer.ftl">
