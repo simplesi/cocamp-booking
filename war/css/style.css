@@ -592,7 +592,7 @@ header
 /*
         ul#primary-nav li.menubar { background:  url(graphics/arrow-down.gif) right center no-repeat; }
      */   
-        ul#primary-nav li li.menubar { background:  url(graphics/arrow-right.gif) right center no-repeat; }
+        ul#primary-nav li li.menubar { background:  url(/graphics/arrow-right.gif) right center no-repeat; }
  
         ul#primary-nav li:hover,
         ul#primary-nav li.over { background-color: #f9f9f9 !important; }

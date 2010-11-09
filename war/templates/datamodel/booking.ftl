@@ -4,9 +4,13 @@
 
 <script>
   $(function() {
-  	$( "#booking_dob" ).datepicker();
-  	$( "#booking_arrivalDate" ).datepicker();
-  	$( "#booking_departureDate" ).datepicker();
+  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
+  	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/yy', 
+  											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d")}), 
+  											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d-1")}) });
+  	$( "#booking_departureDate" ).datepicker({ dateFormat: 'dd/mm/yy', 
+  											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d+1")}), 
+  											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d")}) });
   });
 </script>
 
