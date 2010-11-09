@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<include file="struts-default.xml"></include>
+	<constant name="struts.action.excludePattern" value="/_ah/.*"/>	
+	
+	<constant name="struts.action.extension" value=",action"/>	
+	<constant name="struts.devMode" value="true" />
+	
+	<!-- constant name="struts.ui.templateDir" value="templates/struts" -->
+	<constant name="struts.ui.theme" value="css_xhtml" />
+	
+	<package name="default" namespace="/" extends="struts-default">
+	
+		<interceptors>
+			<interceptor name="login" class="uk.org.woodcraft.bookings.auth.LoginInterceptor" />
+			<interceptor name="redirectMessage" class="uk.org.woodcraft.bookings.interceptors.RedirectMessageInterceptor" />
+
+			<interceptor-stack name="defaultLoginStackWithPrepareParams">
+				<interceptor-ref name="redirectMessage" />
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="login"/>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+            
+            <!-- For actions not requiring the user to be logged in -->
+            <interceptor-stack name="defaultInsecureStackWithPrepareParams">
+                <interceptor-ref name="exception"/>
+                <interceptor-ref name="alias"/>
+                <interceptor-ref name="i18n"/>
+                <interceptor-ref name="checkbox"/>
+                <interceptor-ref name="multiselect"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="servletConfig"/>
+                <interceptor-ref name="prepare"/>
+                <interceptor-ref name="chain"/>
+                <interceptor-ref name="modelDriven"/>
+                <interceptor-ref name="fileUpload"/>
+                <interceptor-ref name="staticParams"/>
+                <interceptor-ref name="actionMappingParams"/>
+                <interceptor-ref name="params">
+                    <param name="excludeParams">dojo\..*,^struts\..*</param>
+                </interceptor-ref>
+                <interceptor-ref name="conversionError"/>
+                <interceptor-ref name="validation">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+                <interceptor-ref name="workflow">
+                    <param name="excludeMethods">input,back,cancel,browse</param>
+                </interceptor-ref>
+            </interceptor-stack>
+		</interceptors>
+		
+		
+		<default-interceptor-ref name="defaultLoginStackWithPrepareParams"/>
+
+		<default-action-ref name="index" />
+	
+	    <global-results>
+            <result name="login" type="freemarker">/templates/auth/login.ftl</result>
+            <result name="login-success" type="freemarker">/templates/index.ftl</result>
+            <result name="confirm-delete" type="freemarker">/templates/datamodel/confirmDelete.ftl</result>
+        </global-results>
+	
+        <action name="index">
+			<result type="freemarker">/templates/index.ftl</result>
+		</action>
+				
+		<action name="logout" class="uk.org.woodcraft.bookings.auth.LogoutAction">
+			<result type="redirectAction">index</result>
+		</action>		
+				
+		<action name="switch" method="execute" class="uk.org.woodcraft.bookings.SwitchTargetAction">
+			<result type="redirectAction">index</result>
+		</action>
+	</package>
+	
+	<package name="signup" namespace="/signup" extends="default">
+		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
+		<default-action-ref name="signup" />
+		
+		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="edit">
+			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
+		</action>
+
+		<action name="processSignup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="processSignup">
+			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
+			<result name="email-confirm" type="redirect">confirmEmail</result>
+		</action>
+		
+		<action name="confirmEmail" class="uk.org.woodcraft.bookings.auth.ConfirmEmailAction">
+			<result name="input" type="freemarker">/templates/auth/emailConfirm.ftl</result>
+			<result name="success" type="freemarker">/templates/auth/login.ftl</result>
+		</action>
+		
+		<action name="addOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
+		</action>
+		<action name="saveOrg" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
+			<result type="redirectAction">signup</result>
+		</action>
+		
+		<action name="addUnit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+		</action>
+		<action name="saveUnit" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+			<result name="success" type="redirectAction">signup</result>
+		</action>
+	</package>
+	
+	<package name="manageUnit" namespace="/manageUnit" extends="default">	
+	    <action name="index">
+	    	<result name="input" type="freemarker">/templates/index.ftl</result>
+			<result type="freemarker">/templates/index.ftl</result>
+		</action>
+		<action name="redirectToIndex">
+			<result name="input" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+		</action>		
+			
+		<!-- For the unit -->	
+		<action name="editUnit" method="editCurrent" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+		</action>
+		<action name="saveUnit" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="redirect">editUnit</result>
+			<result type="redirect">redirectToIndex</result>
+		</action>
+		<action name="cancelEditUnit">
+			<result type="redirect">redirectToIndex</result>
+		</action>
+
+		<!-- For bookings in this unit -->
+		<action name="listBookings" method="listForUnit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="freemarker">/templates/datamodel/bookingList.ftl</result>
+			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
+		</action>	
+		<action name="redirectToBookingList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listBookings</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">listBookings</param>
+			</result>
+		</action>
+		
+		<action name="editBooking" method="edit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
+		</action>
+		<action name="saveBooking" method="save" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result type="redirect">redirectToBookingList</result>
+		</action>
+		<action name="deleteBooking" method="delete" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToBookingList</result> -->
+			<result name="error" type="redirectAction">index</result>
+			<result name="cancel-delete" type="redirect">redirectToBookingList</result>
+			<result type="redirect">redirectToBookingList</result>
+		</action>
+		<action name="cancelEditBooking">
+			<result type="redirect">redirectToBookingList</result>
+		</action>
+		
+	</package>
+	
+	<package name="manageOrg" namespace="/manageOrg" extends="manageUnit">	
+		<action name="index">
+			<result name="input" type="freemarker">/templates/index.ftl</result>
+			<result type="freemarker">/templates/index.ftl</result>
+		</action>
+		<action name="redirectToIndex">
+			<result name="input" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+		</action>
+		
+		<!-- For the org -->	
+		<action name="editOrg" method="editCurrent" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
+		</action>
+		<action name="saveOrg" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="redirect">editOrg</result>
+			<result type="redirect">redirectToIndex</result>
+		</action>
+		<action name="cancelEditOrg">
+			<result type="redirect">redirectToIndex</result>
+		</action>
+		
+		<!-- For units in the org -->
+		<action name="listUnits" method="list" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unitList.ftl</result>
+			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
+		</action>
+		<action name="redirectToUnitList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listUnits</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">listUnits</param>
+			</result>
+		</action>
+		
+		<action name="editUnit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+		</action>
+		<action name="deleteUnit" method="delete" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result type="redirect">redirectToUnitList</result>
+			<result name="cancel-delete" type="redirect">redirectToUnitList</result>
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToUnitList</result> -->
+			<result name="error" type="redirectAction">index</result>
+		</action>
+		<action name="cancelEditUnit">
+			<result type="redirect">redirectToUnitList</result>
+		</action>	
+			
+		<!--  For org bookings -->
+		<action name="listBookings" method="listForOrg" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="freemarker">/templates/datamodel/bookingList.ftl</result>
+			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
+		</action>	
+		<action name="redirectToBookingList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listBookings</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">listBookings</param>
+			</result>
+		</action>	
+			
+	</package>
+	
+	<package name="manageAll" namespace="/manageAll" extends="manageOrg">
+		<action name="index">
+			<result type="freemarker">/templates/index.ftl</result>
+			<result name="input" type="freemarker">/templates/index.ftl</result>
+		</action>	
+		<action name="redirectToIndex">
+			<result name="input" type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">index</param>
+			</result>
+		</action>
+		
+		<!-- For all orgs -->	
+		<action name="listOrgs" method="list" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisationList.ftl</result>
+			<result type="freemarker">/templates/datamodel/organisationList.ftl</result>
+		</action>
+		<action name="redirectToOrgList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listOrgs</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">listOrgs</param>
+			</result>
+		</action>
+		<action name="editOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
+		</action>
+		<action name="deleteOrg" method="delete" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result type="redirect">redirectToOrgList</result>
+			<result name="cancel-delete" type="redirect">redirectToOrgList</result>
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToOrgList</result> -->
+			<result name="error" type="redirectAction">index</result>
+		</action>
+		<action name="cancelEditOrg">
+			<result type="redirect">redirectToOrgList</result>
+		</action>	
+		
+		
+		<!-- For all units -->
+		<action name="listUnits" method="listAll" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unitList.ftl</result>
+			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
+		</action>
+		<action name="redirectToUnitList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listUnits</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">listUnits</param>
+			</result>
+		</action>
+		<action name="cancelEditUnit">
+			<result type="redirect">redirectToUnitList</result>
+		</action>	
+		
+		<!--  For all bookings -->
+		<action name="listBookings" method="list" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
+		</action>	
+		<action name="redirectToBookingList">
+			<result type="redirectAction">
+				<param name="actionName">listBookings</param>
+			</result>
+		</action>
+			
+		<!--  For all events -->
+		<action name="listEvents" method="list" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input" type="chain">listEvents</result>
+			<result type="freemarker">/templates/datamodel/eventList.ftl</result>
+		</action>
+		<action name="redirectToEventList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listEvents</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">listEvents</param>
+			</result>
+		</action>
+		<action name="editEvent" method="edit" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input" type="freemarker">/templates/datamodel/event.ftl</result>
+		</action>
+		<action name="saveEvent" method="save" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input" type="redirect">editEvent</result>
+			<result type="redirect">redirectToEventList</result>
+		</action>
+		<action name="deleteEvent" method="delete" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result type="redirect">redirectToEventList</result>
+			<result name="cancel-delete" type="redirect">redirectToEventList</result>
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToEventList</result> -->
+			<result name="error" type="redirectAction">index</result>
+		</action>
+		<action name="cancelEditEvent">
+			<result type="redirect">redirectToEventList</result>
+		</action>	
+			
+		<!-- For all users -->
+		<action name="listUsers" method="list" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input" type="freemarker">/templates/datamodel/userList.ftl</result>
+			<result type="freemarker">/templates/datamodel/userList.ftl</result>
+		</action>
+		<action name="redirectToUserList">
+			<result name="input" type="redirectAction">
+				<param name="actionName">listUsers</param>
+			</result>
+			<result type="redirectAction">
+				<param name="actionName">listUsers</param>
+			</result>
+		</action>
+		<action name="editUser" method="edit" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
+		</action>
+		<action name="saveUser" method="save" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input" type="redirect">editUser</result>
+			<result type="redirect">redirectToUserList</result>
+		</action>
+		<action name="deleteUser" method="delete" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result type="redirect">redirectToUserList</result>
+			<result name="cancel-delete" type="redirect">redirectToUserList</result>
+			 <!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToUserList</result> -->
+			<result name="error" type="redirectAction">index</result>
+		</action>
+		<action name="cancelEditUser">
+			<result type="redirect">redirectToUserList</result>
+		</action>	
+		
+		
+		<!--  admin approval pages -->
+		<action name="approvalList" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkApproveUsers" method="bulkApproveUsers" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkDeleteUsers" method="bulkDeleteUsers" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkApproveOrgs" method="bulkApproveOrgs" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkDeleteOrgs" method="bulkDeleteOrgs" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkApproveUnits" method="bulkApproveUnits" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>
+		<action name="bulkDeleteUnits" method="bulkDeleteUnits" class="uk.org.woodcraft.bookings.PendingAdminActions">
+			<result type="freemarker">/templates/approvalLists.ftl</result>
+		</action>		
+		
+	</package>
+
+	<!--  Protected through datastore variable so only run once -->
+	<package name="setup" namespace="/setup" extends="default">
+		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
+		
+		<default-action-ref name="setup" />
+		
+		<action name="setup" method="execute" class="uk.org.woodcraft.bookings.CreateInitialProdDataAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>
+	</package>
+
+
+	<!--  These actions must be protected using SecurityModel.checkIsDevMode() in the action code themselves-->
+	<package name="dev" namespace="/developer" extends="default">
+		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
+		
+		<action name="createtestdata" method="execute" class="uk.org.woodcraft.bookings.dev.CreateTestDataAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>	
+		
+		<action name="runQueries" method="execute" class="uk.org.woodcraft.bookings.dev.RunQueriesAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>	
+		
+		<action name="preDeployment" method="execute" class="uk.org.woodcraft.bookings.dev.PreDeploymentAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>	
+	</package>
+	
+</struts>
