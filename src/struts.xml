@@ -170,7 +170,7 @@
 
 		<!-- For bookings in this unit -->
 		<action name="listBookings" method="listForUnit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
-			<result name="input" type="freemarker">/templates/datamodel/bookingList.ftl</result>
+			<result name="input" type="chain">listBookings</result>
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
 		</action>	
 		<action name="redirectToBookingList">
@@ -186,6 +186,7 @@
 			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
 		</action>
 		<action name="saveBooking" method="save" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="redirect">redirectToBookingList</result>
 			<result type="redirect">redirectToBookingList</result>
 		</action>
 		<action name="deleteBooking" method="delete" class="uk.org.woodcraft.bookings.persistence.BookingAction">

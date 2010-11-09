@@ -14,7 +14,7 @@ import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(detachable="true")
-public class Booking extends KeyBasedData implements NamedEntity{
+public class Booking extends KeyBasedData implements NamedEntity, DeleteRestricted{
 
 	private static final long serialVersionUID = 1L;
 
@@ -117,12 +117,12 @@ public class Booking extends KeyBasedData implements NamedEntity{
 		return "Adult";
 	}
 
-	public Email getEmail() {
-		return email;
+	public String getEmail() {
+		return email.getEmail();
 	}
 
-	public void setEmail(Email email) {
-		this.email = email;
+	public void setEmail(String email) {
+		this.email = new Email(email);
 	}
 
 	public Date getArrivalDate() {
@@ -205,6 +205,16 @@ public class Booking extends KeyBasedData implements NamedEntity{
 	public void updatePrice() {
 		PricingStrategy pricer = PricingFactory.getPricingStrategy();
 		setPrice(pricer.priceOf(this));
+	}
+
+	@Override
+	public String getDeleteConditionError() {
+		return "";
+	}
+
+	@Override
+	public boolean deleteRequiresConfirmation() {
+		return true;
 	}
 	
 }

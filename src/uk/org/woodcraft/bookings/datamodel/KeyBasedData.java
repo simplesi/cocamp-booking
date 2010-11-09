@@ -44,6 +44,7 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	}
 	
 	public String getWebKey() {
+		if (key == null) return null;
 		return KeyFactory.keyToString(key);
 	}
 	
