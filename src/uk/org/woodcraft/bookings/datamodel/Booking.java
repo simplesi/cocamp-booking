@@ -12,6 +12,7 @@ import uk.org.woodcraft.bookings.utils.DateUtils;
 
 import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 
 @PersistenceCapable(detachable="true")
 public class Booking extends KeyBasedData implements NamedEntity, DeleteRestricted{
@@ -41,6 +42,24 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 
 	@Persistent
 	private Key villageKey = null;
+	
+	@Persistent
+	private String phoneNumber;
+	
+	@Persistent
+	private String membershipNumber;
+	
+	@Persistent
+	private Diet diet;
+	
+	@Persistent
+	private String dietNotes;
+	
+	@Persistent
+	private Text otherNeeds;
+	
+	@Persistent
+	private boolean becomeMember = true;
 	
 	/**
 	 * The price of the booking, in pence
@@ -118,6 +137,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	}
 
 	public String getEmail() {
+		if (email == null) return null;
 		return email.getEmail();
 	}
 
@@ -215,6 +235,55 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	@Override
 	public boolean deleteRequiresConfirmation() {
 		return true;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getMembershipNumber() {
+		return membershipNumber;
+	}
+
+	public void setMembershipNumber(String membershipNumber) {
+		this.membershipNumber = membershipNumber;
+	}
+
+	public Diet getDiet() {
+		return diet;
+	}
+
+	public void setDiet(Diet diet) {
+		this.diet = diet;
+	}
+
+	public String getDietNotes() {
+		return dietNotes;
+	}
+
+	public void setDietNotes(String dietNotes) {
+		this.dietNotes = dietNotes;
+	}
+
+	public String getOtherNeeds() {
+		if (otherNeeds == null) return null;
+		return otherNeeds.getValue();
+	}
+
+	public void setOtherNeeds(String otherNeeds) {
+		this.otherNeeds = new Text(otherNeeds);
+	}
+
+	public boolean getBecomeMember() {
+		return becomeMember;
+	}
+
+	public void setBecomeMember(boolean becomeMember) {
+		this.becomeMember = becomeMember;
 	}
 	
 }

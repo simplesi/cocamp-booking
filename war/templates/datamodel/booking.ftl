@@ -4,11 +4,11 @@
 
 <script>
   $(function() {
-  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/yy', changeYear: true });
-  	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/yy', 
+  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/y', changeYear: true });
+  	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/y', 
   											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d")}), 
   											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d-1")}) });
-  	$( "#booking_departureDate" ).datepicker({ dateFormat: 'dd/mm/yy', 
+  	$( "#booking_departureDate" ).datepicker({ dateFormat: 'dd/mm/y', 
   											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d+1")}), 
   											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d")}) });
   });
@@ -22,12 +22,21 @@
     <@s.push value="model">
         <@s.hidden name="webKey"/>
         <@s.textfield name="name" label="Name"/>
+        <@s.textfield name="dob" label="Date Of Birth" value="%{getText('format.date',{dob})}"/>
+        <#if dob?exists >Age group for event: ${model.ageGroup}<br/></#if>
+        
         <@s.textfield name="email" label="Email"/>
-        <!-- todo: pickers -->
-        <@s.textfield name="dob" label="Date Of Birth"/>
-        Age group for event: ${model.ageGroup}<br/>
-        <@s.textfield name="arrivalDate" label="Arrival Date"/>
-        <@s.textfield name="departureDate" label="Departure Date"/>
+        <@s.textfield name="phoneNumber" label="Phone Number"/>
+      	<@s.textfield name="membershipNumber" label="Wcf Membership Number (if a member)"/> 
+      	
+        <@s.select name="diet" list="diets" label="Diet"/>
+        <@s.textfield name="dietNotes" label="Additional diet notes"/>
+        <@s.textarea name="otherNeeds" label="Other needs (disability, allergies, health conditions)"/>
+        
+        <@s.checkbox label="Wants to become a CoCamp member" name="becomeMember"/>
+        
+        <@s.textfield name="arrivalDate" label="Arrival Date" value="%{getText('format.date',{arrivalDate})}"/>
+        <@s.textfield name="departureDate" label="Departure Date" value="%{getText('format.date',{departureDate})}"/>
 
         <@s.submit name="Save" value="Save" action="saveBooking"/>
         <@s.submit value="Cancel Edit" action="cancelEditBooking"/>

@@ -13,7 +13,7 @@
 	
 	<!-- constant name="struts.ui.templateDir" value="templates/struts" -->
 	<constant name="struts.ui.theme" value="css_xhtml" />
-	
+	<constant name="struts.locale" value="en_GB" />
 	<constant name="struts.custom.i18n.resources" value="language"/>
 	
 	<package name="default" namespace="/" extends="struts-default">
