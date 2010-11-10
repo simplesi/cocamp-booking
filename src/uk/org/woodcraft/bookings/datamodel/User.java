@@ -30,7 +30,7 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 	@Persistent
 	private String passwordEncrypted;
 	
-	@Persistent(serialized="true")
+	@Persistent
 	private Accesslevel accessLevel;
 	
 	@Persistent

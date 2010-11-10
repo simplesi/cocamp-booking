@@ -4,10 +4,10 @@
  
 <script>
   $(function() {
-  	$( "#event_publicEventStart" ).datepicker({ dateFormat: 'dd/mm/yy' });
-  	$( "#event_publicEventEnd" ).datepicker({ dateFormat: 'dd/mm/yy' });
-  	$( "#event_internalEventStart" ).datepicker({ dateFormat: 'dd/mm/yy' });
-  	$( "#event_internalEventEnd" ).datepicker({ dateFormat: 'dd/mm/yy' });
+  	$( "#event_publicEventStart" ).datepicker({ dateFormat: 'dd/mm/y' });
+  	$( "#event_publicEventEnd" ).datepicker({ dateFormat: 'dd/mm/y' });
+  	$( "#event_internalEventStart" ).datepicker({ dateFormat: 'dd/mm/y' });
+  	$( "#event_internalEventEnd" ).datepicker({ dateFormat: 'dd/mm/y' });
   });
 </script>
 

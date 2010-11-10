@@ -1,10 +1,13 @@
 package uk.org.woodcraft.bookings.persistence;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
+import uk.org.woodcraft.bookings.datamodel.Diet;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 
@@ -53,5 +56,9 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	}
 	public Date getLatestDate() {
 		return getCurrentEvent().getPublicEventEnd();
+	}
+	public Collection<Diet> getDiets()
+	{
+		return Arrays.asList(Diet.values());
 	}
 }
