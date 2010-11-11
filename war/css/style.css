@@ -256,7 +256,7 @@ html, body
 #main
 {   overflow:auto;
 	padding-bottom: 45px;   /* must be same height as the footer */
-	padding-top: 75px;
+	/*padding-top: 75px;*/
 	font-family: 'Lucida Grande', 'Lucida Sans Unicode', Arial, Verdana, sans-serif;
 	width: 100%;
 	min-height: 300px;
@@ -395,10 +395,33 @@ header
 
 
 #userbar
-{   border-left:1px #CCC solid;
-	padding: 20px;
-	float:right;
+{   border: 1px #CCC solid;
+	border-top: none;
+	padding: 10px 10px;
+	width: 750px;
 }
+
+#userbar #wwgrp_switch_navEventKey, #userbar #wwgrp_switch_navOrgKey, #userbar #wwgrp_switch_navUnitKey, #userbar #wwctrl_switch_Go
+{   float: right;
+	padding-right: 10px;
+}
+
+#userbar select
+{
+}
+
+#switch_navEventKey, #switch_navOrgKey, #switch_navUnitKey, #userbar #switch_Gox
+{	width: 150px;
+}
+
+#userbar #switch_Go
+{	width: 50px;	
+}
+
+#content
+{	padding-top: 45px;
+}
+
 #content td
 {   padding: 7px;   }
 
@@ -408,7 +431,7 @@ header
 #content label
 {   position: relative;   top: 5px;   padding-bottom: 0px;}
 
-#content input[type=text], input[type=password], textarea, select
+#content input[type=text], #content input[type=password], #content textarea, #content select
 {   background-color: #e7e7e7;
     border: solid #b8b8b8 1px;
 	padding: 8px;
@@ -420,7 +443,7 @@ header
 #content textarea
 {   height: 5em;   }
 
-#content .wwgrp, .wwlbl, .wwctrl
+#content .wwgrp, #content .wwlbl, #content .wwctrl
 {	/*background-color: pink;*/
 }
 
@@ -440,7 +463,8 @@ header
 }
 
 #wwctrl_signup_signup, #wwctrl_booking_Save, #wwctrl_booking_Cancel, 
-#wwctrl_organisation_Save, #wwctrl_organization_Cancel, #wwctrl_unit_Save
+#wwctrl_organisation_Save, #wwctrl_organization_Cancel, #wwctrl_unit_Save,
+#wwctrl_booking_cancelEditBooking
 {	width: 18em;
 	padding: 5px 10px 0px 10px;
 }
@@ -527,13 +551,13 @@ header
             width: 150px;
             margin: 0;
             padding: 0;
-            background: transparent; /* IE6 Bug */
+            background: #DEDADA;
             font-size: 100%;
         }
 
         ul#primary-nav {
             float: left;
-            width: 600px;
+            width: 450px;
         }
 
         ul#primary-nav:after {
