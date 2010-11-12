@@ -14,9 +14,9 @@
 	 				  doubleLabel="Unit" doubleName="unitWebKey" doubleList="allUnits" doubleListKey="webKey" doubleListValue="Name"
 	 				  	doubleHeaderValue="--- Please Select ---" DoubleHeaderKey=""
 	 				  />
-    <@s.url action="addOrg" namespace="/" id="addOrgURL"/>
+    <@s.url action="addOrg" namespace="/signup/" id="addOrgURL"/>
     <@s.a href="${addOrgURL}">Add an organisation</@s.a> | 
-    <@s.url action="addUnit" namespace="/" id="addUnitURL"/>
+    <@s.url action="addUnit" namespace="/signup/" id="addUnitURL"/>
     <@s.a href="${addUnitURL}">Add a unit</@s.a>
 
     <@s.submit name="signup" value="Sign Up"></@s.submit>

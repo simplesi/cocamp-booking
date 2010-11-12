@@ -66,10 +66,16 @@ public class CannedQueries {
 		
 		Query query = pm.newQuery(Event.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
-		query.setFilter("name == nameParam && key != ignoreKeyParam");
-		query.declareParameters("String nameParam, Key ignoreKeyParam");
-		
-		return querySingleDetachAndClose(Event.class, query, eventName, ignoreKey);
+		if (ignoreKey == null)
+		{
+			query.setFilter("name == nameParam");
+			query.declareParameters("String nameParam");
+			return querySingleDetachAndClose(Event.class, query, eventName);
+		} else {
+			query.setFilter("name == nameParam && key != ignoreKeyParam");
+			query.declareParameters("String nameParam, Key ignoreKeyParam");
+			return querySingleDetachAndClose(Event.class, query, eventName, ignoreKey);
+		}
 	}
 	
 	public static Event eventByKey(Key key)
@@ -132,10 +138,17 @@ public class CannedQueries {
 		
 		Query query = pm.newQuery(Village.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
-		query.setFilter("name == nameParam && eventKey == eventKeyParam && key != ignoreKeyParam");
-		query.declareParameters("String nameParam, Key eventKeyParam, Key ignoreKeyParam");
+		if(ignoreKey == null)
+		{
+			query.setFilter("name == nameParam && eventKey == eventKeyParam");
+			query.declareParameters("String nameParam, Key eventKeyParam");
+			return querySingleDetachAndClose(Village.class, query,  villageName, eventKey);
+		} else {
+			query.setFilter("name == nameParam && eventKey == eventKeyParam && key != ignoreKeyParam");
+			query.declareParameters("String nameParam, Key eventKeyParam, Key ignoreKeyParam");
+			return querySingleDetachAndClose(Village.class, query,  villageName, eventKey, ignoreKey);
+		}
 		
-		return querySingleDetachAndClose(Village.class, query,  villageName, eventKey, ignoreKey);
 	}
 	
 	/**
@@ -199,10 +212,17 @@ public class CannedQueries {
 		
 		Query query = pm.newQuery(Organisation.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
-		query.setFilter("name == nameParam && key != ignoreKeyParam");
-		query.declareParameters("String nameParam, Key ignoreKeyParam");
 		
-		return querySingleDetachAndClose(Organisation.class, query, orgName, ignoreKey);
+		if (ignoreKey == null)
+		{
+			query.setFilter("name == nameParam");
+			query.declareParameters("String nameParam");
+			return querySingleDetachAndClose(Organisation.class, query, orgName);			
+		} else {	
+			query.setFilter("name == nameParam && key != ignoreKeyParam");
+			query.declareParameters("String nameParam, Key ignoreKeyParam");
+			return querySingleDetachAndClose(Organisation.class, query, orgName, ignoreKey);
+		}
 	}
 	
 	public static Organisation orgByKey (Key orgKey)

@@ -133,6 +133,7 @@ public class SignupAction extends BasePersistenceAction<User>{
 				// use the org of the unit if possible so we get consistency
 				user.setOrganisationKey(userAddedUnit.getOrganisationKey());
 				user.setUnitKey(userAddedUnit.getKey());
+				setModel(user);
 				return;
 			}
 			

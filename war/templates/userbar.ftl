@@ -7,7 +7,9 @@
 	 It should be value=Session.CURRENT_EVENT.webKey but OGNL then converts that to null having looked the correct value up, 
 	 and hence nameValue property isn't set
 -->
+	<#if Session.USER.accessLevel.canChangeUnit || Session.USER.accessLevel.canChangeOrg || ( allOpenEvents.size() > 1) >
 	<@s.submit name="Go" value="Go"></@s.submit>
+	</#if>
 	  
 	  <#if Session.USER.accessLevel.canChangeUnit>   	
 	    	<@s.select value="%{'${Session.CURRENT_UNIT.webKey}'}"
