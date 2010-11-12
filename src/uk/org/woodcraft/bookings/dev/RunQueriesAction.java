@@ -30,11 +30,15 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.allEvents(false);
 		CannedQueries.allEvents(true);
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
+		@SuppressWarnings("unused")
+		Event duplicateEvent = CannedQueries.eventByName(TestConstants.EVENT1_NAME, event1.getKeyCheckNotNull());
 		CannedQueries.eventByKey(event1.getKeyCheckNotNull());
 		
 		// Village queries
 		CannedQueries.villagesForEvent(event1);
 		Village village1 = CannedQueries.villageByName(TestConstants.VILLAGE1_NAME, event1);
+		@SuppressWarnings("unused")
+		Village duplicateVillage = CannedQueries.villageByName(TestConstants.VILLAGE1_NAME, event1.getKeyCheckNotNull(), village1.getKeyCheckNotNull());
 		CannedQueries.villageByKey(village1.getKeyCheckNotNull());
 		
 		// Org queries
@@ -42,6 +46,8 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.allOrgs(true);
 		CannedQueries.allUnapprovedOrgs();
 		Organisation org1 = CannedQueries.orgByName(TestConstants.ORG1_NAME);
+		@SuppressWarnings("unused")
+		Organisation duplicateOrg = CannedQueries.orgByName(TestConstants.ORG1_NAME, org1.getKeyCheckNotNull());
 		CannedQueries.orgByKey(org1.getKeyCheckNotNull());
 		
 		// Unit queries
@@ -49,6 +55,8 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.allUnits(true);
 		CannedQueries.allUnapprovedUnits();
 		Unit unit1 = CannedQueries.unitByName(TestConstants.UNIT1_NAME, org1);
+		@SuppressWarnings("unused")
+		Unit duplicateUnit = CannedQueries.unitByName(TestConstants.UNIT1_NAME, org1.getKeyCheckNotNull(), unit1.getKey());
 		CannedQueries.unitByKey(unit1.getKeyCheckNotNull());
 		CannedQueries.unitsForOrg(org1.getKeyCheckNotNull(), false);
 		CannedQueries.unitsForOrg(org1.getKeyCheckNotNull(), true);

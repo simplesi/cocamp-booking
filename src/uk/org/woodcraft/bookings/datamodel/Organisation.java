@@ -1,18 +1,21 @@
 package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
 
 import com.google.appengine.api.datastore.Text;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
-public class Organisation extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted{
+public class Organisation extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted, ValidatableModelObject{
 		
 	private static final long serialVersionUID = 1L;
 
@@ -92,6 +95,21 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	@Override
 	public boolean deleteRequiresConfirmation() {
 		return true;
+	}
+	
+	@Override
+	public Map<String, String> getValidationErrors() {
+		Map<String,String> errors = null;
+		if (getName() != null){
+			Organisation clashingOrg = CannedQueries.orgByName(getName(), getKey());
+			
+			if (clashingOrg != null )
+			{
+				errors = new HashMap<String, String>(1);
+				errors.put("name", "This name is already in the bookings system. Please use another" );
+			}
+		}
+		return errors;
 	}
 	
 }

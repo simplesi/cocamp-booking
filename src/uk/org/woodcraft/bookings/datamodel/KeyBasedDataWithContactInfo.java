@@ -29,7 +29,7 @@ public abstract class KeyBasedDataWithContactInfo extends KeyBasedData {
 		this.email = email;
 	}
 	
-	@EmailValidator(type = ValidatorType.FIELD, message = "Email must be blank or valid" )
+	@EmailValidator(type = ValidatorType.FIELD, message = "Email must be valid or blank" )
 	public String getEmail()
 	{
 		return email;

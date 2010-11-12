@@ -1,18 +1,21 @@
 package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
 
 import com.google.appengine.api.datastore.Key;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
-public class Village extends KeyBasedData implements NamedEntity{
+public class Village extends KeyBasedData implements NamedEntity, ValidatableModelObject{
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,6 +64,21 @@ public class Village extends KeyBasedData implements NamedEntity{
 	
 	public String toString() {
 		return getName();
+	}
+	
+	@Override
+	public Map<String, String> getValidationErrors() {
+		Map<String,String> errors = null;
+		if (getName() != null){
+			Village clashingVillage = CannedQueries.villageByName(getName(), getEventKey(), getKey());
+			
+			if (clashingVillage != null )
+			{
+				errors = new HashMap<String, String>(1);
+				errors.put("name", "This name is already in the bookings system. Please use another" );
+			}
+		}
+		return errors;
 	}
 	
 }

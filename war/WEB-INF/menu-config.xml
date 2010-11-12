@@ -9,7 +9,7 @@
   <Menu name="ManageUnit" title="My Unit" >
        <Item name="UnitBookings" 	title="Bookings">
            <Item name="UnitBookingsList"   	title="Current Bookings"		location="/manageUnit/listBookings"/>
-           <Item name="UnitBookingsAdd"   	title="Add Bookings"			location="/manageUnit/editBooking"/>
+           <Item name="UnitBookingsAdd"   	title="Add Bookings"			location="/manageUnit/addBooking"/>
        </Item>
        <Item name="UnitEdit" 	title="Unit details" location="/manageUnit/editUnit"/>        
   </Menu>
@@ -20,7 +20,7 @@
        </Item>
        <Item name="OrgUnits" 		title="Units">
            <Item name="OrgUnitsList"   	title="List units in organisation"	location="/manageOrg/listUnits"/>
-           <Item name="OrgUnitsAdd"   	title="Add a new unit"	location="/manageOrg/editUnit"/>
+           <Item name="OrgUnitsAdd"   	title="Add a new unit"	location="/manageOrg/addUnit"/>
        </Item>
        <Item name="OrgEdit" 	title="Organisation details" location="/manageOrg/editOrg"/>        
   </Menu>

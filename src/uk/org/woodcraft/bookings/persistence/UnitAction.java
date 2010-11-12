@@ -19,6 +19,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 
 	private String defaultOrgWebKey;
 	
+	@SkipValidation
 	public String editCurrent() {
 		setModel((Unit)getSessionObject(SessionConstants.CURRENT_UNIT));
 		return edit();

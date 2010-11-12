@@ -116,7 +116,7 @@
 		<default-interceptor-ref name="defaultInsecureStackWithPrepareParams"/>
 		<default-action-ref name="signup" />
 		
-		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="edit">
+		<action name="signup" class="uk.org.woodcraft.bookings.auth.SignupAction" method="create">
 			<result name="input" type="freemarker">/templates/auth/signup.ftl</result>
 		</action>
 
@@ -130,7 +130,7 @@
 			<result name="success" type="freemarker">/templates/auth/login.ftl</result>
 		</action>
 		
-		<action name="addOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+		<action name="addOrg" method="create" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
 		</action>
 		<action name="saveOrg" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
@@ -138,7 +138,7 @@
 			<result type="redirectAction">signup</result>
 		</action>
 		
-		<action name="addUnit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+		<action name="addUnit" method="create" class="uk.org.woodcraft.bookings.persistence.UnitAction">
 			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 		</action>
 		<action name="saveUnit" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
@@ -183,6 +183,9 @@
 			</result>
 		</action>
 		
+		<action name="addBooking" method="create" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
+		</action>
 		<action name="editBooking" method="edit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
 		</action>
@@ -237,6 +240,9 @@
 			</result>
 		</action>
 		
+		<action name="addUnit" method="create" class="uk.org.woodcraft.bookings.persistence.UnitAction">
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
+		</action>
 		<action name="editUnit" method="edit" class="uk.org.woodcraft.bookings.persistence.UnitAction">
 			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 		</action>
@@ -283,6 +289,9 @@
 			<result type="redirectAction">
 				<param name="actionName">listOrgs</param>
 			</result>
+		</action>
+		<action name="addOrg" method="create" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
 		</action>
 		<action name="editOrg" method="edit" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
 			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
@@ -331,6 +340,9 @@
 			<result type="redirectAction">
 				<param name="actionName">listEvents</param>
 			</result>
+		</action>
+		<action name="addEvent" method="create" class="uk.org.woodcraft.bookings.persistence.EventAction">
+			<result name="input" type="freemarker">/templates/datamodel/event.ftl</result>
 		</action>
 		<action name="editEvent" method="edit" class="uk.org.woodcraft.bookings.persistence.EventAction">
 			<result name="input" type="freemarker">/templates/datamodel/event.ftl</result>
