@@ -469,7 +469,7 @@ header
 	padding: 5px 10px 0px 10px;
 }
 
-.errorMessage li
+.errorMessage
 {   text-align: center;   padding-bottom: 5px;   padding-top: 5px;   left: -25px;   position: relative;   background-color: #c11e24;
     color: #eeeeee;
     border-radius: 4px;

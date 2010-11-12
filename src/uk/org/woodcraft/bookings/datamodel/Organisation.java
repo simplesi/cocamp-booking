@@ -8,6 +8,8 @@ import javax.jdo.annotations.Persistent;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Text;
+import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
 public class Organisation extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted{
@@ -32,6 +34,7 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	@Persistent
 	private Text notes; // internal comments about the organisation, non-searchable
 	
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Name cannot be empty")
 	public String getName() {
 		return name;
 	}

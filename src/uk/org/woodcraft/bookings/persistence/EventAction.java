@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.persistence;
 
+import org.apache.struts2.interceptor.validation.SkipValidation;
+
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
@@ -12,7 +14,8 @@ public class EventAction extends BasePersistenceAction<Event>{
 
 	private static final long serialVersionUID = 1L;
 	
-	
+
+	@SkipValidation
 	public String list() {
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
 		setModelList(CannedQueries.allEvents(true));

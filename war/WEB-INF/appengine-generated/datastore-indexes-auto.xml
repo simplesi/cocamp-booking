@@ -1,0 +1,23 @@
+<!-- Indices written at Thu, 11 Nov 2010 23:55:11 UTC -->
+
+<datastore-indexes>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Unit" ancestor="false" source="auto">
+        <property name="approved" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Organisation" ancestor="false" source="auto">
+        <property name="approved" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Event" ancestor="false" source="auto">
+        <property name="isCurrentlyOpen" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>

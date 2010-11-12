@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
+import org.apache.struts2.interceptor.validation.SkipValidation;
+
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
@@ -17,7 +19,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 
 	private static final long serialVersionUID = 1L;
 	
-	
+	@SkipValidation
 	public String listForUnit() {		
 		Unit unit = getCurrentUnit();		
 		SecurityModel.checkAllowed(Operation.READ, unit);
@@ -25,6 +27,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		return SUCCESS;
 	}
 	
+	@SkipValidation
 	public String listForOrg() {
 		Organisation org = getCurrentOrganisation();		
 		SecurityModel.checkAllowed(Operation.READ, org);
@@ -32,8 +35,8 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		return SUCCESS;
 	}
 	
-	public String list() {
-		
+	@SkipValidation
+	public String list() {	
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
 		setModelList(CannedQueries.bookingsForUnit(getCurrentUnit(), getCurrentEvent()));
 		return SUCCESS;

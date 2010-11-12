@@ -4,7 +4,7 @@
 
 <script>
   $(function() {
-  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/y', changeYear: true });
+  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/y', changeYear: true, yearRange: '1900:2011' });
   	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/y', 
   											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d")}), 
   											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d-1")}) });
@@ -23,7 +23,7 @@
         <@s.hidden name="webKey"/>
         <@s.textfield name="name" label="Name"/>
         <@s.textfield name="dob" label="Date Of Birth" value="%{getText('format.date',{dob})}"/>
-        <#if dob?exists >Age group for event: ${model.ageGroup}<br/></#if>
+        <#if dob?exists && model.ageGroup!="" >Age group for event: ${model.ageGroup}<br/></#if>
         
         <@s.textfield name="email" label="Email"/>
         <@s.textfield name="phoneNumber" label="Phone Number"/>

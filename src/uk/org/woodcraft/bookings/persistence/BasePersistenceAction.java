@@ -19,8 +19,10 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
+import com.opensymphony.xwork2.Validateable;
+import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
-public abstract class BasePersistenceAction<ModelObject> extends ActionSupport implements ModelDriven<ModelObject>, Preparable, SessionAware{
+public abstract class BasePersistenceAction<ModelObject> extends ActionSupport implements ModelDriven<ModelObject>, Preparable, SessionAware, Validateable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -37,6 +39,7 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 	}
 	
 	@Override
+	@VisitorFieldValidator(message="",appendPrefix=false)
 	public ModelObject getModel() {
 		return modelObject;
 	}
@@ -179,5 +182,20 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 
 	public String getCancelDelete() {
 		return cancelDelete;
+	}
+	
+	public void validate()
+	{
+		Object model = getModel();
+		if(model != null && model instanceof ValidatableModelObject)
+		{
+			// Delegate to the validation on the model itself
+			Map<String,String> validationErrors = ((ValidatableModelObject) model).getValidationErrors();
+			if (validationErrors != null)
+			{
+				for(String field : validationErrors.keySet())
+					addFieldError(field, validationErrors.get(field));
+			}
+		}
 	}
 }

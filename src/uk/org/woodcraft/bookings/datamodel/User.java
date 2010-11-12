@@ -14,6 +14,10 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.opensymphony.xwork2.validator.annotations.EmailValidator;
+import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
 public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRestricted {
@@ -67,6 +71,7 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 		this.approved = true;
 	}
 	
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Name cannot be empty")
 	public String getName() {
 		return name;
 	}
@@ -96,6 +101,7 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 		return PasswordUtils.checkPassword(password, this.passwordEncrypted);
 	}
 
+	@EmailValidator(type = ValidatorType.FIELD, message = "Valid email is required" )
 	public String getEmail() {
 		return email;
 	}
@@ -155,6 +161,7 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 		this.organisationKey = organisationKey;
 	}
 
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Organisation is required")
 	public String getOrganisationWebKey()
 	{
 		if (this.organisationKey != null) 
@@ -188,6 +195,7 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 		this.unitKey = unitKey;
 	}
 	
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Unit is required")
 	public String getUnitWebKey() {
 		if (unitKey != null)
 			return KeyFactory.keyToString(unitKey);

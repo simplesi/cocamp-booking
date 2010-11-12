@@ -8,6 +8,8 @@ import javax.jdo.annotations.Persistent;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
 import com.google.appengine.api.datastore.Key;
+import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
 public class Village extends KeyBasedData implements NamedEntity{
@@ -40,6 +42,7 @@ public class Village extends KeyBasedData implements NamedEntity{
 		return CannedQueries.unitsForVillage(this);
 	}
 
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Name cannot be empty")
 	public String getName() {
 		return name;
 	}

@@ -2,6 +2,8 @@ package uk.org.woodcraft.bookings.persistence;
 
 import java.util.Collection;
 
+import org.apache.struts2.interceptor.validation.SkipValidation;
+
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
@@ -34,6 +36,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 		return SUCCESS;
 	}
 	
+	@SkipValidation
 	public String listAll() {
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
 		setModelList(CannedQueries.allUnits(true));
@@ -41,6 +44,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 	}
 
 	// For current org only
+	@SkipValidation
 	public String list() {
 		
 		Organisation org = SessionUtils.getCurrentOrg();
