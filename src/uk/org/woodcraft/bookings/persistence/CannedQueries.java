@@ -55,6 +55,23 @@ public class CannedQueries {
 		return querySingleDetachAndClose(Event.class, query, eventName);
 	}
 	
+	/**
+	 * Get event matching a given name
+	 * @param eventName The event name
+	 * @return The event, or null if nothing matched
+	 */
+	public static Event eventByName(String eventName, Key ignoreKey)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Event.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setFilter("name == nameParam && key != ignoreKeyParam");
+		query.declareParameters("String nameParam, Key ignoreKeyParam");
+		
+		return querySingleDetachAndClose(Event.class, query, eventName, ignoreKey);
+	}
+	
 	public static Event eventByKey(Key key)
 	{
 		return getByKey(Event.class, key);
@@ -73,13 +90,25 @@ public class CannedQueries {
 		return queryDetachAndClose(Village.class, query, event.getKeyCheckNotNull());
 	}
 	
+	
 	/**
 	 * Get village for event matching a given name
 	 * @param villageName The village name
 	 * @param event The event
 	 * @return The village, or null if nothing matched
 	 */
-	public static Village villageByName (String villageName, Event event)
+	public static Village villageByName(String villageName, Event event)
+	{
+		return villageByName(villageName, event.getKeyCheckNotNull());
+	}
+	
+	/**
+	 * Get village for event matching a given name
+	 * @param villageName The village name
+	 * @param event The event
+	 * @return The village, or null if nothing matched
+	 */
+	public static Village villageByName(String villageName, Key eventKey)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -88,11 +117,29 @@ public class CannedQueries {
 		query.setFilter("name == nameParam && eventKey == eventKeyParam");
 		query.declareParameters("String nameParam, Key eventKeyParam");
 		
-		return querySingleDetachAndClose(Village.class, query,  villageName, event.getKeyCheckNotNull());
+		return querySingleDetachAndClose(Village.class, query,  villageName, eventKey);
 	}
 	
 	/**
 	 * Get village for event matching a given name
+	 * @param villageName The village name
+	 * @param event The event
+	 * @return The village, or null if nothing matched
+	 */
+	public static Village villageByName(String villageName, Key eventKey, Key ignoreKey)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Village.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setFilter("name == nameParam && eventKey == eventKeyParam && key != ignoreKeyParam");
+		query.declareParameters("String nameParam, Key eventKeyParam, Key ignoreKeyParam");
+		
+		return querySingleDetachAndClose(Village.class, query,  villageName, eventKey, ignoreKey);
+	}
+	
+	/**
+	 * Get village for event matching a given key
 	 * @param villageKey The village key
 	 * @return The village, or null if nothing matched
 	 */
@@ -140,6 +187,24 @@ public class CannedQueries {
 		return querySingleDetachAndClose(Organisation.class, query, orgName);
 	}
 
+	/**
+	 * Get org matching a given name
+	 * @param orgName The org name
+	 * @param ignoreKey The key to ignore in the result set
+	 * @return The org, or null if nothing matched
+	 */
+	public static Organisation orgByName(String orgName, Key ignoreKey)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Organisation.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setFilter("name == nameParam && key != ignoreKeyParam");
+		query.declareParameters("String nameParam, Key ignoreKeyParam");
+		
+		return querySingleDetachAndClose(Organisation.class, query, orgName, ignoreKey);
+	}
+	
 	public static Organisation orgByKey (Key orgKey)
 	{
 		return getByKey(Organisation.class, orgKey);
@@ -264,6 +329,38 @@ public class CannedQueries {
 		
 		return unitsWithNoVillage;
 	}
+
+	/**
+	 * Get unit matching a given name
+	 * @param unitName The unit name 
+	 * @param orgKey The organization key - units in different orgs can have the same name
+	 * @return The unit, or null if nothing matched
+	 */
+	public static Unit unitByName(String unitName, Key orgKey)
+	{
+		return unitByName(unitName, orgKey, null);
+	}
+	
+	public static Unit unitByName(String unitName, Key orgKey, Key ignoreKey)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Unit.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		
+		if (ignoreKey == null)
+		{
+			query.setFilter("name == nameParam && organisationKey == organisationKeyParam");
+			query.declareParameters("String nameParam, Key organisationKeyParam");
+			return querySingleDetachAndClose(Unit.class, query, unitName, orgKey);
+		} else 
+		{
+			query.setFilter("name == nameParam && organisationKey == organisationKeyParam && key != ignoreKeyParam");
+			query.declareParameters("String nameParam, Key organisationKeyParam, Key ignoreKeyParam");
+			return querySingleDetachAndClose(Unit.class, query, unitName, orgKey, ignoreKey);
+		}
+		
+	}
 	
 	/**
 	 * Get unit matching a given name
@@ -273,14 +370,7 @@ public class CannedQueries {
 	 */
 	public static Unit unitByName(String unitName, Organisation org)
 	{
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Query query = pm.newQuery(Unit.class);
-		query.declareImports("import com.google.appengine.api.datastore.Key");
-		query.setFilter("name == nameParam && organisationKey == organisationKeyParam");
-		query.declareParameters("String nameParam, Key organisationKeyParam");
-		
-		return querySingleDetachAndClose(Unit.class, query, unitName, org.getKeyCheckNotNull());
+		return unitByName(unitName, org.getKeyCheckNotNull());
 	}
 	
 	public static Unit unitByKey(Key key)

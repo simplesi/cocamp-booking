@@ -12,7 +12,6 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
 
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
@@ -80,7 +79,6 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		this.internalEventEnd = internalEventEnd;
 	}
 
-	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Name is required")
 	public String getName() {
 		return name;
 	}
@@ -137,7 +135,15 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 				&& getInternalEventStart().after(getInternalEventEnd()))
 			errors.put("internalEventEnd", "The event event date must be after the start date");
 		
+		if (getName() != null){
+			Event clashingEvent = CannedQueries.eventByName(getName(), getKey());
+			
+			if (clashingEvent != null )
+			{
+				errors.put("name", "This name is already in the bookings system. Please use another" );
+			}
+		}
+		
 		return errors;
 	}
-		
 }

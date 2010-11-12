@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
+import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
@@ -60,9 +61,15 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 		return KeyFactory.stringToKey(webKey);
 	}
 	
+	@SkipValidation
 	public String edit() {
 		if (modelObject == null) return ERROR;
 		SecurityModel.checkAllowed(Operation.READ, modelObject);
+		return INPUT;
+	}
+	
+	@SkipValidation
+	public String create() {
 		return INPUT;
 	}
 	

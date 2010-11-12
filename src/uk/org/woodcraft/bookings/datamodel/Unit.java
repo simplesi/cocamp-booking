@@ -1,22 +1,23 @@
 package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
-import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
-import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
-public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted{
+public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted, ValidatableModelObject{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -53,7 +54,6 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	@Persistent
 	private Set<Key> eventsRegistered = new HashSet<Key>();
 	
-	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Name cannot be empty")
 	public String getName() {
 		return name;
 	}
@@ -158,4 +158,20 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	public boolean deleteRequiresConfirmation() {
 		return true;
 	}
+
+	@Override
+	public Map<String, String> getValidationErrors() {
+		Map<String,String> errors = null;
+		if (getName() != null){
+			Unit clashingUnit = CannedQueries.unitByName(getName(), getOrganisationKey(), getKey());
+			
+			if (clashingUnit != null )
+			{
+				errors = new HashMap<String, String>(1);
+				errors.put("name", "This name is already in the bookings system. Please use another" );
+			}
+		}
+		return errors;
+	}
+	
 }

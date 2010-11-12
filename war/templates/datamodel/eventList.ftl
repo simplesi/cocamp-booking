@@ -14,7 +14,7 @@
     <#list ModelList as event>
     <@s.url id="editURL" action="editEvent" webKey="${event.webKey}" />
         <tr>
-            <td><@s.a href="${editURL}">${event.name}</@s.a></td>
+            <td><@s.a href="${editURL}">${event.name!"unnamed"}</@s.a></td>
             <td>${event.isCurrentlyOpen?string("yes", "no")}</td>
             <td>
                 <@s.url id="deleteURL" action="deleteEvent" webKey="${event.webKey}" />

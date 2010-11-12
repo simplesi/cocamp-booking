@@ -401,7 +401,7 @@ header
 	width: 750px;
 }
 
-#userbar #wwgrp_switch_navEventKey, #userbar #wwgrp_switch_navOrgKey, #userbar #wwgrp_switch_navUnitKey, #userbar #wwctrl_switch_Go
+#userbar #wwgrp_switch_navEventKey, #userbar #wwgrp_switch_navOrgKey, #userbar #wwgrp_switch_navUnitKey, #userbar #wwctrl_switch_Go, #userbar #static_text
 {   float: right;
 	padding-right: 10px;
 }

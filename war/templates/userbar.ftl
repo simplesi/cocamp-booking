@@ -10,24 +10,24 @@
 	<@s.submit name="Go" value="Go"></@s.submit>
 	  
 	  <#if Session.USER.accessLevel.canChangeUnit>   	
-	    	<@s.select value="%{'${Session.CURRENT_UNIT.webKey}'}" headerValue="--- Please Select ---" headerKey=""
+	    	<@s.select value="%{'${Session.CURRENT_UNIT.webKey}'}"
 	    	name="navUnitKey" list="myUnits" listKey="webKey" listValue="name" />
 	  <#else>
-	    	Unit: ${Session.CURRENT_UNIT.name}<br/>
+	    	<span id="static_text">Unit: ${Session.CURRENT_UNIT.name}</span>
 	  </#if>
 	  
 	  <#if Session.USER.accessLevel.canChangeOrg>
-	    	<@s.select name="navOrgKey" headerValue="--- Please Select ---" headerKey=""
+	    	<@s.select name="navOrgKey"
 	        	list=allOrgs listKey="webKey" listValue="name" value="%{'${Session.CURRENT_ORG.webKey}'}" />
 	  <#else>
-	    	Organization: ${Session.CURRENT_ORG.name}<br/>
+	    	<span id="static_text">Organization: ${Session.CURRENT_ORG.name} | </span>
 	  </#if>
 	      
 	  <#if ( allOpenEvents.size() > 1) >
-          <@s.select name="navEventKey" headerValue="--- Please Select ---" headerKey=""
+          <@s.select name="navEventKey"
 	        	list="allOpenEvents" listKey="webKey" listValue="name" value="%{'${Session.CURRENT_EVENT.webKey}'}" />
 	  <#else>
-	    	Event: ${Session.CURRENT_EVENT.name}<br/>
+	    	<span id="static_text">Event: ${Session.CURRENT_EVENT.name} | </span>
 	  </#if>
 	
 	  

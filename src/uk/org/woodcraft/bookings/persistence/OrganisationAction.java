@@ -14,6 +14,7 @@ public class OrganisationAction extends BasePersistenceAction<Organisation>{
 
 	private static final long serialVersionUID = 1L;
 	
+	@SkipValidation
 	public String editCurrent() {
 		setModel((Organisation)getSessionObject(SessionConstants.CURRENT_ORG));
 		return edit();
