@@ -51,7 +51,7 @@
             		  <ul>
             			<a href="/" title="CoCamp Home"><li id="title">CoCamp Bookings</li></a>
             			<#if (Session?exists && ! Session.USER?? ) || !Session?exists >
-            				<li class="right"><@s.url id="signupURL" namespace="/" action="signup"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
+            				<li class="right"><@s.url id="signupURL" namespace="/signup/" action="signup"/><@s.a href="${signupURL}">Sign Up</@s.a></li>
             				<li class="right"><@s.url id="loginURL" namespace="/" value="login"/><@s.a href="${loginURL}">Log In</@s.a></li>
             			<#else>
             				<li class="right"><@s.url id="logoutURL" namespace="/" action="logout"/><@s.a href="${logoutURL}">Log Out</@s.a></li>
@@ -61,8 +61,10 @@
 	                <div id="menu">              
 	                <#if Session?exists && Session.USER??>
 		                <@menu.useMenuDisplayer name="CSSListMenu" id="primary-nav">
-						  <@menu.displayMenu name="ManageUnit"/>						  
+						  <@menu.displayMenu name="ManageUnit"/>	
+						  <#if Session.USER.accessLevel.isSuperUser>				  
 						  <@menu.displayMenu name="ManageOrg"/>
+						  </#if>
 						  <#if Session.USER.accessLevel.isSuperUser>
 						  	<@menu.displayMenu name="ManageAll"/>
 						  </#if>

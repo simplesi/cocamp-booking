@@ -53,5 +53,9 @@ public enum Accesslevel {
 		return GLOBAL_ADMIN.equals(this);
 	}
 	
+	public boolean getCanManageOrg() {
+		return canChangeUnit;
+	}
+	
 	
 }
