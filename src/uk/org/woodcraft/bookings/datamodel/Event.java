@@ -2,14 +2,21 @@ package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
+
+import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
-public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted{
+public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted, ValidatableModelObject{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -36,22 +43,29 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 	
 	public Event(String name, Date from, Date to, boolean isCurrentlyOpen) {
 		this.name = name;
-		this.publicEventStart = from;
-		this.publicEventEnd = to;
+		setPublicEventStart(from);
+		setPublicEventEnd(to);
 		this.isCurrentlyOpen = isCurrentlyOpen;
 	}
 	
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Start date must be provided")
 	public Date getPublicEventStart() {
 		return publicEventStart;
 	}
 	public void setPublicEventStart(Date publicEventStart) {
 		this.publicEventStart = publicEventStart;
+		if (this.internalEventStart == null) 
+			this.internalEventStart = publicEventStart;
 	}
+	
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "End date must be provided")
 	public Date getPublicEventEnd() {
 		return publicEventEnd;
 	}
 	public void setPublicEventEnd(Date publicEventEnd) {
 		this.publicEventEnd = publicEventEnd;
+		if (this.internalEventEnd == null) 
+			this.internalEventEnd = publicEventEnd;
 	}
 	public Date getInternalEventStart() {
 		return internalEventStart;
@@ -66,6 +80,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		this.internalEventEnd = internalEventEnd;
 	}
 
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Name is required")
 	public String getName() {
 		return name;
 	}
@@ -104,6 +119,25 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 	@Override
 	public boolean deleteRequiresConfirmation() {
 		return true;
+	}
+
+	@Override
+	public Map<String, String> getValidationErrors() {
+		Map<String, String> errors = new HashMap<String,String>();
+		
+		if (getInternalEventStart() != null && getPublicEventStart() != null
+				&& getInternalEventStart().after(getPublicEventStart()))
+			errors.put("internalEventStart", "The internal event start date must be the same as or earlier than the public event start");
+		
+		if (getInternalEventEnd() != null && getPublicEventEnd() != null
+				&& getInternalEventEnd().before(getPublicEventEnd()))
+			errors.put("internalEventEnd", "The internal event end date must be the same as or later than the public event end");
+	
+		if (getInternalEventStart() != null && getInternalEventEnd() != null
+				&& getInternalEventStart().after(getInternalEventEnd()))
+			errors.put("internalEventEnd", "The event event date must be after the start date");
+		
+		return errors;
 	}
 		
 }

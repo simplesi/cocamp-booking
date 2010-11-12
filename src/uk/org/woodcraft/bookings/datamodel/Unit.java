@@ -12,6 +12,8 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
+import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
 public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted{
@@ -51,10 +53,10 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	@Persistent
 	private Set<Key> eventsRegistered = new HashSet<Key>();
 	
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Name cannot be empty")
 	public String getName() {
 		return name;
 	}
-
 
 	public void setName(String name) {
 		this.name = name;

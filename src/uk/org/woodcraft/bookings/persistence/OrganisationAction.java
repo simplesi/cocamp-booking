@@ -1,5 +1,7 @@
 package uk.org.woodcraft.bookings.persistence;
 
+import org.apache.struts2.interceptor.validation.SkipValidation;
+
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
@@ -31,6 +33,7 @@ public class OrganisationAction extends BasePersistenceAction<Organisation>{
 		return SUCCESS;
 	}
 	
+	@SkipValidation
 	public String list() {
 		
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);

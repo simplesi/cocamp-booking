@@ -29,6 +29,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/javassist-3.13.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/ognl-3.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/struts2-core-2.2.1.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/xwork-core-2.2.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/xwork-core-2.2.1.jar" sourcepath="lib/struts2-2.2.1-src.zip"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

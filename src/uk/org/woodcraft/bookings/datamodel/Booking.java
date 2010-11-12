@@ -1,11 +1,14 @@
 package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
 import uk.org.woodcraft.bookings.pricing.PricingFactory;
 import uk.org.woodcraft.bookings.pricing.PricingStrategy;
 import uk.org.woodcraft.bookings.utils.DateUtils;
@@ -13,9 +16,15 @@ import uk.org.woodcraft.bookings.utils.DateUtils;
 import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
+import com.opensymphony.xwork2.validator.annotations.DateRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.EmailValidator;
+import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.ValidatorType;
+
 
 @PersistenceCapable(detachable="true")
-public class Booking extends KeyBasedData implements NamedEntity, DeleteRestricted{
+public class Booking extends KeyBasedData implements NamedEntity, DeleteRestricted, ValidatableModelObject{
 
 	private static final long serialVersionUID = 1L;
 
@@ -97,7 +106,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		this.name = name;
 	}
 	
-	
+	@DateRangeFieldValidator(type = ValidatorType.FIELD, min = "1900/01/01", message = "Valid date of birth required")
 	public Date getDob() {
 		return dob;
 	}
@@ -136,6 +145,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		return "Adult";
 	}
 
+	@EmailValidator(type = ValidatorType.FIELD, message = "Email is required" )
 	public String getEmail() {
 		if (email == null) return null;
 		return email.getEmail();
@@ -145,6 +155,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		this.email = new Email(email);
 	}
 
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Arrival date must be provided")
 	public Date getArrivalDate() {
 		return arrivalDate;
 	}
@@ -154,6 +165,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		updatePrice();
 	}
 
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Departure date must be provided")
 	public Date getDepartureDate() {
 		return departureDate;
 	}
@@ -163,6 +175,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		updatePrice();
 	}
 
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "5", trim = true, message = "Full Name is required")
 	public String getName() {
 		return name;
 	}
@@ -214,7 +227,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		return cancellationDate;
 	}
 
-	public void setPrice(long price) {
+	private void setPrice(long price) {
 		this.price = price;
 	}
 
@@ -285,5 +298,30 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	public void setBecomeMember(boolean becomeMember) {
 		this.becomeMember = becomeMember;
 	}
+
+	@Override
+	public Map<String, String> getValidationErrors() {
+		Map<String, String> errors = new HashMap<String, String>();
+		
+		Event event = CannedQueries.eventByKey(getEventKey());
+		if (event != null)
+		{
+			if (getArrivalDate() != null && getArrivalDate().before(event.getInternalEventStart()))
+				errors.put("arrivalDate", "Arrival must be at or after the start of the event");
+		
+			if (getDepartureDate()!= null && getDepartureDate().after(event.getInternalEventEnd()))
+				errors.put("departureDate", "Departure must at on or before the end of the event");	
+		
+			if (getDob()!= null && getDob().after(event.getInternalEventStart()))
+				errors.put("dob", "Date of birth cannot be after event start");
+		}
+		
+		if (getArrivalDate().after(getDepartureDate()))
+			errors.put("departureDate", "Departure must be after arrival");
+		
+		return errors;
+	}
+
+	
 	
 }

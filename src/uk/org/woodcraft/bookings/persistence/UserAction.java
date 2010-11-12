@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.struts2.interceptor.validation.SkipValidation;
+
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
@@ -18,25 +20,29 @@ public class UserAction extends BasePersistenceAction<User>{
 	
 	private String email;
 	
+	@SkipValidation
 	public String list() {
 		return listAll();
 	}
 	
+	@SkipValidation
 	public String listAll() {
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
 		setModelList(filterSystemUsers(CannedQueries.allUsers()));
 		return SUCCESS;
 	}
 
+	@SkipValidation
 	public String listForOrg() {
 		
-		Organisation org = SessionUtils.getCurrentOrg();
+		Organisation org = SessionUtils.getCurrentOrg();	
 		
 		SecurityModel.checkAllowed(Operation.READ, org);
 		setModelList(filterSystemUsers(CannedQueries.allUsersForOrg(org)));
 		return SUCCESS;
 	}
 	
+	@SkipValidation
 	public String listForUnit() {
 		
 		Unit unit = SessionUtils.getCurrentUnit();

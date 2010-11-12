@@ -20,10 +20,15 @@
 	
 		<interceptors>
 			<interceptor name="login" class="uk.org.woodcraft.bookings.auth.LoginInterceptor" />
-			<interceptor name="redirectMessage" class="uk.org.woodcraft.bookings.interceptors.RedirectMessageInterceptor" />
+			<!--  interceptor name="redirectMessage" class="uk.org.woodcraft.bookings.interceptors.RedirectMessageInterceptor" /-->
+			<interceptor name="messageStoreInterceptor" class="org.apache.struts2.interceptor.MessageStoreInterceptor"/>
 
 			<interceptor-stack name="defaultLoginStackWithPrepareParams">
-				<interceptor-ref name="redirectMessage" />
+				<!-- interceptor-ref name="redirectMessage"/ -->
+				<interceptor-ref name="messageStoreInterceptor"> 
+                    <param name="operationMode">AUTOMATIC</param> 
+                </interceptor-ref> 
+                
                 <interceptor-ref name="exception"/>
                 <interceptor-ref name="alias"/>
                 <!-- interceptor-ref name="i18n"/ -->
@@ -161,7 +166,7 @@
 			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 		</action>
 		<action name="saveUnit" method="save" class="uk.org.woodcraft.bookings.persistence.UnitAction">
-			<result name="input" type="redirect">editUnit</result>
+			<result name="input" type="freemarker">/templates/datamodel/unit.ftl</result>
 			<result type="redirect">redirectToIndex</result>
 		</action>
 		<action name="cancelEditUnit">
@@ -170,13 +175,9 @@
 
 		<!-- For bookings in this unit -->
 		<action name="listBookings" method="listForUnit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
-			<result name="input" type="chain">listBookings</result>
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
 		</action>	
 		<action name="redirectToBookingList">
-			<result name="input" type="redirectAction">
-				<param name="actionName">listBookings</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">listBookings</param>
 			</result>
@@ -186,7 +187,7 @@
 			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
 		</action>
 		<action name="saveBooking" method="save" class="uk.org.woodcraft.bookings.persistence.BookingAction">
-			<result name="input" type="redirect">redirectToBookingList</result>
+			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
 			<result type="redirect">redirectToBookingList</result>
 		</action>
 		<action name="deleteBooking" method="delete" class="uk.org.woodcraft.bookings.persistence.BookingAction">
@@ -208,9 +209,6 @@
 			<result type="freemarker">/templates/index.ftl</result>
 		</action>
 		<action name="redirectToIndex">
-			<result name="input" type="redirectAction">
-				<param name="actionName">index</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">index</param>
 			</result>
@@ -221,7 +219,7 @@
 			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
 		</action>
 		<action name="saveOrg" method="save" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
-			<result name="input" type="redirect">editOrg</result>
+			<result name="input" type="freemarker">/templates/datamodel/organisation.ftl</result>
 			<result type="redirect">redirectToIndex</result>
 		</action>
 		<action name="cancelEditOrg">
@@ -234,9 +232,6 @@
 			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
 		</action>
 		<action name="redirectToUnitList">
-			<result name="input" type="redirectAction">
-				<param name="actionName">listUnits</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">listUnits</param>
 			</result>
@@ -262,9 +257,6 @@
 			<result type="freemarker">/templates/datamodel/bookingList.ftl</result>
 		</action>	
 		<action name="redirectToBookingList">
-			<result name="input" type="redirectAction">
-				<param name="actionName">listBookings</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">listBookings</param>
 			</result>
@@ -278,9 +270,6 @@
 			<result name="input" type="freemarker">/templates/index.ftl</result>
 		</action>	
 		<action name="redirectToIndex">
-			<result name="input" type="redirectAction">
-				<param name="actionName">index</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">index</param>
 			</result>
@@ -288,13 +277,9 @@
 		
 		<!-- For all orgs -->	
 		<action name="listOrgs" method="list" class="uk.org.woodcraft.bookings.persistence.OrganisationAction">
-			<result name="input" type="freemarker">/templates/datamodel/organisationList.ftl</result>
 			<result type="freemarker">/templates/datamodel/organisationList.ftl</result>
 		</action>
 		<action name="redirectToOrgList">
-			<result name="input" type="redirectAction">
-				<param name="actionName">listOrgs</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">listOrgs</param>
 			</result>
@@ -320,9 +305,6 @@
 			<result type="freemarker">/templates/datamodel/unitList.ftl</result>
 		</action>
 		<action name="redirectToUnitList">
-			<result name="input" type="redirectAction">
-				<param name="actionName">listUnits</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">listUnits</param>
 			</result>
@@ -343,13 +325,9 @@
 			
 		<!--  For all events -->
 		<action name="listEvents" method="list" class="uk.org.woodcraft.bookings.persistence.EventAction">
-			<result name="input" type="chain">listEvents</result>
 			<result type="freemarker">/templates/datamodel/eventList.ftl</result>
 		</action>
 		<action name="redirectToEventList">
-			<result name="input" type="redirectAction">
-				<param name="actionName">listEvents</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">listEvents</param>
 			</result>
@@ -358,7 +336,7 @@
 			<result name="input" type="freemarker">/templates/datamodel/event.ftl</result>
 		</action>
 		<action name="saveEvent" method="save" class="uk.org.woodcraft.bookings.persistence.EventAction">
-			<result name="input" type="redirect">editEvent</result>
+			<result name="input" type="freemarker">/templates/datamodel/event.ftl</result>
 			<result type="redirect">redirectToEventList</result>
 		</action>
 		<action name="deleteEvent" method="delete" class="uk.org.woodcraft.bookings.persistence.EventAction">
@@ -374,13 +352,9 @@
 			
 		<!-- For all users -->
 		<action name="listUsers" method="list" class="uk.org.woodcraft.bookings.persistence.UserAction">
-			<result name="input" type="freemarker">/templates/datamodel/userList.ftl</result>
 			<result type="freemarker">/templates/datamodel/userList.ftl</result>
 		</action>
 		<action name="redirectToUserList">
-			<result name="input" type="redirectAction">
-				<param name="actionName">listUsers</param>
-			</result>
 			<result type="redirectAction">
 				<param name="actionName">listUsers</param>
 			</result>
@@ -389,7 +363,7 @@
 			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
 		</action>
 		<action name="saveUser" method="save" class="uk.org.woodcraft.bookings.persistence.UserAction">
-			<result name="input" type="redirect">editUser</result>
+			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
 			<result type="redirect">redirectToUserList</result>
 		</action>
 		<action name="deleteUser" method="delete" class="uk.org.woodcraft.bookings.persistence.UserAction">

@@ -59,11 +59,15 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	
 	@Override
 	public boolean equals(Object obj) {
+		if (obj == null) return false;
 		if(!(obj instanceof KeyBasedData)) return false;
 		
-		if(!((KeyBasedData)obj).getKey().equals(this.getKey())) return false;
+		Key thatKey = ((KeyBasedData)obj).getKey();
 		
-		return true;
+		if (thatKey == null && this.getKey() != null) return false;
+		if (thatKey == null ) return true;
+		
+		return thatKey.equals(this.getKey());
 	}
 	
 	@Override
