@@ -47,4 +47,15 @@ public class DateUtils {
 	{
 		return (date.get(Calendar.MONTH) * 50 + date.get(Calendar.DAY_OF_MONTH));
 	}
+	
+	public static Date cleanupTime(Date input)
+	{
+		Calendar c = Calendar.getInstance();
+		c.setTime(input);
+		c.set(Calendar.HOUR, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTime();
+	}
 }
