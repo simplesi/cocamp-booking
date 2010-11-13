@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
+import uk.org.woodcraft.bookings.utils.DateUtils;
 
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
@@ -52,9 +53,9 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		return publicEventStart;
 	}
 	public void setPublicEventStart(Date publicEventStart) {
-		this.publicEventStart = publicEventStart;
+		this.publicEventStart = DateUtils.cleanupTime(publicEventStart);
 		if (this.internalEventStart == null) 
-			this.internalEventStart = publicEventStart;
+			this.internalEventStart = this.publicEventStart;
 	}
 	
 	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "End date must be provided")
@@ -62,21 +63,21 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		return publicEventEnd;
 	}
 	public void setPublicEventEnd(Date publicEventEnd) {
-		this.publicEventEnd = publicEventEnd;
+		this.publicEventEnd = DateUtils.cleanupTime(publicEventEnd);
 		if (this.internalEventEnd == null) 
-			this.internalEventEnd = publicEventEnd;
+			this.internalEventEnd = this.publicEventEnd;
 	}
 	public Date getInternalEventStart() {
 		return internalEventStart;
 	}
 	public void setInternalEventStart(Date internalEventStart) {
-		this.internalEventStart = internalEventStart;
+		this.internalEventStart = DateUtils.cleanupTime(internalEventStart);
 	}
 	public Date getInternalEventEnd() {
 		return internalEventEnd;
 	}
 	public void setInternalEventEnd(Date internalEventEnd) {
-		this.internalEventEnd = internalEventEnd;
+		this.internalEventEnd = DateUtils.cleanupTime(internalEventEnd);
 	}
 
 	public String getName() {

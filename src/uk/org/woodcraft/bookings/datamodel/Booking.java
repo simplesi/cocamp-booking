@@ -112,7 +112,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	}
 
 	public void setDob(Date dob) {
-		this.dob = dob;
+		this.dob = DateUtils.cleanupTime(dob);
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	}
 
 	public void setArrivalDate(Date arrivalDate) {
-		this.arrivalDate = arrivalDate;
+		this.arrivalDate = DateUtils.cleanupTime(arrivalDate);
 		updatePrice();
 	}
 
@@ -171,7 +171,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	}
 
 	public void setDepartureDate(Date departureDate) {
-		this.departureDate = departureDate;
+		this.departureDate = DateUtils.cleanupTime(departureDate);
 		updatePrice();
 	}
 
