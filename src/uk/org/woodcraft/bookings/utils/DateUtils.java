@@ -49,7 +49,9 @@ public class DateUtils {
 	}
 	
 	public static Date cleanupTime(Date input)
-	{
+	{ 
+		if (input == null) return input;
+		
 		Calendar c = Calendar.getInstance();
 		c.setTime(input);
 		c.set(Calendar.HOUR, 0);
