@@ -16,6 +16,9 @@ import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
 import uk.org.woodcraft.bookings.persistence.CoreData;
 import uk.org.woodcraft.bookings.persistence.PMF;
+import uk.org.woodcraft.bookings.utils.Clock;
+import uk.org.woodcraft.bookings.utils.DateUtils;
+import uk.org.woodcraft.bookings.utils.TestClock;
 
 public class BasicTestDataFixture extends TestFixture {
 	
@@ -31,10 +34,16 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			CoreData.createCoreData();
 			
+			Clock testClock = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
+			
 			// Events
 			List<Event> events = new ArrayList<Event>();
 			Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true);
-	 		events.add(event1);
+			event1.setEarlyBookingDeadline(DateUtils.getDate(2011, 0, 1));
+			event1.setBookingDeadline(DateUtils.getDate(2011, 4, 2));
+	 		
+			
+			events.add(event1);
 	 		Event event2 = new Event("Other event", null, null, true);
 			events.add(event2);		
 			
@@ -83,10 +92,10 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			// Bookings
 			List<Booking> bookings = new ArrayList<Booking>();
-			bookings.add(new Booking("Test person", unit1, event1));
-			bookings.add(new Booking("Test person 2", unit1, event1));		
-			bookings.add(new Booking("Person in unapproved, homeless unit", unapprovedWcfUnit, event1));
-			bookings.add(new Booking("Test person in other event", unit1, events.get(1)));
+			bookings.add(new Booking("Test person", unit1, event1, testClock));
+			bookings.add(new Booking("Test person 2", unit1, event1,testClock));		
+			bookings.add(new Booking("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
+			bookings.add(new Booking("Test person in other event", unit1, events.get(1), testClock));
 			pm.makePersistentAll(bookings);
 			
 			

@@ -32,6 +32,13 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 	@Persistent
 	private Date internalEventEnd;
 	
+	@Persistent
+	private Date earlyBookingDeadline; // Used for early booking discounts
+	@Persistent
+	private Date bookingDeadline; // Lose deposit after this point
+	@Persistent
+	private Date bookingSystemLocked; // Absolutely no changes whatsoever after this point
+	
 	/**
 	 * Is the event currently open for booking?
 	 */
@@ -146,5 +153,29 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		}
 		
 		return errors;
+	}
+
+	public Date getEarlyBookingDeadline() {
+		return earlyBookingDeadline;
+	}
+
+	public void setEarlyBookingDeadline(Date earlyBookingDeadline) {
+		this.earlyBookingDeadline = earlyBookingDeadline;
+	}
+
+	public Date getBookingDeadline() {
+		return bookingDeadline;
+	}
+
+	public void setBookingDeadline(Date bookingDeadline) {
+		this.bookingDeadline = bookingDeadline;
+	}
+
+	public Date getBookingSystemLocked() {
+		return bookingSystemLocked;
+	}
+
+	public void setBookingSystemLocked(Date bookingSystemLocked) {
+		this.bookingSystemLocked = bookingSystemLocked;
 	}
 }
