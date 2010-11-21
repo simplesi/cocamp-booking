@@ -11,7 +11,9 @@ import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
 import uk.org.woodcraft.bookings.pricing.PricingFactory;
 import uk.org.woodcraft.bookings.pricing.PricingStrategy;
+import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.DateUtils;
+import uk.org.woodcraft.bookings.utils.SystemClock;
 
 import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
@@ -82,12 +84,20 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	@Persistent
 	private Date cancellationDate;
 	
+	@Persistent
+	private Date bookingCreationDate;
+	
 	@SuppressWarnings("unused")
 	private Booking() {
 		// For JDO
 	}
 	
 	public Booking(Unit unit, Event event)
+	{
+		this(unit, event, new SystemClock());
+	}
+	
+	public Booking(Unit unit, Event event, Clock clock)
 	{
 		this.unitKey = unit.getKeyCheckNotNull();
 		
@@ -98,21 +108,25 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		this.eventKey = event.getKeyCheckNotNull();
 		this.arrivalDate = event.getPublicEventStart();
 		this.departureDate = event.getPublicEventEnd();
+		
+		this.bookingCreationDate = clock.getTime();
 		updatePrice();
 	}
 	
-	public Booking( String name, Unit unit, Event event) {
-		this(unit, event);
+	public Booking( String name, Unit unit, Event event, Clock clock) {
+		this(unit, event, clock);
 		this.name = name;
 	}
 	
 	@DateRangeFieldValidator(type = ValidatorType.FIELD, min = "1900/01/01", message = "Valid date of birth required")
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Date of Birth must be provided")
 	public Date getDob() {
 		return dob;
 	}
 
 	public void setDob(Date dob) {
 		this.dob = DateUtils.cleanupTime(dob);
+		updatePrice();
 	}
 	
 	/**
@@ -320,6 +334,14 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 			errors.put("departureDate", "Departure must be after arrival");
 		
 		return errors;
+	}
+
+	public void setBookingCreationDate(Date bookingCreationDate) {
+		this.bookingCreationDate = bookingCreationDate;
+	}
+
+	public Date getBookingCreationDate() {
+		return bookingCreationDate;
 	}
 
 	
