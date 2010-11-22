@@ -147,6 +147,22 @@
 		</action>
 	</package>
 	
+	<package name="user" namespace="/user" extends ="default">
+		<default-action-ref name="profile"/>
+		<action name="profile" method="editCurrent" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
+			<result type="freemarker">/templates/datamodel/user.ftl</result>
+		</action>
+		<action name="changePassword" method="changePassword" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result type="freemarker">/templates/datamodel/user-changepass.ftl</result>
+			<result name="input" type="freemarker">/templates/datamodel/user-changepass.ftl</result>
+			<result name="success" type="redirectAction">profile</result>
+		</action>
+		<action name="cancelChangePassword">
+			<result type="redirectAction">profile</result>
+		</action>
+	</package>
+	
 	<package name="manageUnit" namespace="/manageUnit" extends="default">	
 	    <action name="index">
 	    	<result name="input" type="freemarker">/templates/index.ftl</result>
@@ -159,7 +175,7 @@
 			<result type="redirectAction">
 				<param name="actionName">index</param>
 			</result>
-		</action>		
+		</action>			
 			
 		<!-- For the unit -->	
 		<action name="editUnit" method="editCurrent" class="uk.org.woodcraft.bookings.persistence.UnitAction">
@@ -389,6 +405,14 @@
 			<result type="redirect">redirectToUserList</result>
 		</action>	
 		
+		<action name="changePassword" method="changePassword" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result type="freemarker">/templates/datamodel/user-changepass.ftl</result>
+			<result name="input" type="freemarker">/templates/datamodel/user-changepass.ftl</result>
+			<result name="success" type="redirectAction">listUsers</result>
+		</action>
+		<action name="cancelChangePassword">
+			<result type="redirectAction">listUsers</result>
+		</action>
 		
 		<!--  admin approval pages -->
 		<action name="approvalList" class="uk.org.woodcraft.bookings.PendingAdminActions">

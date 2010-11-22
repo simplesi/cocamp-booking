@@ -5,8 +5,7 @@
 <@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
 <@s.form id="user" method="post">
  	<@s.textfield name="name" label="Name"></@s.textfield>
-    <@s.textfield name="email" label="E-mail address"></@s.textfield>
-    <@s.password name="password" label="Password"></@s.password>
+    <@s.textfield name="email" label="E-mail address" readonly="true"></@s.textfield>
     <@s.doubleselect label="Organisation" name="OrganisationWebKey" list="allOrgs" listKey="webKey" listValue="Name" 
  					headerValue="--- Please Select ---" headerKey=""
  				    doubleLabel="Unit" doubleName="unitWebKey" doubleList="allUnits" doubleListKey="webKey" doubleListValue="Name"
@@ -15,6 +14,9 @@
  	<#if Session.USER.accessLevel.canManageUsers>			  
  	 	<@s.select label="Access level" name="accessLevelString" list="accessLevels" listValue="DisplayName" />
  	 	<@s.checkbox label="Is approved" name="approved"/>
+ 	</#if>
+ 	<#if Session.USER.accessLevel.canManageUsers || ( Session.USER.email = email )>			  
+ 		<@s.submit name="Change password" value="Change password" action="changePassword"/>
  	</#if>
     <@s.submit name="Save user" value="Save user" action="saveUser"/>
     <@s.submit value="Cancel" action="cancelEditUser"/>
