@@ -14,6 +14,7 @@ import uk.org.woodcraft.bookings.datamodel.DeleteRestricted;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
+import uk.org.woodcraft.bookings.datamodel.User;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -174,6 +175,10 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 		return (Event)getSessionObject(SessionConstants.CURRENT_EVENT);
 	}
 
+	public User getCurrentUser()
+	{
+		return (User)getSessionObject(SessionConstants.USER_HANDLE);
+	}
 
 	public void setConfirmDelete(String confirmDelete) {
 		this.confirmDelete = confirmDelete;
