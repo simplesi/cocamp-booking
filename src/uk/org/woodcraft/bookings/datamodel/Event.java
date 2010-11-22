@@ -155,6 +155,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		return errors;
 	}
 
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Early booking deadline must be provided")
 	public Date getEarlyBookingDeadline() {
 		return earlyBookingDeadline;
 	}
@@ -163,6 +164,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		this.earlyBookingDeadline = earlyBookingDeadline;
 	}
 
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Booking deadline must be provided")
 	public Date getBookingDeadline() {
 		return bookingDeadline;
 	}
@@ -171,6 +173,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		this.bookingDeadline = bookingDeadline;
 	}
 
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Booking system lock date must be provided")
 	public Date getBookingSystemLocked() {
 		return bookingSystemLocked;
 	}

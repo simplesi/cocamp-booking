@@ -9,6 +9,7 @@ import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.CoreData;
 import uk.org.woodcraft.bookings.test.TestConstants;
+import uk.org.woodcraft.bookings.utils.DateUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -25,6 +26,9 @@ public class CreateInitialProdDataAction extends ActionSupport {
 		CoreData.createCoreData();
 		
 		Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true);
+		event1.setEarlyBookingDeadline(DateUtils.getDate(2011, 0, 1));
+		event1.setBookingDeadline(DateUtils.getDate(2011, 5, 2));
+		event1.setBookingSystemLocked(TestConstants.EVENT1_START);
 		CannedQueries.save(event1);
 		
 		AppSetting defaultEventSetting = new AppSetting(AppSetting.DEFAULT_EVENT, event1.getWebKey());
