@@ -153,7 +153,7 @@
 			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
 			<result type="freemarker">/templates/datamodel/user.ftl</result>
 		</action>
-		<action name="changePassword" method="changePassword" class="uk.org.woodcraft.bookings.persistence.UserAction">
+		<action name="changePasswordGeneric" method="changePasswordGeneric" class="uk.org.woodcraft.bookings.persistence.UserAction">
 			<result type="freemarker">/templates/datamodel/user-changepass.ftl</result>
 			<result name="input" type="freemarker">/templates/datamodel/user-changepass.ftl</result>
 			<result name="success" type="redirectAction">profile</result>
@@ -161,6 +161,12 @@
 		<action name="cancelChangePassword">
 			<result type="redirectAction">profile</result>
 		</action>
+		<action name="changePassword" method="changePassword" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result type="freemarker">/templates/datamodel/user-changepass.ftl</result>
+			<result name="input" type="freemarker">/templates/datamodel/user-changepass.ftl</result>
+			<result name="success" type="redirectAction">profile</result>
+		</action>
+		
 	</package>
 	
 	<package name="manageUnit" namespace="/manageUnit" extends="default">	

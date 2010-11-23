@@ -36,7 +36,8 @@
 	  </@s.form>
 	 </@s.bean>
 
-	<a href="#" title="Currently logged in as ${Session.USER.name}">${Session.USER.name}</a>
+ 	<@s.url action="profile" namespace="/user" id="profileURL" />
+	<a href="${profileURL}" title="Currently logged in as ${Session.USER.name}">${Session.USER.name}</a>
 </div>
 </#if>
 
