@@ -144,6 +144,12 @@ public class UserAction extends BasePersistenceAction<User>{
 	}
 
 	public String changePassword() {
+		setModel((User)getSessionObject(SessionConstants.USER_HANDLE));
+		setEmail(getModel().getEmail());
+		return changePasswordGeneric();
+	}
+	
+	public String changePasswordGeneric() {
 		User user = (User) getModel();
 		if (user == null) return ERROR;
 		

@@ -4,11 +4,11 @@
 
 <script>
   $(function() {
-  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/y', changeYear: true, yearRange: '1900:2011' });
-  	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/y', 
+  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true, yearRange: '1900:2011' });
+  	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/yyyy', 
   											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d")}), 
   											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d-1")}) });
-  	$( "#booking_departureDate" ).datepicker({ dateFormat: 'dd/mm/y', 
+  	$( "#booking_departureDate" ).datepicker({ dateFormat: 'dd/mm/yyyy', 
   											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d+1")}), 
   											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d")}) });
   });
@@ -22,7 +22,7 @@
     <@s.push value="model">
         <@s.hidden name="webKey"/>
         <@s.textfield name="name" label="Name"/>
-        <@s.textfield name="dob" label="Date Of Birth" value="%{getText('format.date',{dob})}"/>
+        <@s.textfield name="dob" label="Date Of Birth (dd/mm/yyyy)" value="%{getText('format.date',{dob})}"/>
         <#if dob?exists && model.ageGroup!="" >Age group for event: ${model.ageGroup}<br/></#if>
         
         <@s.textfield name="email" label="Email"/>

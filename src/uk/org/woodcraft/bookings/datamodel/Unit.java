@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Text;
 import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
+import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
@@ -145,6 +146,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	@Persistent
 	private Set<Key> eventsRegistered = new HashSet<Key>();
 	
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "5", trim = true, message = "Name is required for unit")
 	public String getName() {
 		return name;
 	}
@@ -161,7 +163,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	public void setOrganisationWebKey(String webKey) {
 		organisationKey = KeyFactory.stringToKey(webKey);
 	}
-	
+	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Organisation must be specified")
 	public String getOrganisationWebKey() {
 		if (organisationKey == null) return null;
 		return KeyFactory.keyToString(organisationKey);

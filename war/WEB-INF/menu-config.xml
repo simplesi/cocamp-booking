@@ -33,5 +33,11 @@
        <Item name="AdminUnits" 			title="Units" 					location="/manageAll/listUnits"/>
        <Item name="AdminBookings" 		title="Bookings" 				location="/manageAll/listBookings"/>
   </Menu>
+  
+  <Menu name="MyAccount" title="My Account" >
+       <Item name="Profile" 		title="Profile" 		location="/user/profile"/>
+       <Item name="ChangePassword"	title="Change password" location="/user/changePassword"/>
+       <Item name="LogOut" 		    title="Log out" 		location="/logout"/>
+  </Menu>
 </Menus>
 </MenuConfig>
