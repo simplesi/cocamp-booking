@@ -14,6 +14,7 @@
         <th>Email</th>
         <th>Org</th>
         <th>Unit</th>
+        <th>Membership No</th>
         <th>Status</th>
     </tr>
    
@@ -25,6 +26,7 @@
             <td>${user.email!""}</td>
             <td>${user.organisationName!""}</td>
             <td>${user.unitName!""}</td>
+            <td>${user.membershipNumber!""}</td>
             <td>${user.accessLevel.displayName!""}</td>
         </tr>
     </#list>

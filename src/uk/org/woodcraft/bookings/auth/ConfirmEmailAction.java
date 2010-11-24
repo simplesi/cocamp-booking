@@ -31,14 +31,14 @@ public class ConfirmEmailAction extends ActionSupport{
 		
 		if (user.getEmailValidated())
 		{
-			addActionMessage("User email has already been confirmed, no need to do this again. You can log in");
+			addActionMessage("User email has already been confirmed, no need to do this again.");
 			return SUCCESS;
 		}
 		
 		user.setEmailValidated(true);
 		CannedQueries.save(user);
 		
-		addActionMessage("User email address was confirmed. Please log in");
+		addActionMessage("User email address was confirmed.");
 		return SUCCESS;
 	}
 

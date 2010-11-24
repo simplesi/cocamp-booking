@@ -470,13 +470,13 @@ header
 }
 
 .errorMessage
-{   text-align: center;   padding-bottom: 5px;   padding-top: 5px;   left: -25px;   position: relative;   background-color: #c11e24;
+{   text-align: center;   padding: 4px;   position: relative;   background-color: #c11e24;
     color: #eeeeee;
     border-radius: 4px;
 	-moz-border-radius: 4px;
 	text-shadow: none;
 	list-style-type: none;
-	width: 100%;
+	width: 18em;
 }
 
 .errorMessage ul
@@ -487,7 +487,10 @@ header
 {   outline: 0;   }
 
 
-
+div.helpcolumn
+{ 	float:right;
+	width: 24em;
+}
 
 
 

@@ -176,7 +176,7 @@ public class UserAction extends BasePersistenceAction<User>{
 		user.setPassword(newPassword);
 		CannedQueries.save(user);
 		
-		addActionMessage("Password for user '"+user.getName()+"' successfull changed.");
+		addActionMessage("Password for user '"+user.getName()+"' successfully changed.");
 		
 		return SUCCESS;
 	}
@@ -187,5 +187,11 @@ public class UserAction extends BasePersistenceAction<User>{
 
 	public String getNewPasswordConfirm() {
 		return newPasswordConfirm;
+	}
+	
+	public String save() {
+		super.save();
+		SessionUtils.syncSessionCacheIfRequired(getSession(), SessionConstants.USER_HANDLE, getModel());
+		return SUCCESS;
 	}
 }

@@ -32,6 +32,9 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 	private String name;
 	
 	@Persistent
+	private String membershipNumber;
+	
+	@Persistent
 	private String passwordEncrypted;
 	
 	@Persistent
@@ -267,6 +270,14 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 	@Override
 	public String getDeleteConditionError() {
 		return "";
+	}
+
+	public void setMembershipNumber(String membershipNumber) {
+		this.membershipNumber = membershipNumber;
+	}
+
+	public String getMembershipNumber() {
+		return membershipNumber;
 	}
 	
 }

@@ -3,7 +3,10 @@
 <#include "/templates/header.ftl">
 
 <h2>Unit Edit</h2>
-
+<div class="helpcolumn">
+<p>A <strong>unit</strong> is a group of people from the same organisation that will be camping together. For Woodcraft Folk this will be your District.</p>
+<p>As well as providing contact details, please provide provisional numbers and requirements below.</p>
+</div>
 <@s.actionmessage/>
 <@s.actionerror/>
 
