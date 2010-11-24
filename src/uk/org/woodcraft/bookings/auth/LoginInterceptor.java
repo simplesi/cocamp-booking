@@ -78,7 +78,8 @@ public class LoginInterceptor implements Interceptor {
 	        if (! StringUtils.isBlank (loginAttempt) ) { // The user is attempting to log in.
 
 	            // Process the user's login attempt.
-	            if (processLoginAttempt (request, session) ) {
+	        	String loginError = processLoginAttempt (request, session);
+	            if ("".equals(loginError) ) {
 	                // The login succeeded send them the login-success page.
 	            	
 	            	// If they were originally going somewhere else, try and send them there again
@@ -94,8 +95,8 @@ public class LoginInterceptor implements Interceptor {
 	            } else {
 	                // The login failed. Set an error if we can on the action.
 	                Object action = invocation.getAction ();
-	                if (action instanceof ValidationAware) {
-	                    ((ValidationAware) action).addActionError ("Username or password incorrect.");
+	                if (action instanceof ValidationAware) {                	
+	                    ((ValidationAware) action).addActionError (loginError);
 	                }
 	            }
 	        }
@@ -111,25 +112,32 @@ public class LoginInterceptor implements Interceptor {
 	    }
 	}
 
-	private boolean processLoginAttempt(HttpServletRequest request, HttpSession session) {
+	private String processLoginAttempt(HttpServletRequest request, HttpSession session) {
 		
 	    String email = request.getParameter(LOGIN_EMAIL);
 	    String password = request.getParameter(LOGIN_PASSWORD);
 
 	    User user = CannedQueries.getUserByEmail(email);
-	    // FIXME: might want to only allow login of approved users
-	    if (user != null && user.getAccessLevel().getCanLogin() && user.getEmailValidated() && 
-	    		user.checkPassword(password))
+	    if (user != null && user.getAccessLevel().getCanLogin() 
+	    		&& user.checkPassword(password))
 		{
+	    	if (!user.getApproved() ) 
+	    		return "User has not yet been approved for login. Please wait until you are sent an email approving access to the booking system.";
+	    	
+	    	if (!user.getEmailValidated() ) 
+	    		return "Your email has not been validated. Please check your inbox for a message from the booking system.";
+	    	
+	    	
 	        // The user has successfully logged in. Store their user object in 
 	        // their HttpSession, and their home org and unit. Then return true.
 	        session.setAttribute(SessionConstants.USER_HANDLE, user);
 	        SessionUtils.setCurrentUserDetails(session,  AppSetting.getDefaultEvent(), user.getOrganisation(), user.getUnit());
 	        
-	        return true;
+	        return "";
 	    } else {
 	        // The user did not successfully log in. Return false.
-	        return false;
+
+	        return "Username or password incorrect.";
 	    }
 	}
 

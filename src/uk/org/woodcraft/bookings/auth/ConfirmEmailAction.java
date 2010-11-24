@@ -38,7 +38,14 @@ public class ConfirmEmailAction extends ActionSupport{
 		user.setEmailValidated(true);
 		CannedQueries.save(user);
 		
-		addActionMessage("User email address was confirmed.");
+		if (user.getApproved())
+		{
+			addActionMessage("User email address was confirmed. You can now log in.");
+		} else {
+			addActionMessage("User email address was confirmed. Now awaiting admin approval - you will receive a further email when you have been granted access to the booking system by our staff.");
+		}
+		
+		
 		return SUCCESS;
 	}
 

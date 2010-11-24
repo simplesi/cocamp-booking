@@ -6,6 +6,8 @@
 
 <h3>Users pending approval</h3>
 <#if (PendingUsers.size() > 0)>
+<p>The below are users who have signed up for bookings. Clicking approve will mean that they can log in, view, add and remove bookings for their unit. 
+Please verify that they are permitted to organise bookings by verifying membership number or with IFM, and only approve once this is done. This must be carefully done to protect confidential information in the booking system.</p>
 <@s.form id="user" method="post">
 <table>
     <tr>
@@ -43,6 +45,8 @@
 
 <h3>Organisations pending approval</h3>
 <#if (PendingOrgs.size() > 0)>
+<p>These are organisations entered by people as part of the signup process. Since people have not been verified at this stage, these are not necessarily valid, and so are hidden from all other users until they are approved. 
+Please ensure that these are valid and not duplicates of existing organisations, and then click approve.</p>
 <@s.form id="org" method="post">
 <table>
     <tr>
@@ -71,6 +75,8 @@
 
 <h3>Units pending approval</h3>
 <#if (PendingUnits.size() > 0)>
+<p>These are units entered by people as part of the signup process. Since people have not been verified at this stage, these are not necessarily valid, and so are hidden from all other users until they are approved. 
+Please ensure that these are valid and not duplicates of existing units, and then click approve.
 <@s.form id="unit" method="post">
 <table>
     <tr>
