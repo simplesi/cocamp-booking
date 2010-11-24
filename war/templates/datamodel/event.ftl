@@ -15,6 +15,11 @@
 </script>
 
 <h2>Event Edit</h2>
+<div class="helpcolumn">
+<p>The <strong>early booking deadline</strong> is used when applying early booking discounts.</p>
+<p>The <strong>booking deadline</strong> is the last date for bookings before a late booking fee is applied. Cancellations after this date will not get a refund.</p>
+<p>The <strong>booking system locked</strong> date is the date when everything is read-only for all non-admins. This is usually immediately before the event.</p>
+</div>
 <@s.actionmessage/>
 <@s.actionerror/>
 

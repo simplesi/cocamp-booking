@@ -3,6 +3,9 @@
 <#include "/templates/header.ftl">
  
 <h2>Organisation Edit</h2>
+<div class="helpcolumn">
+<p>Please provide contact details for your organisation.</p>
+</div>
 <@s.actionmessage/>
 <@s.actionerror/>
 

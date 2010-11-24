@@ -4,19 +4,25 @@
 
 <script>
   $(function() {
-  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/yyyy', changeYear: true, yearRange: '1900:2011' });
-  	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/yyyy', 
+  	$( "#booking_dob" ).datepicker({ dateFormat: 'dd/mm/yy', changeYear: true, yearRange: '1900:2011' });
+  	$( "#booking_arrivalDate" ).datepicker({ dateFormat: 'dd/mm/yy', 
   											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d")}), 
   											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d-1")}) });
-  	$( "#booking_departureDate" ).datepicker({ dateFormat: 'dd/mm/yyyy', 
+  	$( "#booking_departureDate" ).datepicker({ dateFormat: 'dd/mm/yy', 
   											 minDate: new Date( ${earliestDate?string("yyyy,M-1,d+1")}), 
   											 maxDate: new Date( ${latestDate?string("yyyy,M-1,d")}) });
   });
 </script>
 
 <h2>Booking Edit</h2>
-
+<div class="helpcolumn">
+<p>Booking information for this individual should be entered on the left. 
+This information should be as accurate as possible, details cannot be changed after the bookings deadline.</p>
+<p>If an <strong>email address</strong> is supplied, this can be used by the bookings secretary to contact all people they have booked in, and it will be used later to invite people to 'My Village', the online pre-CoCamp community.</p>
+<p>A Woodcraft Folk <strong>membership number</strong> should be provided for all adults in Woodcraft Folk units.</p>
+</div>
 <@s.actionerror/>
+
 
 <@s.form id="booking" method="post">
     <@s.push value="model">
