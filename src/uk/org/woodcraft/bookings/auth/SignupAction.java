@@ -95,7 +95,7 @@ public class SignupAction extends BasePersistenceAction<User>{
 	{
 		String baseUrl = Configuration.get().getProperty("baseurl");
 		
-		String confirmUrl = baseUrl + "signup/confirmEmail?";
+		String confirmUrl = baseUrl + "signup/confirmEmail";
 		StringBuilder url = new StringBuilder( confirmUrl );
 		
 		Map<String,String> params = new HashMap<String, String>();
@@ -105,6 +105,7 @@ public class SignupAction extends BasePersistenceAction<User>{
 		
 		// FIXME: Use UrlHelper
 		try {
+			url.append("?");
 			url.append("email=" + URLEncoder.encode(params.get("email"), "UTF-8"));
 			url.append("&hash=" + URLEncoder.encode(params.get("hash"), "UTF-8"));
 		} catch (UnsupportedEncodingException e) {

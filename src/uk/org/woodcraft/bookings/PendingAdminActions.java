@@ -9,7 +9,9 @@ import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
+import uk.org.woodcraft.bookings.email.EmailUtils;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Configuration;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -61,13 +63,26 @@ public class PendingAdminActions extends ActionSupport {
 			
 		} else {
 			for(User user : changedUsers)
+			{
 				user.setApproved(true);
+				if (user.getEmailValidated()) emailUserToNotifyApproved(user);
+			}
 			
 			CannedQueries.save(changedUsers);
 			addActionMessage(String.format("Approved %d users", changedUsers.size()));
 		}
 		
 		return SUCCESS;
+	}
+	
+	private void emailUserToNotifyApproved(User user)
+	{
+		String subject = "Co-Camp Booking - Account approved";
+		String body = "Your access to CoCamp bookings has now been approved, and you can book people in to the event. \n\n" 
+					+ "You can visit the booking system here : " + Configuration.get().getProperty("baseurl")
+					+ "\n\nThanks,The Co-Camp Team";
+		System.out.println(body);
+		EmailUtils.emailUser(user, subject, body);
 	}
 	
 	public Collection<Organisation> getPendingOrgs()
