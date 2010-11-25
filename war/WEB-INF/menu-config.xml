@@ -37,6 +37,7 @@
   <Menu name="MyAccount" title="My Account" >
        <Item name="Profile" 		title="Profile" 		location="/user/profile"/>
        <Item name="ChangePassword"	title="Change password" location="/user/changePassword"/>
+       <Item name="Home"			title="Home page"		location="/"/>
        <Item name="LogOut" 		    title="Log out" 		location="/logout"/>
   </Menu>
 </Menus>

@@ -1,6 +1,10 @@
 <#assign pagetitle = 'Organisations'>
 
 <#include "/templates/header.ftl">
+
+<h2>Organisations</h2>
+<p>Please click the name of an organisation below to see its full details.</p>
+
 <@s.actionmessage/>
 <@s.actionerror/>
 

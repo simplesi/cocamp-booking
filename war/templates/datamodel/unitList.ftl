@@ -1,6 +1,7 @@
 <#assign pagetitle="Units">
 <#include "/templates/header.ftl">
-
+<h2>Units</h2>
+<p>Please click the name of a unit below to see its full details.</p>
 <table>
     <tr>
         <th>Name</th>

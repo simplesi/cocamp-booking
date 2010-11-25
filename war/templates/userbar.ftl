@@ -22,7 +22,7 @@
 	    	<@s.select name="navOrgKey"
 	        	list=allOrgs listKey="webKey" listValue="name" value="%{'${Session.CURRENT_ORG.webKey}'}" />
 	  <#else>
-	    	<span id="static_text">Organization: ${Session.CURRENT_ORG.name} | </span>
+	    	<span id="static_text">Organisation: ${Session.CURRENT_ORG.name} | </span>
 	  </#if>
 	      
 	  <#if ( allOpenEvents.size() > 1) >

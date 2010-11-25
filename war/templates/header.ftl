@@ -62,7 +62,7 @@
 	                <#if Session?exists && Session.USER??>
 		                <@menu.useMenuDisplayer name="CSSListMenu" id="primary-nav">
 						  <@menu.displayMenu name="ManageUnit"/>	
-						  <#if Session.USER.accessLevel.isSuperUser>				  
+						  <#if Session.USER.accessLevel.canChangeUnit>				  
 						  <@menu.displayMenu name="ManageOrg"/>
 						  </#if>
 						  <#if Session.USER.accessLevel.isSuperUser>
