@@ -61,7 +61,7 @@ public class SecurityModel {
 				break;
 				
 			case ORG_ADMIN:
-				if(user.getOrganisation().equals(checkOrg)) permitted = true;
+				if(checkOrg != null && checkOrg.equals(user.getOrganisation())) permitted = true;
 				if(checkUnit != null && checkUnit.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
 				if(checkUser != null && checkUser.getOrganisationKey().equals(user.getOrganisationKey())) permitted = true;
 				if(checkBooking != null) 

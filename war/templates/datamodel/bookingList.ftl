@@ -1,6 +1,10 @@
 <#assign pagetitle = 'Bookings'>
 
 <#include "/templates/header.ftl">
+<h2>Bookings</h2>
+<p>Please click a person's name below to see the full details of their booking. 
+<@s.url id="addURL" action="addBooking" namespace="/manageUnit" />
+<@s.a href="${addURL}">Add a booking</@s.a> to your current unit.</p>
 
 <table>
     <tr>
