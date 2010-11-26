@@ -9,12 +9,14 @@
 	<p>A <strong>unit</strong> is a group of people from the same organisation that will be camping together. For Woodcraft Folk this will be your District.</p>
 	<p>Your <strong>unit</strong> is the default unit the process will start on, but you can change units using the dropdown above.</p>
 	<#else>
+	<p>You cannot change your email address, organisation or unit.</p>
 	<p>Your <strong>organisation</strong> is the organisation you are responsible for, and as an organisational booking secretary, you can change details for everyone in this organisation.</p>
 	<p>A <strong>unit</strong> is a group of people from the same organisation that will be camping together. For Woodcraft Folk this will be your District.</p>
 	
 	<p>Your <strong>unit</strong> is the default unit the process will start on, but you can change units using the dropdown above as you are an organisational booking secretary.</p>
 	</#if>
 <#else>
+<p>You cannot change your email address, organisation or unit.</p>
 <p>Your <strong>organisation</strong> is the organisation you are part of. <p>A <strong>unit</strong> is a group of people from the same organisation that will be camping together. For Woodcraft Folk this will be your District.
 Your unit is the unit you are responsible for making bookings for.</p>
 </#if>
