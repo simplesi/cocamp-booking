@@ -153,6 +153,11 @@
 			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
 			<result type="freemarker">/templates/datamodel/user.ftl</result>
 		</action>
+		
+		<action name="saveUser" method="save" class="uk.org.woodcraft.bookings.persistence.UserAction">
+			<result name="input" type="freemarker">/templates/datamodel/user.ftl</result>
+			<result type="redirectAction">profile</result>
+		</action>
 		<action name="changePasswordGeneric" method="changePasswordGeneric" class="uk.org.woodcraft.bookings.persistence.UserAction">
 			<result type="freemarker">/templates/datamodel/user-changepass.ftl</result>
 			<result name="input" type="freemarker">/templates/datamodel/user-changepass.ftl</result>
