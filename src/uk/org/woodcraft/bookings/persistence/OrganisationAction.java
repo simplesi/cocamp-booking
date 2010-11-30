@@ -27,7 +27,8 @@ public class OrganisationAction extends BasePersistenceAction<Organisation>{
 		// They're in the signup process, so put it in the session so it appears in the dropdown
 		if (! SessionUtils.userIsLoggedIn())
 		{
-			setSessionObject(SessionConstants.SIGNUP_ORG, getModel());
+			setSessionObject(SessionConstants.SIGNUP_ADDED_ORG, getModel());
+			setSessionObject(SessionConstants.SIGNUP_ORG, getModel());	
 		}
 		SessionUtils.syncSessionCacheIfRequired(getSession(), SessionConstants.CURRENT_ORG, getModel());
 		

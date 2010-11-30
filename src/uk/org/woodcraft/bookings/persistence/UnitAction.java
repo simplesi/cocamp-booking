@@ -31,6 +31,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 		// They're in the signup process, so put it in the session so it appears in the dropdown
 		if (! SessionUtils.userIsLoggedIn())
 		{
+			setSessionObject(SessionConstants.SIGNUP_ADDED_UNIT, getModel());
 			setSessionObject(SessionConstants.SIGNUP_UNIT, getModel());
 		}
 		SessionUtils.syncSessionCacheIfRequired(getSession(), SessionConstants.CURRENT_UNIT, getModel());
@@ -68,7 +69,13 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 			if (currentOrg != null)
 				setModel(new Unit(currentOrg));
 			else 
-				setModel(new Unit());
+			{
+				Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ADDED_ORG);
+				if (userAddedOrg != null) {
+					setModel(new Unit(userAddedOrg));
+				} else 
+					setModel(new Unit());
+			}
 		}
 	}
 
@@ -76,10 +83,9 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 	public Collection<Organisation> getAllOrgs()
 	{
 		Collection<Organisation> orgs = CannedQueries.allOrgs(false);
-		Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ORG);
+		Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ADDED_ORG);
 		if (userAddedOrg != null) {
 			orgs.add(userAddedOrg);
-			defaultOrgWebKey = userAddedOrg.getWebKey();
 		}
 		
 		return orgs;
