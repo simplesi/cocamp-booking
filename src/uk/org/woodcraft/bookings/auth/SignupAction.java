@@ -2,9 +2,15 @@ package uk.org.woodcraft.bookings.auth;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.struts2.interceptor.validation.SkipValidation;
+
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 import uk.org.woodcraft.bookings.datamodel.Accesslevel;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
@@ -20,10 +26,19 @@ public class SignupAction extends BasePersistenceAction<User>{
 	private static final long serialVersionUID = 1L;
 	
 	private String email;
+	private Key organisationKey;
+	private Key unitKey;
+	
 	
 	// not used for signup
 	public String save() {
 		throw new IllegalStateException("Save not supported for SignupAction" );
+	}
+	
+	@SkipValidation
+	public String noValidationEntry()
+	{
+		return INPUT;
 	}
 	
 	public String processSignup(){
@@ -43,14 +58,13 @@ public class SignupAction extends BasePersistenceAction<User>{
 		sendUserConfirmEmail(getModel());
 		
 		addActionMessage("Check e-mail to confirm address");
-		return "email-confirm";
+		return SUCCESS;
 	}
 
-	// For the signup process
 	public Collection<Organisation> getAllOrgs()
 	{
 		Collection<Organisation> orgs = CannedQueries.allOrgs(false);
-		Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ORG);
+		Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ADDED_ORG);
 		if (userAddedOrg != null) {
 			orgs.add(userAddedOrg);
 		}
@@ -58,12 +72,14 @@ public class SignupAction extends BasePersistenceAction<User>{
 		return orgs;
 	}
 
-	// For the signup process
-	public Collection<Unit> getAllUnits()
+	public Collection<Unit> getUnitsForCurrentOrg()
 	{
-		Collection<Unit> units = CannedQueries.allUnits(false);
-		Unit userAddedUnit = (Unit)getSessionObject(SessionConstants.SIGNUP_UNIT);
-		if (userAddedUnit != null) {
+		Organisation currentOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ORG);
+		
+		Collection<Unit> units = new ArrayList<Unit>();
+		if (currentOrg != null) CannedQueries.unitsForOrg(currentOrg.getKey(), false);
+		Unit userAddedUnit = (Unit)getSessionObject(SessionConstants.SIGNUP_ADDED_UNIT);
+		if (userAddedUnit != null && currentOrg != null && userAddedUnit.getOrganisationKey().equals(currentOrg.getKey())) {
 			units.add(userAddedUnit);
 		}
 		return units;
@@ -123,33 +139,74 @@ public class SignupAction extends BasePersistenceAction<User>{
 			setModel(CannedQueries.getUserByEmail(email));	
 		} 
 		
+		// Default to user added values
+		
 		if (getModel() == null)
 		{
 			User user = new User();
 			user.setIsNew(true);
-		
-			// Handle the defaults if someone's created their own org/unit	
-			Unit userAddedUnit = (Unit)getSessionObject(SessionConstants.SIGNUP_UNIT);
-			if (userAddedUnit != null) {
-				// use the org of the unit if possible so we get consistency
-				user.setOrganisationKey(userAddedUnit.getOrganisationKey());
-				user.setUnitKey(userAddedUnit.getKey());
-				setModel(user);
-				return;
-			}
 			
-			Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ORG);
-			if (userAddedOrg != null) {
-				user.setOrganisationKey(userAddedOrg.getKey());
-			}
+			Organisation selectedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ORG);
+			if (selectedOrg != null)
+				user.setOrganisationKey(selectedOrg.getKey());
 			
-			setModel(user);	
+			Unit selectedUnit = (Unit)getSessionObject(SessionConstants.SIGNUP_UNIT);
+			if (selectedUnit != null)
+				user.setUnitKey(selectedUnit.getKey());
+			
+			setModel(user);
 		}
 	}
 
 	@Override
 	public String list() {
 		throw new IllegalStateException("List method of signupAction not supported");
+	}
+
+	public void setOrganisationWebKey(String organisationWebKey) {
+		this.organisationKey = KeyFactory.stringToKey(organisationWebKey);
+	}
+
+	public String getOrganisationWebKey() {
+		if (organisationKey == null) return null;
+		return KeyFactory.keyToString(organisationKey);
+	}
+	
+	public Organisation getOrganisation() {
+		return CannedQueries.orgByKey(organisationKey);
+	}
+
+	public void setUnitWebKey(String unitWebKey) {
+		this.unitKey = KeyFactory.stringToKey(unitWebKey);
+	}
+	
+	public Unit getUnit() {
+		return CannedQueries.unitByKey(unitKey);
+	}
+
+	public String getUnitWebKey() {
+		if (unitKey == null) return null;
+		return KeyFactory.keyToString(unitKey);
+	}
+	
+	@SkipValidation
+	public String signupOrg() {
+		if (organisationKey == null) return INPUT;
+		Organisation org = CannedQueries.orgByKey(organisationKey);
+		if (org == null) return INPUT;
+		setSessionObject(SessionConstants.SIGNUP_ORG, org);
+		return SUCCESS;
+	}
+	
+	@SkipValidation
+	public String signupUnit() {
+		if (unitKey == null) return INPUT;
+		Unit unit = CannedQueries.unitByKey(unitKey);
+		if (unit == null) return INPUT;
+		
+		setSessionObject(SessionConstants.SIGNUP_UNIT, unit);
+		
+		return SUCCESS;
 	}
 
 }
