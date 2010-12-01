@@ -8,8 +8,8 @@
 	<constant name="struts.action.excludePattern" value="/_ah/.*"/>	
 	
 	<constant name="struts.action.extension" value=",action"/>	
-	<constant name="struts.devMode" value="true" />
-	<constant name="struts.i18n.reload" value="true" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.i18n.reload" value="false" />
 	
 	<!-- constant name="struts.ui.templateDir" value="templates/struts" -->
 	<constant name="struts.ui.theme" value="css_xhtml" />
