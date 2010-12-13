@@ -141,19 +141,19 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		
 		if(age < 6)
 		{
-			return "Woodchip";
+			return "Woodchip (under 6)";
 		} else if (age < 10)
 		{
-			return "Elfin";
+			return "Elfin (6-9)";
 		} else if (age < 13 )
 		{
-			return "Pioneer";
+			return "Pioneer (10-12)";
 		} else if (age < 16)
 		{
-			return "Venturer";
+			return "Venturer (13-15)";
 		} else if (age < 21)
 		{
-			return "DF";
+			return "DF (16-20)";
 		} 
 		
 		return "Adult";
