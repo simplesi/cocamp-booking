@@ -480,6 +480,10 @@
 		<action name="setup" method="execute" class="uk.org.woodcraft.bookings.CreateInitialProdDataAction">
 			<result type="freemarker">/templates/success.ftl</result>
 		</action>
+		
+		<action name="upgrade" method="upgradeData" class="uk.org.woodcraft.bookings.UpgradeDataAction">
+			<result type="freemarker">/templates/success.ftl</result>
+		</action>
 	</package>
 
 
@@ -498,6 +502,7 @@
 		<action name="preDeployment" method="execute" class="uk.org.woodcraft.bookings.dev.PreDeploymentAction">
 			<result type="freemarker">/templates/success.ftl</result>
 		</action>	
+		
 	</package>
 	
 </struts>

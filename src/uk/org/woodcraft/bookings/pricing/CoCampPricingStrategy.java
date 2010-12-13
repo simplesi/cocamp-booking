@@ -10,7 +10,7 @@ import uk.org.woodcraft.bookings.utils.DateUtils;
 public class CoCampPricingStrategy implements PricingStrategy {
 
 	
-	public long priceOf(Booking booking) {
+	public double priceOf(Booking booking) {
 		
 		if (booking.getEventKey() == null) return 0;
 		if (booking.getArrivalDate() == null) return 0;
@@ -18,7 +18,7 @@ public class CoCampPricingStrategy implements PricingStrategy {
 		
 		Event event = CannedQueries.eventByKey(booking.getEventKey());
 		
-		long price = priceForDuration(booking, event);
+		double price = priceForDuration(booking, event);
 		
 		if(booking.getDob() != null && 
 				DateUtils.ageOnDay(booking.getDob(), event.getPublicEventStart()) <= 5)
@@ -41,7 +41,7 @@ public class CoCampPricingStrategy implements PricingStrategy {
 		
 	}
 
-	private long priceForDuration(Booking booking, Event event)
+	private double priceForDuration(Booking booking, Event event)
 	{
 		Date firstPricableDate = booking.getArrivalDate();
 		if(firstPricableDate.before(event.getPublicEventStart()))

@@ -226,6 +226,14 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	}
 	
 	@Test
+	public void testBookingsForName() {
+
+		Collection<Booking> bookings = CannedQueries.bookingsForName("Test person 2");
+		TestUtils.assertNames(bookings, "Test person 2");
+		assertDetached(bookings);
+	}
+	
+	@Test
 	public void testDefaultVillagesForUnit() {
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);		
 		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		

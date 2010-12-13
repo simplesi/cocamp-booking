@@ -71,7 +71,8 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.bookingsForVillage(village1);
 		CannedQueries.bookingsHomeless(event1);
 		CannedQueries.bookingByKey(bookings.iterator().next().getKeyCheckNotNull());
-		
+		CannedQueries.bookingsForName("Test person 2");
+		 
 		// User queries
 		CannedQueries.allUsers();
 		CannedQueries.allUnapprovedUsers();

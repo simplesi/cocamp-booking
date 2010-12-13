@@ -403,6 +403,14 @@ public class CannedQueries {
 		return getByKey(Booking.class, key);
 	}
 	
+	public static Collection<Booking> allBookings()
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Booking.class);		
+		return queryDetachAndClose(Booking.class, query);
+	}
+	
 	public static Collection<Booking> bookingsForUnit(Unit unit, Event event)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -508,6 +516,24 @@ public class CannedQueries {
 		query.declareParameters("Key eventKeyParam");
 		
 		return queryDetachAndClose(Booking.class, query, event.getKeyCheckNotNull());
+	}
+	
+	/* NB - App engine doesn't support partial like matching for strings, so this is equality only...
+	 * 
+	 */
+	public static Collection<Booking> bookingsForName(String name)
+	{
+		if (name == null) throw new IllegalArgumentException("Cannot retrieve bookings for an empty name.");
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Booking.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setOrdering("name");
+		query.setFilter("name == nameParam");
+		query.declareParameters("Key nameParam");
+		
+		return queryDetachAndClose(Booking.class, query, name);
 	}
 
 	public static Key defaultVillageKeyForUnit(Event event, Unit unit)

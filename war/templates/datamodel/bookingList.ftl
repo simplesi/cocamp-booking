@@ -23,7 +23,7 @@
             <td>${booking.ageGroup}</td>
             <td>${booking.arrivalDate?date}</td>
             <td>${booking.departureDate?date}</td>
-            <td>${booking.price}</td>
+            <td>${booking.fee?string.currency}</td>
             <td>
                 <@s.url id="deleteURL" action="deleteBooking" webKey="${booking.webKey}" />
                 <@s.a href="${deleteURL}">Delete</@s.a>
