@@ -137,7 +137,9 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	public String getAgeGroup() {
 		if (this.dob == null) return "";
 		
-		Event event = CannedQueries.eventByKey(eventKey);		
+		Event event = CannedQueries.eventByKey(eventKey);	
+		if (event == null) return "";
+		
 		int age = DateUtils.ageOnDay(dob, event.getPublicEventStart() );
 		
 		if(age < 6)
