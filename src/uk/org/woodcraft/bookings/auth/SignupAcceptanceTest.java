@@ -31,7 +31,7 @@ public class SignupAcceptanceTest extends BaseAppEngineTestCase{
 		user.setEmail(email);
 		user.setName("New user");
 		user.setPassword(password);
-		assertEquals("email-confirm", signup.processSignup());
+		assertEquals(ActionSupport.SUCCESS, signup.processSignup());
 		
 		// Confirm email received
 		// can't easily do this
