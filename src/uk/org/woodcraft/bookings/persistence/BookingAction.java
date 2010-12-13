@@ -38,7 +38,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	@SkipValidation
 	public String list() {	
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
-		setModelList(CannedQueries.bookingsForUnit(getCurrentUnit(), getCurrentEvent()));
+		setModelList(CannedQueries.allBookings());
 		return SUCCESS;
 	}
 
