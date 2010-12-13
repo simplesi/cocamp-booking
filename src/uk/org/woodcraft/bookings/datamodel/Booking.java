@@ -73,10 +73,11 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	private boolean becomeMember = true;
 	
 	/**
-	 * The price of the booking, in pence
+	 * The price of the booking, in pounds
+	 * Note - cannot be called price since earlier version of class used this with a long price
 	 */
 	@Persistent
-	private long price;
+	private Double fee;
 	
 	/**
 	 *  Has this booking been cancelled, and if so, on what date?
@@ -110,7 +111,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 		this.departureDate = event.getPublicEventEnd();
 		
 		this.bookingCreationDate = clock.getTime();
-		updatePrice();
+		updateFee();
 	}
 	
 	public Booking( String name, Unit unit, Event event, Clock clock) {
@@ -126,7 +127,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 
 	public void setDob(Date dob) {
 		this.dob = DateUtils.cleanupTime(dob);
-		updatePrice();
+		updateFee();
 	}
 	
 	/**
@@ -176,7 +177,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 
 	public void setArrivalDate(Date arrivalDate) {
 		this.arrivalDate = DateUtils.cleanupTime(arrivalDate);
-		updatePrice();
+		updateFee();
 	}
 
 	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Departure date must be provided")
@@ -186,7 +187,7 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 
 	public void setDepartureDate(Date departureDate) {
 		this.departureDate = DateUtils.cleanupTime(departureDate);
-		updatePrice();
+		updateFee();
 	}
 
 	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "5", trim = true, message = "Full Name is required")
@@ -234,24 +235,25 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 
 	public void setCancellationDate(Date cancellationDate) {
 		this.cancellationDate = cancellationDate;
-		updatePrice();
+		updateFee();
 	}
 
 	public Date getCancellationDate() {
 		return cancellationDate;
 	}
 
-	private void setPrice(long price) {
-		this.price = price;
+	private void setFee(double price) {
+		this.fee = price;
 	}
 
-	public long getPrice() {
-		return price;
+	public double getFee() {
+		if (fee == null ) return 0;
+		return fee;
 	}
 	
-	public void updatePrice() {
+	public void updateFee() {
 		PricingStrategy pricer = PricingFactory.getPricingStrategy();
-		setPrice(pricer.priceOf(this));
+		setFee(pricer.priceOf(this));
 	}
 
 	@Override

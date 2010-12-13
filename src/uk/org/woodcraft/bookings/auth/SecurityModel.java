@@ -1,5 +1,6 @@
 package uk.org.woodcraft.bookings.auth;
 
+import uk.org.woodcraft.bookings.datamodel.Accesslevel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
@@ -81,6 +82,16 @@ public class SecurityModel {
 
 		
 		if (!permitted)	throw new SecurityException("You do not have the right security access to do that action");
+	}
+	
+	public static void checkIsAdminUser()
+	{
+		User user = SessionUtils.currentUser(false);
+		if (user == null)
+			throw new SecurityException("You must be logged in to perform this action.");
+		
+		if (!user.getAccessLevel().equals(Accesslevel.GLOBAL_ADMIN))
+			throw new SecurityException("You must be an administrator to perform this action");
 	}
 	
 	public static void checkIsDevMode()
