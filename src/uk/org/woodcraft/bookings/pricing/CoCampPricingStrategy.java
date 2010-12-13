@@ -17,6 +17,7 @@ public class CoCampPricingStrategy implements PricingStrategy {
 		if (booking.getDepartureDate() == null) return 0;
 		
 		Event event = CannedQueries.eventByKey(booking.getEventKey());
+		if (event == null) return 0;
 		
 		double price = priceForDuration(booking, event);
 		
