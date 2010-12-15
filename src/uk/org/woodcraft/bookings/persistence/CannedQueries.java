@@ -535,6 +535,20 @@ public class CannedQueries {
 		
 		return queryDetachAndClose(Booking.class, query, name);
 	}
+	
+	
+	public static Collection<uk.org.woodcraft.bookings.datamodel.Transaction> transactionsForUnit(Unit unit, Event event)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(uk.org.woodcraft.bookings.datamodel.Transaction.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setOrdering("timestamp");
+		query.setFilter("unitKey == unitKeyParam && eventKey == eventKeyParam");
+		query.declareParameters("Key unitKeyParam, Key eventKeyParam");
+		
+		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
+	}
 
 	public static Key defaultVillageKeyForUnit(Event event, Unit unit)
 	{	

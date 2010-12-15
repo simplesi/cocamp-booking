@@ -252,6 +252,10 @@
 			<result type="redirect">redirectToBookingList</result>
 		</action>
 		
+		<action name="accounts" method="accountsForUnit" class="uk.org.woodcraft.bookings.AccountsAction">
+			<result type="freemarker">/templates/accounts/accounts.ftl</result>
+		</action>
+		
 	</package>
 	
 	<package name="manageOrg" namespace="/manageOrg" extends="manageUnit">	
@@ -315,6 +319,10 @@
 				<param name="actionName">listBookings</param>
 			</result>
 		</action>	
+		
+		<action name="accounts" method="accountsForOrg" class="uk.org.woodcraft.bookings.AccountsAction">
+			<result type="freemarker">/templates/accounts/accounts.ftl</result>
+		</action>
 			
 	</package>
 	
