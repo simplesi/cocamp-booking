@@ -13,6 +13,7 @@ import org.junit.Test;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
+import uk.org.woodcraft.bookings.datamodel.Transaction;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
@@ -280,6 +281,16 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		users = CannedQueries.allUsersForUnit(unit);
 		TestUtils.assertNames(users, "Global Admin 1", "Org Admin 1", "Unit Admin 1");
 		assertDetached(users);
+	}
+	
+	@Test
+	public void testTransactions() {
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);	
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");	
+		Unit unit = CannedQueries.unitByName("Unit 1", org);
+		
+		Collection<Transaction> transactions = CannedQueries.transactionsForUnit(unit, event1);
+		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Refund 1");
 	}
 
 	@Test

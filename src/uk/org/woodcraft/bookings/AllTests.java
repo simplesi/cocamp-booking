@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 import uk.org.woodcraft.bookings.auth.SignupAcceptanceTest;
+import uk.org.woodcraft.bookings.datamodel.AgeGroupTest;
 import uk.org.woodcraft.bookings.datamodel.KeyBasedDataTest;
 import uk.org.woodcraft.bookings.datamodel.KeyBasedDataWithAuditTest;
 import uk.org.woodcraft.bookings.datamodel.UserTest;
@@ -30,7 +31,8 @@ import uk.org.woodcraft.bookings.utils.DateUtilsTest;
         KeyBasedDataTest.class,
         KeyBasedDataWithAuditTest.class,
         CoCampPricingStrategyTest.class,
-        UpgradeDataActionTest.class
+        UpgradeDataActionTest.class,
+        AgeGroupTest.class
         })
 
 public class AllTests {

@@ -11,6 +11,8 @@ import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
+import uk.org.woodcraft.bookings.datamodel.Transaction;
+import uk.org.woodcraft.bookings.datamodel.TransactionType;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
@@ -99,6 +101,13 @@ public class BasicTestDataFixture extends TestFixture {
 			pm.makePersistentAll(bookings);
 			
 			
+			// Transactions
+			List<Transaction> transactions = new ArrayList<Transaction>();
+			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Payment, "Payment 1", "Comment 1", 23.32d));
+			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Payment, "Payment 2", "", 12.00d));
+			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Adjustment, "Refund 1", "Refund test", -23.32d));
+			pm.makePersistentAll(transactions);
+			
 			// Users
 			User user1 = new User(TestConstants.USER_ADMIN_EMAIL, "Global Admin 1", "password", Accesslevel.GLOBAL_ADMIN);
 			user1.setOrganisationKey(orgWcf.getKeyCheckNotNull());
@@ -123,6 +132,9 @@ public class BasicTestDataFixture extends TestFixture {
 			user5.setUnitKey(otherOrgUnit.getKeyCheckNotNull());
 			
 			pm.makePersistentAll(user1, user2, user3, user4, user5);
+			
+			
+			
 			
 			
 			// Application settings

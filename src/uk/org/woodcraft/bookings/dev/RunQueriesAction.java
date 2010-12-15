@@ -73,6 +73,9 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.bookingByKey(bookings.iterator().next().getKeyCheckNotNull());
 		CannedQueries.bookingsForName("Test person 2");
 		 
+		// Transaction queries
+		CannedQueries.transactionsForUnit(unit1, event1);
+		
 		// User queries
 		CannedQueries.allUsers();
 		CannedQueries.allUnapprovedUsers();

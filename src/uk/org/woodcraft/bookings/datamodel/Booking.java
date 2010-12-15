@@ -134,32 +134,15 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	 * Age group as of the first day of the event
 	 * @return
 	 */
-	public String getAgeGroup() {
-		if (this.dob == null) return "";
+	public AgeGroup getAgeGroup() {
+		if (this.dob == null) return AgeGroup.Unknown;
 		
 		Event event = CannedQueries.eventByKey(eventKey);	
-		if (event == null) return "";
+		if (event == null) return AgeGroup.Unknown;
 		
 		int age = DateUtils.ageOnDay(dob, event.getPublicEventStart() );
 		
-		if(age < 6)
-		{
-			return "Woodchip (under 6)";
-		} else if (age < 10)
-		{
-			return "Elfin (6-9)";
-		} else if (age < 13 )
-		{
-			return "Pioneer (10-12)";
-		} else if (age < 16)
-		{
-			return "Venturer (13-15)";
-		} else if (age < 21)
-		{
-			return "DF (16-20)";
-		} 
-		
-		return "Adult";
+		return AgeGroup.groupFor(age);
 	}
 
 	@EmailValidator(type = ValidatorType.FIELD, message = "Email is required" )
