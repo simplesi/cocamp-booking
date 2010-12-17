@@ -1,4 +1,4 @@
-<!-- Indices written at Mon, 13 Dec 2010 19:36:46 UTC -->
+<!-- Indices written at Fri, 17 Dec 2010 08:11:55 UTC -->
 
 <datastore-indexes>
 
@@ -62,6 +62,13 @@
         <property name="eventKey" direction="asc"/>
         <property name="villageKey" direction="asc"/>
         <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Transaction" ancestor="false" source="auto">
+        <property name="eventKey" direction="asc"/>
+        <property name="unitKey" direction="asc"/>
+        <property name="timestamp" direction="asc"/>
     </datastore-index>
 
     <!-- Used 1 time in query history -->

@@ -11,6 +11,9 @@
            <Item name="UnitBookingsList"   	title="Current Bookings"		location="/manageUnit/listBookings"/>
            <Item name="UnitBookingsAdd"   	title="Add Bookings"			location="/manageUnit/addBooking"/>
        </Item>
+       <Item name="UnitFinance" 	title="Finance">
+           <Item name="UnitFinanceAccounts"   	title="View account statement"		location="/manageUnit/accounts"/>
+       </Item>
        <Item name="UnitEdit" 	title="Unit details" location="/manageUnit/editUnit"/>        
   </Menu>
   
@@ -21,6 +24,9 @@
        <Item name="OrgUnits" 		title="Units">
            <Item name="OrgUnitsList"   	title="List units in organisation"	location="/manageOrg/listUnits"/>
            <Item name="OrgUnitsAdd"   	title="Add a new unit"	location="/manageOrg/addUnit"/>
+       </Item>
+       <Item name="OrgFinance" 	title="Finance">
+           <Item name="OrgFinanceAccounts"   	title="View account statement"		location="/manageOrg/accounts"/>
        </Item>
        <Item name="OrgEdit" 	title="Organisation details" location="/manageOrg/editOrg"/>        
   </Menu>
