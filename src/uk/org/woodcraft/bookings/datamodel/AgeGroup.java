@@ -3,8 +3,8 @@ package uk.org.woodcraft.bookings.datamodel;
 public enum AgeGroup {
 	Unknown(0,0),
 	Woodchip(0,5),
-	Elfin(6,8),
-	Pioneer(9,12),
+	Elfin(6,9),
+	Pioneer(10,12),
 	Venturer(13,15),
 	DF(16,20),
 	Leader(21,-1);
