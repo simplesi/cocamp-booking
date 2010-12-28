@@ -1,7 +1,7 @@
 package uk.org.woodcraft.bookings.datamodel;
 
 public enum AgeGroup {
-	Unknown(0,0),
+	Unknown(-99,-99),
 	Woodchip(0,5),
 	Elfin(6,9),
 	Pioneer(10,12),
@@ -21,8 +21,8 @@ public enum AgeGroup {
 	
 	public String toString()
 	{	
-		if (ageUpper == ageLower)
-			return "";
+		if (this.equals(Unknown))
+			return name();
 		
 		if (ageUpper == -1)
 		{
