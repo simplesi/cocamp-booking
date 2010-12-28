@@ -10,7 +10,7 @@ public class AgeGroupTest {
 	{
 		assertEquals(AgeGroup.Woodchip, AgeGroup.groupFor(2));
 		assertEquals(AgeGroup.Elfin, AgeGroup.groupFor(6));
-		assertEquals(AgeGroup.Pioneer, AgeGroup.groupFor(9));
+		assertEquals(AgeGroup.Pioneer, AgeGroup.groupFor(10));
 		assertEquals(AgeGroup.Venturer, AgeGroup.groupFor(13));
 		assertEquals(AgeGroup.DF, AgeGroup.groupFor(18));
 		assertEquals(AgeGroup.Leader, AgeGroup.groupFor(21));
