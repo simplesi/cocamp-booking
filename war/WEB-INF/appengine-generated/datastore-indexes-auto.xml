@@ -1,4 +1,4 @@
-<!-- Indices written at Fri, 17 Dec 2010 08:11:55 UTC -->
+<!-- Indices written at Thu, 30 Dec 2010 23:17:12 UTC -->
 
 <datastore-indexes>
 
@@ -20,9 +20,16 @@
         <property name="name" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 4 times in query history -->
+    <!-- Used 2 times in query history -->
     <datastore-index kind="Unit" ancestor="false" source="auto">
         <property name="approved" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Unit" ancestor="false" source="auto">
+        <property name="approved" direction="asc"/>
+        <property name="organisationKey" direction="asc"/>
         <property name="name" direction="asc"/>
     </datastore-index>
 
