@@ -3,6 +3,7 @@ package uk.org.woodcraft.bookings.persistence;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.jdo.JDOObjectNotFoundException;
@@ -441,16 +442,6 @@ public class CannedQueries {
 	{
 		Collection<Unit> unitsInOrg = unitsForOrg(org.getKey(), false);
 		
-		// FIXME: Batch this?
-		if(unitsInOrg.size() > 30)
-			throw new RuntimeException("Cannot retrieve bookings for more than 30 units in an organisation");
-		
-		Collection<Key> unitKeys = new ArrayList<Key>(unitsInOrg.size());
-		for(Unit unit : unitsInOrg)
-		{
-			unitKeys.add(unit.getKey());
-		}
-		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query query = pm.newQuery(Booking.class);
@@ -458,10 +449,24 @@ public class CannedQueries {
 		query.setOrdering("name");
 		query.setFilter("unitKeysParam.contains(unitKey) && eventKey == eventKeyParam");
 		query.declareParameters("Collection unitKeysParam, Key eventKeyParam");
-
 		
-		return queryDetachAndClose(Booking.class, query, unitKeys, event.getKeyCheckNotNull());
+		List<Booking> result = new ArrayList<Booking>();		
+		Iterator<Unit> iterator = unitsInOrg.iterator();
+		
+		while (iterator.hasNext())
+		{
+			List<Key> unitKeyBatch = new ArrayList<Key>(30);
+			while(iterator.hasNext() && unitKeyBatch.size() < 30)
+			{
+				unitKeyBatch.add(iterator.next().getKey());
+			}
+			
+			Collection<Booking> tempResults = (Collection<Booking>) query.executeWithArray(unitKeyBatch, event.getKeyCheckNotNull());
+			result.addAll(pm.detachCopyAll(tempResults));
+		}
+		return result;
 	}
+	
 	
 	/**
 	 * Fetch the bookings for a particular village. 

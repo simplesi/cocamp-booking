@@ -3,7 +3,9 @@ package uk.org.woodcraft.bookings.persistence;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.ObjectState;
@@ -21,6 +23,7 @@ import uk.org.woodcraft.bookings.test.BaseFixtureTestCase;
 import uk.org.woodcraft.bookings.test.TestConstants;
 import uk.org.woodcraft.bookings.test.TestFixture;
 import uk.org.woodcraft.bookings.test.TestUtils;
+import uk.org.woodcraft.bookings.utils.TestClock;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -195,6 +198,41 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		TestUtils.assertNames(bookings, "Test person", "Test person 2");
 		assertDetached(bookings);
 	}
+	
+	@Test
+	public void testBookingsForLargeOrg() {
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
+		
+		List<Unit> testUnits = new ArrayList<Unit>(50);
+		List<Booking> testBookings = new ArrayList<Booking>(50);
+		List<String> testNames = new ArrayList<String>(52);
+		TestClock clock = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
+		
+		for (int i = 0; i < 50; i++) {
+			Unit testUnit = new Unit("Test Unit "+i, org, true);
+			testUnits.add(testUnit);
+		}
+		CannedQueries.save(testUnits);
+		
+		int unitNumber = 0;
+		for(Unit unit : testUnits)
+		{
+			String bookingName = "Test Booking "+unitNumber++;
+			testBookings.add(new Booking(bookingName, unit, event1, clock));
+			testNames.add(bookingName);
+		}
+		CannedQueries.save(testBookings);
+		
+		
+		Collection<Booking> bookings = CannedQueries.bookingsForOrg(org, event1);
+		
+		testNames.add("Test person");
+		testNames.add("Test person 2");
+		
+		TestUtils.assertNames(bookings, testNames.toArray(new String[] {}));
+		assertDetached(bookings);
+	}
 
 	@Test
 	public void testBookingsForVillage() {
@@ -212,7 +250,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		assertDetached(bookings2);
 
 		Collection<Booking> bookingsHomeless = CannedQueries.bookingsHomeless(event1);
-		TestUtils.assertNames(bookingsHomeless, "Person in unapproved, homeless unit");
+		TestUtils.assertNames(bookingsHomeless, "Person in unapproved, homeless unit", "Person in other org");
 		assertDetached(bookingsHomeless);
 	}
 	
@@ -222,7 +260,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	
 		
 		Collection<Booking> bookings = CannedQueries.bookingsForEvent(event1);
-		TestUtils.assertNames(bookings, "Person in unapproved, homeless unit", "Test person", "Test person 2");
+		TestUtils.assertNames(bookings, "Person in unapproved, homeless unit", "Test person", "Test person 2", "Person in other org");
 		assertDetached(bookings);
 	}
 	
