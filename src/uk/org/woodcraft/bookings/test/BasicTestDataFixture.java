@@ -97,6 +97,7 @@ public class BasicTestDataFixture extends TestFixture {
 			bookings.add(new Booking("Test person", unit1, event1, testClock));
 			bookings.add(new Booking("Test person 2", unit1, event1,testClock));		
 			bookings.add(new Booking("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
+			bookings.add(new Booking("Person in other org", otherOrgUnit, event1, testClock));
 			bookings.add(new Booking("Test person in other event", unit1, events.get(1), testClock));
 			pm.makePersistentAll(bookings);
 			
