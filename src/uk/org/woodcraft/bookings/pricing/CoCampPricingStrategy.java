@@ -52,7 +52,7 @@ public class CoCampPricingStrategy implements PricingStrategy {
 		if(lastPricableDate.after(event.getPublicEventEnd()))
 			lastPricableDate = event.getPublicEventEnd();
 		
-		int chargableDays = (int) (lastPricableDate.getTime() - firstPricableDate.getTime()) / (24 * 60 * 60 * 1000);
+		int chargableDays = DateUtils.daysBetween(lastPricableDate, firstPricableDate);
 		
 		long price = 35 + (15 * chargableDays);
 		

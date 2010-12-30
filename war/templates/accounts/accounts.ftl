@@ -30,10 +30,10 @@
         </tr>
     </#list>
     <tr class="subtotal">
+    	<td>Total</td>
     	<td></td>
     	<td></td>
-    	<td>Total Costs</td>
-    	<td></td>
+    	<td>${totalBookingsCount}</td>
     	<td></td>
     	<td>${totalCost?string.currency}</td>
     </tr> 	
@@ -66,7 +66,7 @@
     <tr class="subtotal">
     	<td></td>
     	<td></td>
-    	<td>Total Payments</td>
+    	<td>Total</td>
     	<td></td>
     	<td></td>
     	<td>${paymentTotal?string.currency}</td>

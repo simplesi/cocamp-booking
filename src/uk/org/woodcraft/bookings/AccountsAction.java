@@ -22,6 +22,7 @@ import uk.org.woodcraft.bookings.datamodel.TransactionType;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.utils.Clock;
+import uk.org.woodcraft.bookings.utils.DateUtils;
 import uk.org.woodcraft.bookings.utils.SystemClock;
 
 import com.opensymphony.xwork2.ActionSupport;
@@ -71,7 +72,7 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 	
 	private LineItem bucketedBookingsToLineItem(BookingsBucket bucket, Collection<Booking> contents)
 	{
-		return new LineItem(null, TransactionType.Fees, String.format("Fees for %s", bucket.ageGroup.toString()), contents.size(), bucket.fee);
+		return new LineItem(null, TransactionType.Fees, String.format("%s - %d days", bucket.ageGroup.toString(), bucket.days), contents.size(), bucket.fee);
 	}
 	
 	
@@ -81,7 +82,9 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 		Map<BookingsBucket, Collection<Booking>> buckets = new HashMap<AccountsAction.BookingsBucket, Collection<Booking>>();
 		for(Booking booking: bookings)
 		{
-			BookingsBucket bucketKey = new BookingsBucket(booking.getAgeGroup(), booking.getFee());
+			BookingsBucket bucketKey = new BookingsBucket(booking.getAgeGroup(), 
+												DateUtils.daysBetween(booking.getArrivalDate(), booking.getDepartureDate()), 
+												booking.getFee());
 			if (!buckets.containsKey(bucketKey))
 				buckets.put(bucketKey, new ArrayList<Booking>());
 			
@@ -103,6 +106,17 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 		for(LineItem item : costs)
 			total += item.getLinePrice();
 		
+		return total;
+	}
+	
+	public int getTotalBookingsCount()
+	{
+		int total = 0;
+		for(LineItem item : costs)
+		{
+			if(item.getType() == TransactionType.Fees)
+			total += item.getQuantity();
+		}
 		return total;
 	}
 	
@@ -143,10 +157,12 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 	class BookingsBucket
 	{
 		final AgeGroup ageGroup;
+		final int days;
 		final double fee;
 		 
-		public BookingsBucket(AgeGroup ageGroup, double fee) {
+		public BookingsBucket(AgeGroup ageGroup, int days, double fee) {
 			this.ageGroup = ageGroup;
+			this.days = days;
 			this.fee = fee;
 		}
 		 
@@ -161,7 +177,7 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 			BookingsBucket other = (BookingsBucket) obj;
 			
 			return ageGroup.equals(other.ageGroup) 
-				&& fee == other.fee;
+				&& days == other.days;
 		}
 	}
 
