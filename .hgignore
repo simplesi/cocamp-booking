@@ -2,3 +2,6 @@
 syntax: regexp
 ^war/WEB-INF/appengine-generated/local_db\.bin$
 ^\.classpath$
+
+syntax: regexp
+^bulkloader$
