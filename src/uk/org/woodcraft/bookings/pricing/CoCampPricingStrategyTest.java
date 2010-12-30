@@ -74,6 +74,10 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		woodchipBooking.setDob(DateUtils.getDate(2005, 6, 31)); // Latest possible date to be 5 at start of camp
 		assertEquals("Woodchips are free", 0d, pricer.priceOf(woodchipBooking), 0);
 		
+		Booking missingDOBBooking = new Booking(testUnit, cocamp, testClock);
+		missingDOBBooking.setDob(null); 
+		assertEquals("Those without a DOB are regular price", 150d, pricer.priceOf(missingDOBBooking), 0);
+		
 		woodchipBooking.setBookingCreationDate(TestConstants.DATE_AFTER_DEADLINE);
 		assertEquals("Late woodchip bookings have an admin fee", 25d, pricer.priceOf(woodchipBooking), 0);
 		
