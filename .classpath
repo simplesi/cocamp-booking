@@ -10,6 +10,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/struts-menu-2.4.3.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-digester-2.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jxl.jar"/>
 	<classpathentry kind="var" path="APPENGINE_HOME"/>
 	<classpathentry kind="var" path="APPENGINE_HOME/lib/impl/appengine-api-labs.jar"/>
 	<classpathentry kind="var" path="APPENGINE_HOME/lib/impl/appengine-api-stubs.jar"/>
