@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.jdo.JDOObjectNotFoundException;
 import javax.jdo.PersistenceManager;
@@ -28,6 +29,10 @@ import com.google.appengine.api.datastore.Key;
 @SuppressWarnings("unchecked")
 public class CannedQueries {
 
+ @SuppressWarnings("unused")
+private static final Logger log = Logger.getLogger(CannedQueries.class.getName());
+
+	
 	public static Collection<Event> allEvents(boolean showNonOpenEvents)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
@@ -237,10 +242,15 @@ public class CannedQueries {
 		
 		Query query = pm.newQuery(Unit.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
-		query.setFilter("organisationKey == organisationKeyParam");
+		
+		if(includeUnapproved) 
+			query.setFilter("organisationKey == organisationKeyParam");
+		else
+			query.setFilter("organisationKey == organisationKeyParam && approved == true");
+		
 		query.setOrdering("name");
 		
-		if(!includeUnapproved) query.setFilter("approved == true");
+		
 		
 		query.declareParameters("Key organisationKeyParam");
 		return queryDetachAndClose(Unit.class, query, orgKey);
@@ -440,11 +450,7 @@ public class CannedQueries {
 	
 	public static Collection<Booking> bookingsForOrg(Organisation org, Event event)
 	{
-		Collection<Unit> unitsInOrg = unitsForOrg(org.getKey(), false);
-		
-		System.out.println("Retrieving bookings for org : "+org.getName());
-		System.out.println("Containing units: "+unitsInOrg);
-		
+		Collection<Unit> unitsInOrg = unitsForOrg(org.getKey(), false);	
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		

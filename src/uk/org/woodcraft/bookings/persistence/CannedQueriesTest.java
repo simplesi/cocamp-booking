@@ -137,12 +137,12 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	@Test
 	public void testAllUnits() {
 		Collection<Unit> allUnits = CannedQueries.allUnits(true);
-		assertEquals(4, allUnits.size());
+		assertEquals(5, allUnits.size());
 		assertDetached(allUnits);
 		
 		Collection<Unit> approvedUnits = CannedQueries.allUnits(false);		
-		assertEquals(2, approvedUnits.size());
-		TestUtils.assertNames(approvedUnits, "Unit 1", "Unit 2");
+		assertEquals(3, approvedUnits.size());
+		TestUtils.assertNames(approvedUnits, "Unit 1", "Unit 2", "Approved unit in other org");
 		assertDetached(approvedUnits);
 		
 		Collection<Unit> unapprovedUnits = CannedQueries.allUnapprovedUnits();		

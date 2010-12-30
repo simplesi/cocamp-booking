@@ -85,6 +85,8 @@ public class BasicTestDataFixture extends TestFixture {
 			units.add(unapprovedWcfUnit);
 			Unit otherOrgUnit = new Unit("Unapproved unit", organisations.get(1), false);
 			units.add(otherOrgUnit);
+			Unit otherOrgUnit2 = new Unit("Approved unit in other org", organisations.get(1), true);
+			units.add(otherOrgUnit2);
 			pm.makePersistentAll(units);
 			
 			// Unit village defaults
@@ -97,7 +99,7 @@ public class BasicTestDataFixture extends TestFixture {
 			bookings.add(new Booking("Test person", unit1, event1, testClock));
 			bookings.add(new Booking("Test person 2", unit1, event1,testClock));		
 			bookings.add(new Booking("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
-			bookings.add(new Booking("Person in other org", otherOrgUnit, event1, testClock));
+			bookings.add(new Booking("Person in other org", otherOrgUnit2, event1, testClock));
 			bookings.add(new Booking("Test person in other event", unit1, events.get(1), testClock));
 			pm.makePersistentAll(bookings);
 			
@@ -130,7 +132,7 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			User user5 = new User("otherorg@example.com", "Other Org 1", "password", Accesslevel.ORG_ADMIN);
 			user5.setOrganisationKey(otherOrg.getKeyCheckNotNull());
-			user5.setUnitKey(otherOrgUnit.getKeyCheckNotNull());
+			user5.setUnitKey(otherOrgUnit2.getKeyCheckNotNull());
 			
 			pm.makePersistentAll(user1, user2, user3, user4, user5);
 			
