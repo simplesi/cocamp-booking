@@ -60,4 +60,13 @@ public class DateUtils {
 		c.set(Calendar.MILLISECOND, 0);
 		return c.getTime();
 	}
+	
+	public static int daysBetween(Date date1, Date date2)
+	{
+		int days =  (int) (date2.getTime() - date1.getTime()) / (24 * 60 * 60 * 1000);
+		
+		// invert if wrong way round
+		if (days < 0) days = -days;
+		return days;
+	}
 }
