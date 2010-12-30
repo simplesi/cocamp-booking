@@ -1,34 +1,25 @@
 package uk.org.woodcraft.bookings.persistence;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
-import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.DeleteRestricted;
-import uk.org.woodcraft.bookings.datamodel.Event;
-import uk.org.woodcraft.bookings.datamodel.Organisation;
-import uk.org.woodcraft.bookings.datamodel.Unit;
-import uk.org.woodcraft.bookings.datamodel.User;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.opensymphony.xwork2.Preparable;
 import com.opensymphony.xwork2.Validateable;
 import com.opensymphony.xwork2.validator.annotations.VisitorFieldValidator;
 
-public abstract class BasePersistenceAction<ModelObject> extends ActionSupport implements ModelDriven<ModelObject>, Preparable, SessionAware, Validateable{
+public abstract class BasePersistenceAction<ModelObject> extends SessionBasedAction implements ModelDriven<ModelObject>, Preparable, Validateable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, Object> session;
 	String webKey;
 	ModelObject modelObject = null;
 
@@ -129,27 +120,6 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 		return SUCCESS;
 	}
 	
-	@Override
-	public void setSession(Map<String, Object> session) {
-		this.session = session;
-	}
-
-	protected Map<String,Object> getSession() {
-		return session;
-	}
-	
-	protected Object getSessionObject(String key) {
-		if (session == null) return null;
-		
-		return session.get(key);
-	}
-	
-	protected void setSessionObject(String key, Serializable value) {
-		if (session == null) return;
-		
-		session.put(key, value);
-	}
-	
 	public abstract String list();
 	
 	public void setModelList(Collection<ModelObject> modelObjectList) {
@@ -160,26 +130,6 @@ public abstract class BasePersistenceAction<ModelObject> extends ActionSupport i
 		return modelObjectList;
 	}
 	
-	public Unit getCurrentUnit()
-	{
-		return (Unit)getSessionObject(SessionConstants.CURRENT_UNIT);
-	}
-	
-	public Organisation getCurrentOrganisation()
-	{
-		return (Organisation)getSessionObject(SessionConstants.CURRENT_ORG);
-	}
-	
-	public Event getCurrentEvent()
-	{
-		return (Event)getSessionObject(SessionConstants.CURRENT_EVENT);
-	}
-
-	public User getCurrentUser()
-	{
-		return (User)getSessionObject(SessionConstants.USER_HANDLE);
-	}
-
 	public void setConfirmDelete(String confirmDelete) {
 		this.confirmDelete = confirmDelete;
 	}
