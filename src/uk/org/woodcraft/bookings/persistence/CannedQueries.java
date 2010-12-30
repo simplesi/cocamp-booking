@@ -442,6 +442,10 @@ public class CannedQueries {
 	{
 		Collection<Unit> unitsInOrg = unitsForOrg(org.getKey(), false);
 		
+		System.out.println("Retrieving bookings for org : "+org.getName());
+		System.out.println("Containing units: "+unitsInOrg);
+		
+		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query query = pm.newQuery(Booking.class);
