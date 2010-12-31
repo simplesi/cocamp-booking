@@ -388,6 +388,10 @@
 			</result>
 		</action>
 			
+		<action name="accounts" method="accountsForAll" class="uk.org.woodcraft.bookings.AccountsAction">
+			<result type="freemarker">/templates/accounts/accounts.ftl</result>
+		</action>
+			
 		<!--  For all events -->
 		<action name="listEvents" method="list" class="uk.org.woodcraft.bookings.persistence.EventAction">
 			<result type="freemarker">/templates/datamodel/eventList.ftl</result>

@@ -19,6 +19,9 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 
 	private static final long serialVersionUID = 1L;
 	
+	private boolean showUnit = false;
+	private boolean showOrg = false;
+	
 	@SkipValidation
 	public String listForUnit() {		
 		Unit unit = getCurrentUnit();		
@@ -32,6 +35,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		Organisation org = getCurrentOrganisation();		
 		SecurityModel.checkAllowed(Operation.READ, org);
 		setModelList(CannedQueries.bookingsForOrg(org, getCurrentEvent()));
+		showUnit = true;
 		return SUCCESS;
 	}
 	
@@ -39,6 +43,8 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	public String list() {	
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
 		setModelList(CannedQueries.allBookings());
+		showUnit = true;
+		showOrg = true;
 		return SUCCESS;
 	}
 
@@ -63,5 +69,12 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	public Collection<Diet> getDiets()
 	{
 		return Arrays.asList(Diet.values());
+	}
+
+	public boolean getShowUnit() {
+		return showUnit;
+	}
+	public boolean getShowOrg() {
+		return showOrg;
 	}
 }
