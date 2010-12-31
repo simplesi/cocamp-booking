@@ -94,7 +94,7 @@
 	<#if ( costs.size() == 0)>
 	<p><em>You need to book people into the event and have paid 50% of the fee for them before ${earlyBookingsDate?date} in order to qualify for the early bookings discount.</em></p>
 	<#else>
-	<p><em>To qualify all of your bookings so far for the discount on early bookings, you need to have paid in total at least ${earlyBookingsAmount?string.currency} before ${earlyBookingsDate?date}.</em></p>   	
+	<p><em>To qualify all of your bookings so far for the discount on early bookings, you need to have paid in total at least ${earlyBookingsAmount?string.currency} before ${earlyBookingsDate?date}. Note that this discount only applies to bookings for the full 10 days of camp.</em></p>   	
 	</#if>
 </#if>
 
