@@ -2,6 +2,7 @@ package uk.org.woodcraft.bookings;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,11 +60,14 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 	public void prepareForData(Collection<Booking> bookings, Collection<Transaction> transactions)
 	{
 		Map<BookingsBucket, Collection<Booking>> bucketedBookings = bucketBookings(bookings);	
-		for(Map.Entry<BookingsBucket, Collection<Booking>> entry : bucketedBookings.entrySet())
-		{
-			costs.add(bucketedBookingsToLineItem(entry.getKey(), entry.getValue()));
-		}
 		
+		List<BookingsBucket> buckets = new ArrayList<BookingsBucket>(bucketedBookings.keySet());
+		Collections.sort(buckets);
+		
+		for(BookingsBucket bucket : buckets)
+		{
+			costs.add(bucketedBookingsToLineItem(bucket, bucketedBookings.get(bucket)));
+		}
 		
 		// Build transaction list, both bills and payments
 		
@@ -154,7 +158,7 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 		return getTotalCost() / 2;
 	}
 	
-	class BookingsBucket
+	class BookingsBucket implements Comparable<BookingsBucket>
 	{
 		final AgeGroup ageGroup;
 		final int days;
@@ -178,6 +182,16 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 			
 			return ageGroup.equals(other.ageGroup) 
 				&& days == other.days;
+		}
+
+		// Agegroup, days (desc)
+		@Override
+		public int compareTo(BookingsBucket o) {
+			if (ageGroup != o.ageGroup) return ageGroup.compareTo(o.ageGroup);
+			
+			if (days == o.days) return 0;
+			if (days > o.days) return -1;
+			return 1;
 		}
 	}
 
