@@ -38,6 +38,7 @@
        <Item name="AdminOrgs" 			title="Organisations" 			location="/manageAll/listOrgs"/>
        <Item name="AdminUnits" 			title="Units" 					location="/manageAll/listUnits"/>
        <Item name="AdminBookings" 		title="Bookings" 				location="/manageAll/listBookings"/>
+       <Item name="AdminFinance" 		title="Finance" 				location="/manageAll/accounts"/>
   </Menu>
   
   <Menu name="MyAccount" title="My Account" >
