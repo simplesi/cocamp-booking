@@ -44,6 +44,12 @@ This information should be as accurate as possible, details cannot be changed af
         <@s.textfield name="arrivalDate" label="Arrival Date" value="%{getText('format.date',{arrivalDate})}"/>
         <@s.textfield name="departureDate" label="Departure Date" value="%{getText('format.date',{departureDate})}"/>
 
+		<#if model.bookingCreationDate?exists >
+		Booking created : ${model.bookingCreationDate?date}<br/>
+		</#if>
+		<#if model.cancellationDate?exists >
+		Booking cancelled : ${model.cancellationDate?date}<br/>
+		</#if>
         <@s.submit name="Save" value="Save" action="saveBooking"/>
         <@s.submit value="Cancel Edit" action="cancelEditBooking"/>
     </@s.push>
