@@ -6,6 +6,7 @@ import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
+import uk.org.woodcraft.bookings.datamodel.Transaction;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.Village;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
@@ -74,7 +75,10 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.bookingsForName("Test person 2");
 		 
 		// Transaction queries
-		CannedQueries.transactionsForUnit(unit1, event1);
+		Collection<Transaction> transactions = CannedQueries.transactionsForUnit(unit1, event1);
+		CannedQueries.transactionsForEvent(event1);
+		CannedQueries.transactionsForOrg(org1, event1);
+		CannedQueries.TransactionByKey(transactions.iterator().next().getKeyCheckNotNull());
 		
 		// User queries
 		CannedQueries.allUsers();

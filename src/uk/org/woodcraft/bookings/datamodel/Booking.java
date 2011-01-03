@@ -242,7 +242,15 @@ public class Booking extends KeyBasedData implements NamedEntity, DeleteRestrict
 	}
 
 	@Override
-	public String getDeleteConditionError() {
+	public String getDeleteConditionError(Clock clock) {
+		Event event = CannedQueries.eventByKey(eventKey);
+		if (event != null)
+		{
+			if (event.getEarlyBookingDeadline().before(clock.getTime()))
+			{
+				return "Cannot delete booking after early booking deadline. Only cancellations are possible";
+			}
+		}
 		return "";
 	}
 

@@ -9,6 +9,7 @@ import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
+import uk.org.woodcraft.bookings.utils.Clock;
 
 import com.google.appengine.api.datastore.Text;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
@@ -81,7 +82,7 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 	}
 
 	@Override
-	public String getDeleteConditionError() {
+	public String getDeleteConditionError(Clock clock) {
 		Collection<Unit> unitsForOrg = CannedQueries.unitsForOrg(this.getKeyCheckNotNull(), true);
 		
 		if (unitsForOrg.size() > 0)

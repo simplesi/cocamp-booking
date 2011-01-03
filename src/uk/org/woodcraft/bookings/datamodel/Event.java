@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
+import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.DateUtils;
 
 import com.opensymphony.xwork2.validator.annotations.RequiredFieldValidator;
@@ -111,7 +112,7 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 	}
 
 	@Override
-	public String getDeleteConditionError() {
+	public String getDeleteConditionError(Clock clock) {
 		Collection<Booking> bookingsForEvent = CannedQueries.bookingsForEvent(this);
 		
 		if (bookingsForEvent.size() > 0)

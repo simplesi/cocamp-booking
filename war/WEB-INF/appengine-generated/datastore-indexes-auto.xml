@@ -1,4 +1,4 @@
-<!-- Indices written at Thu, 30 Dec 2010 23:17:12 UTC -->
+<!-- Indices written at Mon, 3 Jan 2011 00:12:18 UTC -->
 
 <datastore-indexes>
 
@@ -26,7 +26,7 @@
         <property name="name" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 2 times in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="Unit" ancestor="false" source="auto">
         <property name="approved" direction="asc"/>
         <property name="organisationKey" direction="asc"/>
@@ -71,10 +71,16 @@
         <property name="name" direction="asc"/>
     </datastore-index>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="Transaction" ancestor="false" source="auto">
         <property name="eventKey" direction="asc"/>
         <property name="unitKey" direction="asc"/>
+        <property name="timestamp" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Transaction" ancestor="false" source="auto">
+        <property name="eventKey" direction="asc"/>
         <property name="timestamp" direction="asc"/>
     </datastore-index>
 

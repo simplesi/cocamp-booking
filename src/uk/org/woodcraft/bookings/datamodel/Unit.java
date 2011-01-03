@@ -11,6 +11,7 @@ import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
+import uk.org.woodcraft.bookings.utils.Clock;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -236,7 +237,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	}
 
 	@Override
-	public String getDeleteConditionError() {
+	public String getDeleteConditionError(Clock clock) {
 		Collection<Booking> bookingsForUnit = CannedQueries.bookingsForUnitAllEvents(this);
 		
 		if (bookingsForUnit.size() > 0)

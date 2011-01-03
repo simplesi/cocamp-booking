@@ -1,6 +1,7 @@
 package uk.org.woodcraft.bookings.persistence;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -10,6 +11,8 @@ import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
+import uk.org.woodcraft.bookings.utils.Clock;
+import uk.org.woodcraft.bookings.utils.SystemClock;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -17,6 +20,7 @@ public class SessionBasedAction extends ActionSupport implements SessionAware{
 
 	private static final long serialVersionUID = 5509241587017581635L;
 	private Map<String, Object> session;
+	private Clock clock = new SystemClock();
 
 	public SessionBasedAction() {
 		super();
@@ -57,6 +61,14 @@ public class SessionBasedAction extends ActionSupport implements SessionAware{
 
 	public User getCurrentUser() {
 		return (User)getSessionObject(SessionConstants.USER_HANDLE);
+	}
+	
+	public Clock getClock() {
+		return clock;
+	}
+	
+	public Date getCurrentTime() {
+		return clock.getTime();
 	}
 
 }

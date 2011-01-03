@@ -9,11 +9,11 @@ public class LineItem {
 	private final Date date;
 	private final TransactionType type;
 	private final String name;
-	private final int quantity;
+	private final Integer quantity;
 	private final double price;
 	
 
-	public LineItem(Date date, TransactionType type, String name, int quantity, double price) {
+	public LineItem(Date date, TransactionType type, String name, Integer quantity, double price) {
 		this.date = date;
 		this.type = type;
 		this.name = name;
@@ -36,7 +36,7 @@ public class LineItem {
 	}
 
 
-	public int getQuantity() {
+	public Integer getQuantity() {
 		return quantity;
 	}
 
@@ -47,6 +47,8 @@ public class LineItem {
 
 
 	public double getLinePrice() {
+		if (quantity == null) return price;
+		
 		return quantity * price;
 	}
 }

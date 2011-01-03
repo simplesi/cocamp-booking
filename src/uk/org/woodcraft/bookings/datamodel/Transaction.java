@@ -5,10 +5,13 @@ import java.util.Date;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
+import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Clock;
+
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(detachable="true")
-public class Transaction extends KeyBasedDataWithAudit implements NamedEntity{
+public class Transaction extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted{
 
 	private static final long serialVersionUID = -8661368205753174806L;
 	
@@ -31,8 +34,13 @@ public class Transaction extends KeyBasedDataWithAudit implements NamedEntity{
 	private TransactionType type;
 	
 	@Persistent
-	double amount;
+	private double amount;
 
+	public Transaction(Key unitKey, Key eventKey, Date timestamp)
+	{
+		this(unitKey, eventKey, timestamp, null, null, null, 0.0d);
+	}
+	
 	public Transaction(Key unitKey, Key eventKey, Date timestamp, TransactionType type, String name, String comments, Double amount) {
 		this.unitKey = unitKey;
 		this.eventKey = eventKey;
@@ -47,6 +55,10 @@ public class Transaction extends KeyBasedDataWithAudit implements NamedEntity{
 		return unitKey;
 	}
 
+	public Unit getUnit() {
+		return CannedQueries.unitByKey(unitKey);
+	}
+	
 	public void setUnitKey(Key unitKey) {
 		this.unitKey = unitKey;
 	}
@@ -97,6 +109,17 @@ public class Transaction extends KeyBasedDataWithAudit implements NamedEntity{
 
 	public Key getEventKey() {
 		return eventKey;
+	}
+
+	@Override
+	public String getDeleteConditionError(Clock clock) {
+		
+		return "";
+	}
+
+	@Override
+	public boolean deleteRequiresConfirmation() {
+		return true;
 	}
 	
 }

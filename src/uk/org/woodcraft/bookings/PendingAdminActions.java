@@ -11,7 +11,9 @@ import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.email.EmailUtils;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.Configuration;
+import uk.org.woodcraft.bookings.utils.SystemClock;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -23,6 +25,8 @@ public class PendingAdminActions extends ActionSupport {
 	private Collection<String> selectedUser;
 	private Collection<String> selectedOrg;
 	private Collection<String> selectedUnit;
+	
+	private Clock clock = new SystemClock();
 	
 	
 	public Collection<User> getPendingUsers()
@@ -120,7 +124,7 @@ public class PendingAdminActions extends ActionSupport {
 			List<String> errors = new ArrayList<String>();
 			for(Organisation org : changed)
 			{
-				String error = org.getDeleteConditionError();
+				String error = org.getDeleteConditionError(clock);
 				if (error.length() == 0)
 					changedAndPreconditionPassed.add(org);
 				else
@@ -183,7 +187,7 @@ public class PendingAdminActions extends ActionSupport {
 			List<String> errors = new ArrayList<String>();
 			for(Unit unit : changed)
 			{
-				String error = unit.getDeleteConditionError();
+				String error = unit.getDeleteConditionError(clock);
 				if (error.length() == 0)
 					changedAndPreconditionPassed.add(unit);
 				else

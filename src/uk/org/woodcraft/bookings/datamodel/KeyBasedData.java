@@ -9,6 +9,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import org.apache.commons.collections.Transformer;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
@@ -78,5 +80,14 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	
 	public String toString() {
 		return this.key.toString();
+	}
+	
+	public static class ToKey implements Transformer
+	{
+		@Override
+		public Object transform(Object in) {
+			return ((KeyBasedData) in).getKey();
+		}
+		
 	}
 }

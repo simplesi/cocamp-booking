@@ -11,6 +11,7 @@ import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.PasswordUtils;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.utils.Clock;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
@@ -268,7 +269,7 @@ public class User implements Serializable, Keyed<String>, NamedEntity, DeleteRes
 	}
 
 	@Override
-	public String getDeleteConditionError() {
+	public String getDeleteConditionError(Clock clock) {
 		return "";
 	}
 
