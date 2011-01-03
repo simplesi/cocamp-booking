@@ -16,6 +16,7 @@ import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Transaction;
+import uk.org.woodcraft.bookings.datamodel.TransactionType;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
@@ -322,7 +323,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	}
 	
 	@Test
-	public void testTransactions() {
+	public void testTransactionsForUnit() {
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);	
 		Organisation org = CannedQueries.orgByName("Woodcraft Folk");	
 		Unit unit = CannedQueries.unitByName("Unit 1", org);
@@ -331,6 +332,50 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Refund 1");
 	}
 
+	@Test
+	public void testTransactionsForEvent() {
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);	
+		
+		Collection<Transaction> transactions = CannedQueries.transactionsForEvent(event1);
+		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Refund 1");
+	}
+	
+	@Test
+	public void testTransactionsForLargeOrg() {
+		Organisation org = CannedQueries.orgByName("Woodcraft Folk");		
+		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
+		
+		List<Unit> testUnits = new ArrayList<Unit>(50);
+		List<Transaction> testTransactions = new ArrayList<Transaction>(100);
+		List<String> testTransNames = new ArrayList<String>(103);
+		TestClock clock = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
+		
+		for (int i = 0; i < 50; i++) {
+			Unit testUnit = new Unit("Test Unit "+i, org, true);
+			testUnits.add(testUnit);
+		}
+		CannedQueries.save(testUnits);
+		
+		int transNumber = 0;
+		for(Unit unit : testUnits)
+		{
+			String transName = "Test Trans "+transNumber++;
+			testTransactions.add(new Transaction(unit.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), clock.getTime(), 
+												TransactionType.Payment,  transName, null, 1.0d));
+			testTransNames.add(transName);
+		}
+		CannedQueries.save(testTransactions);
+		
+		
+		Collection<Transaction> transactions = CannedQueries.transactionsForOrg(org, event1);
+		
+		testTransNames.add("Payment 1");
+		testTransNames.add("Payment 2");
+		testTransNames.add("Refund 1");
+		TestUtils.assertNames(transactions, testTransNames.toArray(new String[] {}));
+		assertDetached(transactions);
+	}
+	
 	@Test
 	public void testGetByKey() {
 		User user1 = CannedQueries.getByKey(User.class, "globaladmin@example.com");

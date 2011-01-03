@@ -38,7 +38,11 @@
        <Item name="AdminOrgs" 			title="Organisations" 			location="/manageAll/listOrgs"/>
        <Item name="AdminUnits" 			title="Units" 					location="/manageAll/listUnits"/>
        <Item name="AdminBookings" 		title="Bookings" 				location="/manageAll/listBookings"/>
-       <Item name="AdminFinance" 		title="Finance" 				location="/manageAll/accounts"/>
+       <Item name="AdminFinance" 		title="Finance">
+       		<Item name="AdminFinanceAccounts" 		title="Event accounts"		location="/manageAll/accounts"/>
+       		<Item name="AdminFinanceListTrans" 		title="List transactions"	location="/manageAll/listTransactions"/>
+       		<Item name="AdminFinanceAddTrans" 		title="Add transaction"		location="/manageAll/addTransaction"/>
+       	</Item>
   </Menu>
   
   <Menu name="MyAccount" title="My Account" >

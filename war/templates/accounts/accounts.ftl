@@ -2,21 +2,21 @@
 
 <#include "/templates/header.ftl">
 <h2>Accounts</h2>
-<p>This is your current statement of accounts, listing costs for the bookings you have made, and any payments received from your unit.</p>
+<p>This is your current statement of accounts, listing costs for the bookings you have made, and any payments received for your ${viewLevel}.</p>
 <br/>
 <br/>
 <h3>Costs</h3>
 <#if ( costs.size() == 0)>
 <p><em>You currently have nobody booked into this event.</em></p>
 <#else>
-<table>
+<table width="100%">
     <tr>
-    	<th>Date</th>
-        <th>Type</th>
-        <th>Details</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Total Price</th>
+    	<th width="15%">Date</th>
+        <th width="15%">Type</th>
+        <th width="30%">Details</th>
+        <th width="10%">Quantity</th>
+        <th width="15%">Price</th>
+        <th width="15%">Total Price</th>
     </tr>
     
     <#list costs as cost>
@@ -24,7 +24,7 @@
             <td>${(cost.date?date)!}</td>
             <td>${cost.type}</td>
             <td>${cost.name}</td>
-            <td>${cost.quantity}</td>
+            <td>${(cost.quantity)!""}</td>
             <td>${cost.price?string.currency}</td>
             <td>${cost.linePrice?string.currency}</td>         
         </tr>
@@ -44,30 +44,28 @@
 <#if ( payments.size() == 0)>
 <p><em>No payments have been logged on the system so far for your unit.</em></p>
 <#else>
-<table>
+<table width="100%">
     <tr>
-    	<th>Date</th>
-        <th>Type</th>
-        <th>Details</th>
-        <th>Amount</th>
+    	<th width="15%">Date</th>
+        <th width="15%">Type</th>
+        <th width="55%">Details</th>
+        <th width="15%">Amount</th>
     </tr>
     
-    <#list payment as payments>
+    <#list payments as payment>
         <tr>
-            <td>${(payment.timestamp?date)!}</td>
+            <td>${payment.timestamp?date}</td>
             <td>${payment.type}</td>
             <td>${payment.name}</td>
             <td>${payment.amount?string.currency}</td>    
         </tr>
         <#if payment.comments != "">
-        	<tr><td colspan="4"><em>${payment.comments}</em></td></tr>
+        	<tr><td></td><td></td><td><em>${payment.comments}</em></td></td></tr>
         </#if>
     </#list>
     <tr class="subtotal">
     	<td></td>
-    	<td></td>
     	<td>Total</td>
-    	<td></td>
     	<td></td>
     	<td>${paymentTotal?string.currency}</td>
     </tr> 	

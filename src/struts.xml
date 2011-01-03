@@ -391,6 +391,34 @@
 		<action name="accounts" method="accountsForAll" class="uk.org.woodcraft.bookings.AccountsAction">
 			<result type="freemarker">/templates/accounts/accounts.ftl</result>
 		</action>
+		
+		<!--  Transactions -->
+		<action name="listTransactions" method="list" class="uk.org.woodcraft.bookings.persistence.TransactionAction">
+			<result type="freemarker">/templates/datamodel/transactionList.ftl</result>
+		</action>	
+		<action name="redirectToTransactionList">
+			<result type="redirectAction">
+				<param name="actionName">listTransactions</param>
+			</result>
+		</action>
+		<action name="addTransaction" method="create" class="uk.org.woodcraft.bookings.persistence.TransactionAction">
+			<result name="input" type="freemarker">/templates/datamodel/transaction.ftl</result>
+		</action>
+		<action name="editTransaction" method="edit" class="uk.org.woodcraft.bookings.persistence.TransactionAction">
+			<result name="input" type="freemarker">/templates/datamodel/transaction.ftl</result>
+		</action>	
+		<action name="saveTransaction" method="save" class="uk.org.woodcraft.bookings.persistence.TransactionAction">
+			<result name="input" type="freemarker">/templates/datamodel/transaction.ftl</result>
+			<result type="redirect">redirectToTransactionList</result>
+		</action>
+		<action name="deleteTransaction" method="delete" class="uk.org.woodcraft.bookings.persistence.TransactionAction">
+			<result type="redirect">redirectToTransactionList</result>
+			<result name="error" type="redirect">redirectToTransactionList</result>
+		</action>
+		<action name="cancelEditTransaction">
+			<result type="redirect">redirectToTransactionList</result>
+		</action>
+
 			
 		<!--  For all events -->
 		<action name="listEvents" method="list" class="uk.org.woodcraft.bookings.persistence.EventAction">

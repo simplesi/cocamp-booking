@@ -19,6 +19,7 @@ import org.apache.commons.collections.Transformer;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
+import uk.org.woodcraft.bookings.datamodel.KeyBasedData;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
@@ -450,7 +451,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	
 	public static Collection<Booking> bookingsForOrg(Organisation org, Event event)
 	{
-		Collection<Unit> unitsInOrg = unitsForOrg(org.getKey(), false);	
+		Collection<Key> keysForOrg = CollectionUtils.collect(unitsForOrg(org.getKey(), false), new KeyBasedData.ToKey());
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -460,19 +461,28 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("unitKeysParam.contains(unitKey) && eventKey == eventKeyParam");
 		query.declareParameters("Collection unitKeysParam, Key eventKeyParam");
 		
-		List<Booking> result = new ArrayList<Booking>();		
-		Iterator<Unit> iterator = unitsInOrg.iterator();
+		return batchQuery(query, keysForOrg, event.getKeyCheckNotNull());
+	}
+	
+	private static <T> Collection<T> batchQuery(Query query, Collection<Key> batchedParam, Object... otherArgs)
+	{
+		List<T> result = new ArrayList<T>();		
+		Iterator<Key> iterator = batchedParam.iterator();
 		
 		while (iterator.hasNext())
 		{
-			List<Key> unitKeyBatch = new ArrayList<Key>(30);
-			while(iterator.hasNext() && unitKeyBatch.size() < 30)
+			List<Key> keyBatch = new ArrayList<Key>(30);
+			while(iterator.hasNext() && keyBatch.size() < 30)
 			{
-				unitKeyBatch.add(iterator.next().getKey());
+				keyBatch.add(iterator.next());
 			}
 			
-			Collection<Booking> tempResults = (Collection<Booking>) query.executeWithArray(unitKeyBatch, event.getKeyCheckNotNull());
-			result.addAll(pm.detachCopyAll(tempResults));
+			List<Object> params = new ArrayList<Object>(1 + otherArgs.length);
+			params.add(keyBatch);
+			params.addAll(Arrays.asList(otherArgs));
+				
+			Collection<T> resultsForBatch = (Collection<T>) query.executeWithArray(params.toArray());
+			result.addAll(query.getPersistenceManager().detachCopyAll(resultsForBatch));
 		}
 		return result;
 	}
@@ -551,6 +561,10 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		return queryDetachAndClose(Booking.class, query, name);
 	}
 	
+	public static uk.org.woodcraft.bookings.datamodel.Transaction TransactionByKey(Key key)
+	{
+		return getByKey(uk.org.woodcraft.bookings.datamodel.Transaction.class, key);
+	}
 	
 	public static Collection<uk.org.woodcraft.bookings.datamodel.Transaction> transactionsForUnit(Unit unit, Event event)
 	{
@@ -563,6 +577,34 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.declareParameters("Key unitKeyParam, Key eventKeyParam");
 		
 		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
+	}
+	
+	public static Collection<uk.org.woodcraft.bookings.datamodel.Transaction> transactionsForOrg(Organisation org, Event event)
+	{
+		Collection<Key> keysForOrg = CollectionUtils.collect(unitsForOrg(org.getKey(), false), new KeyBasedData.ToKey());
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(uk.org.woodcraft.bookings.datamodel.Transaction.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key; import java.util.Collection");
+		query.setOrdering("timestamp");
+		query.setFilter("unitKeysParam.contains(unitKey) && eventKey == eventKeyParam");
+		query.declareParameters("Collection unitKeysParam, Key eventKeyParam");
+		
+		return batchQuery(query, keysForOrg, event.getKeyCheckNotNull());
+	}
+	
+	public static Collection<uk.org.woodcraft.bookings.datamodel.Transaction> transactionsForEvent(Event event)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(uk.org.woodcraft.bookings.datamodel.Transaction.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key");
+		query.setOrdering("timestamp");
+		query.setFilter("eventKey == eventKeyParam");
+		query.declareParameters("Key eventKeyParam");
+		
+		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, event.getKeyCheckNotNull());
 	}
 
 	public static Key defaultVillageKeyForUnit(Event event, Unit unit)

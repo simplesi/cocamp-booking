@@ -8,12 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.struts2.interceptor.SessionAware;
-
 import uk.org.woodcraft.bookings.accounts.LineItem;
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
-import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.AgeGroup;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
@@ -22,38 +19,55 @@ import uk.org.woodcraft.bookings.datamodel.Transaction;
 import uk.org.woodcraft.bookings.datamodel.TransactionType;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.SessionBasedAction;
 import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.DateUtils;
 import uk.org.woodcraft.bookings.utils.SystemClock;
 
-import com.opensymphony.xwork2.ActionSupport;
-
-public class AccountsAction extends ActionSupport implements SessionAware{
+public class AccountsAction extends SessionBasedAction{
 
 	private static final long serialVersionUID = 5349573159349600392L;
 
-	private Map<String, Object> sessionData;
-	List<LineItem> costs = new ArrayList<LineItem>();
-	List<Transaction> payments = new ArrayList<Transaction>();
+	private String viewLevel = "unit";
+	private List<LineItem> costs = new ArrayList<LineItem>();
+	private List<Transaction> payments = new ArrayList<Transaction>();
 	
 	private Clock clock = new SystemClock();
 	
 	public String accountsForUnit()
 	{
-		Unit unit = (Unit)sessionData.get(SessionConstants.CURRENT_UNIT);
+		Unit unit = getCurrentUnit();
+		Event event = getCurrentEvent();
 		SecurityModel.checkAllowed(Operation.WRITE, unit);
 		
-		Collection<Booking> bookings = CannedQueries.bookingsForUnit(unit, (Event)sessionData.get(SessionConstants.CURRENT_EVENT));
-		prepareForData(bookings, null);
+		Collection<Booking> bookings = CannedQueries.bookingsForUnit(unit, event);
+		Collection<Transaction> transactions = CannedQueries.transactionsForUnit(unit, event);
+		prepareForData(bookings, transactions);
 		return SUCCESS;
 	}
 
 	public String accountsForOrg()
 	{
-		Organisation org = (Organisation)sessionData.get(SessionConstants.CURRENT_ORG);
+		Organisation org = getCurrentOrganisation();
+		Event event = getCurrentEvent();
+		
 		SecurityModel.checkAllowed(Operation.WRITE, org);
-		Collection<Booking> bookings = CannedQueries.bookingsForOrg(org, (Event)sessionData.get(SessionConstants.CURRENT_EVENT));
-		prepareForData(bookings, null);
+		Collection<Booking> bookings = CannedQueries.bookingsForOrg(org, getCurrentEvent());
+		Collection<Transaction> transactions = CannedQueries.transactionsForOrg(org, event);
+		
+		prepareForData(bookings, transactions);
+		viewLevel = "organisation";
+		return SUCCESS;
+	}
+	
+	public String accountsForAll()
+	{
+		Event event = getCurrentEvent();
+		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
+		Collection<Booking> bookings = CannedQueries.bookingsForEvent(event);
+		Collection<Transaction> transactions = CannedQueries.transactionsForEvent(event);
+		prepareForData(bookings, transactions);
+		viewLevel = "event";
 		return SUCCESS;
 	}
 	
@@ -69,14 +83,23 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 			costs.add(bucketedBookingsToLineItem(bucket, bucketedBookings.get(bucket)));
 		}
 		
-		// Build transaction list, both bills and payments
-		
+		for(Transaction transaction : transactions)
+		{
+			if (transaction.getType().getIsCost())
+			{
+				LineItem item = new LineItem(transaction.getTimestamp(), transaction.getType(), transaction.getName(), null, transaction.getAmount());				
+				costs.add(item);
+			} else {
+				payments.add(transaction);
+			}
+		}
 		
 	}
 	
 	private LineItem bucketedBookingsToLineItem(BookingsBucket bucket, Collection<Booking> contents)
 	{
-		return new LineItem(null, TransactionType.Fees, String.format("%s - %d days", bucket.ageGroup.toString(), bucket.days), contents.size(), bucket.fee);
+		return new LineItem(null, TransactionType.Fees, 
+				String.format("%s - %d days", bucket.ageGroup.toString(), bucket.days), contents.size(), bucket.fee);
 	}
 	
 	
@@ -145,17 +168,22 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 	
 	public boolean getIsBeforeEarlyBookingDeadline()
 	{
-		return ((Event)sessionData.get(SessionConstants.CURRENT_EVENT)).getEarlyBookingDeadline().after(clock.getTime());
+		return getCurrentEvent().getEarlyBookingDeadline().after(clock.getTime());
 	}
 	
 	public Date getEarlyBookingsDate()
 	{
-		return ((Event)sessionData.get(SessionConstants.CURRENT_EVENT)).getEarlyBookingDeadline();
+		return getCurrentEvent().getEarlyBookingDeadline();
 	}
 	
 	public double getEarlyBookingsAmount()
 	{
 		return getTotalCost() / 2;
+	}
+	
+	public String getViewLevel()
+	{
+		return viewLevel;
 	}
 	
 	class BookingsBucket implements Comparable<BookingsBucket>
@@ -193,12 +221,6 @@ public class AccountsAction extends ActionSupport implements SessionAware{
 			if (days > o.days) return -1;
 			return 1;
 		}
-	}
-
-
-	@Override
-	public void setSession(Map<String, Object> sessionData) {
-		this.sessionData = sessionData;
 	}
 	
 }

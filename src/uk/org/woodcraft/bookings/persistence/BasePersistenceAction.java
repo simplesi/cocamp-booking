@@ -96,7 +96,7 @@ public abstract class BasePersistenceAction<ModelObject> extends SessionBasedAct
 		
 		DeleteRestricted objectToDelete = (DeleteRestricted) getModel();
 		
-		String preDeleteCheckError = objectToDelete.getDeleteConditionError();
+		String preDeleteCheckError = objectToDelete.getDeleteConditionError(getClock());
 		if(preDeleteCheckError.length() > 0)
 		{
 			addActionError(preDeleteCheckError);
