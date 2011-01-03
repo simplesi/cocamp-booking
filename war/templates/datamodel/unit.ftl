@@ -13,7 +13,7 @@
 <@s.form id="unit" method="post">
     <@s.push value="model">
         <@s.hidden name="webKey"/>
-        <@s.textfield name="name" label="Name"/>
+        <@s.textfield name="name" label="Unit Name"/>
         <@s.select name="organisationWebKey" label="Organisation" headerKey="" headerValue="-- Please Select --" 
         	list="allOrgs" listKey="webKey" listValue="name"/>
         <@s.textfield name="email" label="Email"/>

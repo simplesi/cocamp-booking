@@ -13,7 +13,7 @@
         <th>From</th>
         <th>To</th>
         <th>Price</th>
-        <th>Delete</th>
+        <th>Booking date</th>
     </tr>
     
     <#list ModelList as booking>
@@ -24,10 +24,7 @@
             <td>${(booking.arrivalDate?date)!}</td>
             <td>${(booking.departureDate?date)!}</td>
             <td>${booking.fee?string.currency}</td>
-            <td>
-                <@s.url id="deleteURL" action="deleteBooking" webKey="${booking.webKey}" />
-                <@s.a href="${deleteURL}">Delete</@s.a>
-            </td>
+            <td>${booking.bookingCreationDate?date}</td>
         </tr>
     </#list>
 </table>
