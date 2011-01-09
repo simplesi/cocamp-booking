@@ -26,7 +26,7 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 
 @PersistenceCapable(detachable="true")
-public class Booking extends KeyBasedData implements NamedEntity, DeleteRestricted, ValidatableModelObject{
+public class Booking extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted, ValidatableModelObject{
 
 	private static final long serialVersionUID = 1L;
 

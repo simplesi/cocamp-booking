@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import uk.org.woodcraft.bookings.auth.LoginInterceptor;
 import uk.org.woodcraft.bookings.auth.Operation;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
@@ -11,16 +15,16 @@ import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.email.EmailUtils;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.SessionBasedAction;
 import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.Configuration;
 import uk.org.woodcraft.bookings.utils.SystemClock;
 
-import com.opensymphony.xwork2.ActionSupport;
-
-public class PendingAdminActions extends ActionSupport {
+public class PendingAdminActions extends SessionBasedAction {
 
 	private static final long serialVersionUID = 4941769018916760167L;
-
+	private static final Log log = LogFactory.getLog (LoginInterceptor.class);
+	
 	// TODO: These should use a map for efficiency 
 	private Collection<String> selectedUser;
 	private Collection<String> selectedOrg;
@@ -68,6 +72,7 @@ public class PendingAdminActions extends ActionSupport {
 		} else {
 			for(User user : changedUsers)
 			{
+				log.info(String.format("%s user %s (%s) approved",getRequestSource(), user.getEmail(), user.getName()));
 				user.setApproved(true);
 				if (user.getEmailValidated()) emailUserToNotifyApproved(user);
 			}
@@ -143,8 +148,10 @@ public class PendingAdminActions extends ActionSupport {
 			
 		} else {
 			for(Organisation org : changed)
+			{
+				log.info(String.format("%s org %s (%s) approved",getRequestSource(), org.getKey(), org.getName()));
 				org.setApproved(true);
-			
+			}
 			CannedQueries.save(changed);
 			addActionMessage(String.format("Approved %d orgs", changed.size()));
 		}
@@ -206,8 +213,10 @@ public class PendingAdminActions extends ActionSupport {
 			
 		} else {
 			for(Unit unit : changed)
+			{
+				log.info(String.format("%s unit %s (%s) approved",getRequestSource(), unit.getKey(), unit.getName()));
 				unit.setApproved(true);
-			
+			}
 			CannedQueries.save(changed);
 			addActionMessage(String.format("Approved %d units", changed.size()));
 		}

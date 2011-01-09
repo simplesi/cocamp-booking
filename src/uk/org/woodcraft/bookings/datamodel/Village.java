@@ -15,7 +15,7 @@ import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
-public class Village extends KeyBasedData implements NamedEntity, ValidatableModelObject{
+public class Village extends KeyBasedDataWithAudit implements NamedEntity, ValidatableModelObject{
 
 	private static final long serialVersionUID = 1L;
 

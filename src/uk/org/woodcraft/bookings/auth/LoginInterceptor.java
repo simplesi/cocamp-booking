@@ -57,7 +57,7 @@ public class LoginInterceptor implements Interceptor {
 
 	@Override
 	public void init() {	
-		log.info("Initializing LoginInterceptor");
+		log.debug("Initializing LoginInterceptor");
 	}
 
 	@Override
@@ -82,6 +82,8 @@ public class LoginInterceptor implements Interceptor {
 	            if ("".equals(loginError) ) {
 	                // The login succeeded send them the login-success page.
 	            	
+	            	log.info(String.format("User %s login [%s]", request.getParameter(LOGIN_EMAIL), request.getRemoteAddr()));
+	            	
 	            	// If they were originally going somewhere else, try and send them there again
 	            	String intendedUri = (String) session.getAttribute(SessionConstants.LOGIN_REDIRECT);
 	            	if( intendedUri != null)
@@ -94,6 +96,8 @@ public class LoginInterceptor implements Interceptor {
 	                return "login-success";
 	            } else {
 	                // The login failed. Set an error if we can on the action.
+	            	log.warn(String.format("User %s failed login - %s - [%s]", request.getParameter(LOGIN_EMAIL), loginError, request.getRemoteAddr()));
+	            	
 	                Object action = invocation.getAction ();
 	                if (action instanceof ValidationAware) {                	
 	                    ((ValidationAware) action).addActionError (loginError);
@@ -105,7 +109,8 @@ public class LoginInterceptor implements Interceptor {
 	        // and we need to send the login form.
 	       String requestedURI = request.getRequestURI();
 	       session.setAttribute(SessionConstants.LOGIN_REDIRECT, requestedURI);
-	        
+	       log.info(String.format("User directed to login page [%s]", request.getParameter(LOGIN_EMAIL), request.getRemoteAddr()));
+	       
 	        return "login";
 	    } else {
 	        return invocation.invoke ();

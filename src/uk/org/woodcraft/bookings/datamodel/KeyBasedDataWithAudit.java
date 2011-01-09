@@ -8,12 +8,12 @@ import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
+import javax.jdo.listener.DeleteCallback;
 import javax.jdo.listener.StoreCallback;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import uk.org.woodcraft.bookings.persistence.CoreData;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 /***
@@ -22,7 +22,7 @@ import uk.org.woodcraft.bookings.utils.SessionUtils;
  */
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback{
+public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback, DeleteCallback{
 
 	private static final Log log = LogFactory.getLog (KeyBasedDataWithAudit.class);
 	
@@ -44,7 +44,6 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 				|| state.equals(ObjectState.DETACHED_DIRTY)) {
 			auditUpdate();
 		}
-		
 	}	
 	
 	/***
@@ -53,11 +52,10 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 	private void auditCreate() {
 		
 		setCreateTime(new Date());
-		String userKey = getAuditUser().getKey();
+		String userKey = SessionUtils.getAuditUser().getKey();
 		setCreatorUserKey(userKey);
 		
-	//	if (log.isDebugEnabled()) 
-			log.info(String.format("%s created object of type %s with key %s", userKey, this.getClass().getName(), getKey()));
+		log.info(String.format("%s created %s", userKey, getObjectAuditDescription()));
 	}
 	
 	/***
@@ -66,11 +64,24 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 	private void auditUpdate() {
 		
 		setUpdatedTime(new Date());
-		String userKey = getAuditUser().getKey();
+		String userKey = SessionUtils.getAuditUser().getKey();
 		setUpdatedUserKey(userKey);
 		
-		//if (log.isDebugEnabled()) 
-			log.info(String.format("%s updated object of type %s with key %s", userKey, this.getClass().getName(), getKey()));
+		log.info(String.format("%s updated %s", userKey, getObjectAuditDescription()));
+	}
+
+	/***
+	 * Triggered when an object is delete and about to be persisted
+	 */
+	private void auditDelete() {
+		log.info(String.format("%s deleted %s", SessionUtils.getAuditUser().getKey(), getObjectAuditDescription()));
+	}
+	
+	private String getObjectAuditDescription() {
+		if (this instanceof NamedEntity)
+			return String.format("{type:%s, key:%s, name:%s}", this.getClass().getName(), getKey(), ((NamedEntity)this).getName());
+		
+		return String.format("{type:%s, key:%s}", this.getClass().getName(), getKey()); 
 	}
 	
 	public void setAuditRecord(AuditRecord auditRecord) {
@@ -78,6 +89,7 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 	}
 
 	public AuditRecord getAuditRecord() {
+		if (auditRecord == null) auditRecord = new AuditRecord();
 		return auditRecord;
 	}
 	
@@ -112,11 +124,11 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 	protected void setUpdatedTime(Date updatedTime) {
 		this.getAuditRecord().setUpdatedTime(updatedTime);
 	}
-	
-	private User getAuditUser() {
-		User user = SessionUtils.currentUser(false);
-		if (user == null) user = CoreData.SYSTEM_USER;
-		
-		return user;
+
+	@Override
+	public void jdoPreDelete() {
+		auditDelete();
 	}
+	
+
 }

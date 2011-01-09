@@ -11,6 +11,7 @@ import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
+import uk.org.woodcraft.bookings.persistence.CoreData;
 
 import com.opensymphony.xwork2.ActionContext;
 
@@ -76,5 +77,11 @@ public class SessionUtils {
 		}
 	}
 	
+	public static User getAuditUser() {
+		User user = SessionUtils.currentUser(false);
+		if (user == null) user = CoreData.SYSTEM_USER;
+		
+		return user;
+	}
 	
 }
