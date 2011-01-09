@@ -1,10 +1,43 @@
-<!-- Indices written at Mon, 3 Jan 2011 00:12:18 UTC -->
+<!-- Indices written at Sun, 9 Jan 2011 16:22:08 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 10 times in query history -->
+    <datastore-index kind="Unit" ancestor="false" source="auto">
+        <property name="approved" direction="asc"/>
+        <property name="organisationKey" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 8 times in query history -->
+    <datastore-index kind="Organisation" ancestor="false" source="auto">
+        <property name="approved" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 13 times in query history -->
     <datastore-index kind="Event" ancestor="false" source="auto">
         <property name="isCurrentlyOpen" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 7 times in query history -->
+    <datastore-index kind="Booking" ancestor="false" source="auto">
+        <property name="eventKey" direction="asc"/>
+        <property name="unitKey" direction="asc"/>
+        <property name="name" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 4 times in query history -->
+    <datastore-index kind="Transaction" ancestor="false" source="auto">
+        <property name="eventKey" direction="asc"/>
+        <property name="unitKey" direction="asc"/>
+        <property name="timestamp" direction="asc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Unit" ancestor="false" source="auto">
+        <property name="organisationKey" direction="asc"/>
         <property name="name" direction="asc"/>
     </datastore-index>
 
@@ -15,34 +48,8 @@
     </datastore-index>
 
     <!-- Used 2 times in query history -->
-    <datastore-index kind="Organisation" ancestor="false" source="auto">
-        <property name="approved" direction="asc"/>
-        <property name="name" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 2 times in query history -->
     <datastore-index kind="Unit" ancestor="false" source="auto">
         <property name="approved" direction="asc"/>
-        <property name="name" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="Unit" ancestor="false" source="auto">
-        <property name="approved" direction="asc"/>
-        <property name="organisationKey" direction="asc"/>
-        <property name="name" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 1 time in query history -->
-    <datastore-index kind="Unit" ancestor="false" source="auto">
-        <property name="organisationKey" direction="asc"/>
-        <property name="name" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="Booking" ancestor="false" source="auto">
-        <property name="eventKey" direction="asc"/>
-        <property name="unitKey" direction="asc"/>
         <property name="name" direction="asc"/>
     </datastore-index>
 
@@ -69,13 +76,6 @@
         <property name="eventKey" direction="asc"/>
         <property name="villageKey" direction="asc"/>
         <property name="name" direction="asc"/>
-    </datastore-index>
-
-    <!-- Used 3 times in query history -->
-    <datastore-index kind="Transaction" ancestor="false" source="auto">
-        <property name="eventKey" direction="asc"/>
-        <property name="unitKey" direction="asc"/>
-        <property name="timestamp" direction="asc"/>
     </datastore-index>
 
     <!-- Used 1 time in query history -->

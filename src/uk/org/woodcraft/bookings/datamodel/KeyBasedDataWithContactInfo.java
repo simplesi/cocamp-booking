@@ -10,7 +10,7 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
-public abstract class KeyBasedDataWithContactInfo extends KeyBasedData {
+public abstract class KeyBasedDataWithContactInfo extends KeyBasedDataWithAudit {
 
 	private static final long serialVersionUID = 1L;
 

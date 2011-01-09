@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 
 import uk.org.woodcraft.bookings.auth.Operation;
@@ -16,6 +18,7 @@ import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 public class UserAction extends BasePersistenceAction<User>{
 
+	private static final Log log = LogFactory.getLog (UserAction.class);
 	private static final long serialVersionUID = 1L;
 	
 	private String email;
@@ -159,16 +162,19 @@ public class UserAction extends BasePersistenceAction<User>{
 		
 		if (!getCurrentUser().getAccessLevel().getIsSuperUser() && !user.checkPassword(oldPassword)) 
 		{
+			log.warn(String.format("%s Failed password change - wrong current password for %s", getRequestSource(), user.getEmail()));
 			addActionError("Current password supplied is incorrect. Please try again");
 			return INPUT;
 		}
 		if (newPassword == null || newPassword.length() == 0 )
 		{
+			log.info(String.format("%s Failed password change - missing new password for %s", getRequestSource(), user.getEmail()));
 			addActionError("A new password must be supplied.");
 			return INPUT;
 		}
 		if (!newPassword.equals(newPasswordConfirm))
 		{
+			log.info(String.format("%s Failed password change - new passwords didn't match for %s", getRequestSource(), user.getEmail()));
 			addActionError("The new password and the confirmation of the new password must be the same.");
 			return INPUT;
 		}
@@ -176,6 +182,7 @@ public class UserAction extends BasePersistenceAction<User>{
 		user.setPassword(newPassword);
 		CannedQueries.save(user);
 		
+		log.warn(String.format("%s Password for %s changed", getRequestSource(), user.getEmail()));
 		addActionMessage("Password for user '"+user.getName()+"' successfully changed.");
 		
 		return SUCCESS;
