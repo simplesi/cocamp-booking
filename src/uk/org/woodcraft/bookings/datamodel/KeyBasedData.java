@@ -79,6 +79,7 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	}
 	
 	public String toString() {
+		if (key == null) return "{unknown key}";
 		return this.key.toString();
 	}
 	

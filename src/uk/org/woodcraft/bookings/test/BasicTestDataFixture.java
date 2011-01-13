@@ -36,7 +36,7 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			CoreData.createCoreData();
 			
-			Clock testClock = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
+			Clock testClock = new TestClock(TestConstants.DATE_BEFORE_EARLY_DEADLINE);
 			
 			// Events
 			List<Event> events = new ArrayList<Event>();
@@ -77,7 +77,7 @@ public class BasicTestDataFixture extends TestFixture {
 			unit1.addEventRegistration(event2);	
 			units.add(unit1);
 			
-			Unit unit2 = new Unit("Unit 2", organisations.get(0), true);
+			Unit unit2 = new Unit(TestConstants.UNIT2_NAME, organisations.get(0), true);
 			unit2.addEventRegistration(event1);
 			units.add(unit2);
 			
@@ -96,11 +96,20 @@ public class BasicTestDataFixture extends TestFixture {
 			
 			// Bookings
 			List<Booking> bookings = new ArrayList<Booking>();
+			
+			// Before earlybird deadline
 			bookings.add(new Booking("Test person", unit1, event1, testClock));
-			bookings.add(new Booking("Test person 2", unit1, event1,testClock));		
+			bookings.add(new Booking("Test person 2", unit1, event1,testClock));
+			bookings.add(new Booking("Test person in unit 2", unit2, event1,testClock));
+			bookings.add(new Booking("Second person in unit 2", unit2, event1,testClock));
+			
 			bookings.add(new Booking("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
 			bookings.add(new Booking("Person in other org", otherOrgUnit2, event1, testClock));
 			bookings.add(new Booking("Test person in other event", unit1, events.get(1), testClock));
+			
+			// After earlybird deadline
+			TestClock afterEarlyBird = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
+			bookings.add(new Booking("Person booked after earlybird", unit1, event1, afterEarlyBird));
 			pm.makePersistentAll(bookings);
 			
 			
@@ -108,7 +117,15 @@ public class BasicTestDataFixture extends TestFixture {
 			List<Transaction> transactions = new ArrayList<Transaction>();
 			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Payment, "Payment 1", "Comment 1", 23.32d));
 			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Payment, "Payment 2", "", 12.00d));
+			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Payment, "Payment 3", "", 130.00d));
+			
 			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Adjustment, "Refund 1", "Refund test", -23.32d));
+			
+			transactions.add(new Transaction(unit2.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), testClock.getTime(), TransactionType.Payment, "Unit 2 payment", "", 70.00d));
+			
+			// after earlybird deadline
+			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), afterEarlyBird.getTime(), TransactionType.Payment, "Payment after earlybird", "", 10.00d));
+			transactions.add(new Transaction(unit1.getKeyCheckNotNull(), event1.getKeyCheckNotNull(), afterEarlyBird.getTime(), TransactionType.Discount, "Discount for early payment", "", 5.00d));
 			pm.makePersistentAll(transactions);
 			
 			// Users
