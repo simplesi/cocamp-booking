@@ -107,7 +107,8 @@ public class ApplyCoCampDiscountActionTest extends BaseFixtureTestCase {
 		
 		List<Transaction> expectedSessionTransactions = new ArrayList<Transaction>(2);
 		expectedSessionTransactions.add(discountlines.get(0).getDiscount());
-		expectedSessionTransactions.add(discountlines.get(1).getDiscount());
+		
+		// Only one discount as 0 discount should be filtered.
 		
 		assertEquals(expectedSessionTransactions, session.get(ApplyCoCampDiscountsAction.SESSION_DISCOUNT_LIST));
 	}
@@ -129,7 +130,7 @@ public class ApplyCoCampDiscountActionTest extends BaseFixtureTestCase {
 		subsequentAction.confirmDiscounts();
 		
 		transactions = CannedQueries.transactionsForEvent(event);
-		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Payment 3","Refund 1", "Unit 2 payment", "Payment after earlybird", "Earlybird booking discount for 1 people", "Earlybird booking discount for 0 people");
+		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Payment 3","Refund 1", "Unit 2 payment", "Payment after earlybird", "Earlybird booking discount for 1 people");
 		
 		
 	}
@@ -138,6 +139,7 @@ public class ApplyCoCampDiscountActionTest extends BaseFixtureTestCase {
 		ApplyCoCampDiscountsAction action = new ApplyCoCampDiscountsAction();
 		
 		session.put(SessionConstants.CURRENT_EVENT, event);
+		session.put(SessionConstants.USER_HANDLE, CannedQueries.getUserByEmail(TestConstants.USER_ADMIN_EMAIL));
 		action.setSession(session);
 		
 		action.setClock(clock);

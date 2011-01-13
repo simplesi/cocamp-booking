@@ -406,6 +406,25 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		User user1Deleted = CannedQueries.getUserByEmail("globaladmin@example.com");
 		assertNull(user1Deleted);
 	}
+	/* fails as both in same entity group
+	@Test
+	public void testDeleteAll() {
+		User user1 = CannedQueries.getUserByEmail("globaladmin@example.com");
+		assertEquals("Global Admin 1", user1.getName());
+		assertDetached(user1);
+		
+		List<User> userList = new ArrayList<User>();
+		userList.add(user1);
+		
+		User user2 = CannedQueries.getUserByEmail("unassigned@example.com");
+		userList.add(user2);
+		
+		
+		CannedQueries.deleteAll(userList);
+		User user1Deleted = CannedQueries.getUserByEmail("globaladmin@example.com");
+		assertNull(user1Deleted);
+	}
+	*/
 	
 	@Test
 	public void testSave() {

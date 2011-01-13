@@ -6,6 +6,7 @@ import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.persistence.SessionBasedAction;
 import uk.org.woodcraft.bookings.utils.Configuration;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
@@ -84,9 +85,18 @@ public class SecurityModel {
 		if (!permitted)	throw new SecurityException("You do not have the right security access to do that action");
 	}
 	
+	public static void checkIsAdminUser(SessionBasedAction action)
+	{
+		checkIsAdmin(action.getCurrentUser());
+	}
+	
 	public static void checkIsAdminUser()
 	{
-		User user = SessionUtils.currentUser(false);
+		checkIsAdmin(SessionUtils.currentUser(false));
+	}
+	
+	private static void checkIsAdmin(User user)
+	{
 		if (user == null)
 			throw new SecurityException("You must be logged in to perform this action.");
 		

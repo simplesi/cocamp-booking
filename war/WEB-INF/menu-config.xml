@@ -42,6 +42,8 @@
        		<Item name="AdminFinanceAccounts" 		title="Event accounts"		location="/manageAll/accounts"/>
        		<Item name="AdminFinanceListTrans" 		title="List transactions"	location="/manageAll/listTransactions"/>
        		<Item name="AdminFinanceAddTrans" 		title="Add transaction"		location="/manageAll/addTransaction"/>
+       		<Item name="AdminFinanceDiscount" 		title="Generate discounts"	location="/manageAll/generateDiscounts"/>
+       		
        	</Item>
   </Menu>
   

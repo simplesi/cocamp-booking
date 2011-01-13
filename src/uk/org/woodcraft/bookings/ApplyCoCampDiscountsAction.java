@@ -11,6 +11,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 
+import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Predicates;
@@ -34,22 +35,26 @@ public class ApplyCoCampDiscountsAction extends SessionBasedAction {
 	private static final Predicate SELECT_DISCOUNT = new Predicates.TransactionTypePredicate(TransactionType.Discount);
 	
 	private List<DiscountLine> discountLines = new ArrayList<DiscountLine>();
-	
+	private double totalDiscount;
 	
 	public String generateDiscounts() {
-		
+		SecurityModel.checkIsAdminUser(this);
 		Event event = getCurrentEvent();
 		
 		Map<Unit, List<Transaction>> transactionsByUnit = getRelevantTransactions(event);
 		Map<Key, List<Booking>> bookingsByUnit = getRelevantBookings(event);
 		
 		List<Transaction> allDiscounts = new ArrayList<Transaction>();
-		
+		totalDiscount = 0;
 		for(Unit unit : transactionsByUnit.keySet())
 		{
 			DiscountLine unitDiscount = new DiscountLine(getClock(), event, unit, bookingsByUnit.get(unit.getKeyCheckNotNull()), transactionsByUnit.get(unit), DISCOUNT_AMOUNT);
 			getDiscountLines().add(unitDiscount);
-			allDiscounts.add(unitDiscount.getDiscount());
+			
+			// Only persist the discount if it is non-zero
+			if (unitDiscount.getDiscount().getAmount() != 0)
+				allDiscounts.add(unitDiscount.getDiscount());
+			totalDiscount += unitDiscount.getDiscount().getAmount();
 		}
 		
 		// Cache it so that we can apply these discounts if approved
@@ -60,6 +65,7 @@ public class ApplyCoCampDiscountsAction extends SessionBasedAction {
 	
 	
 	public String confirmDiscounts() {
+		SecurityModel.checkIsAdminUser(this);
 		@SuppressWarnings("unchecked")
 		List<Transaction> discountsToApply = (List<Transaction>)getSessionObject(SESSION_DISCOUNT_LIST);
 		
@@ -74,7 +80,10 @@ public class ApplyCoCampDiscountsAction extends SessionBasedAction {
 		// First purge existing discounts for this event
 		@SuppressWarnings("unchecked")
 		Collection<Transaction> discounts = CollectionUtils.select(CannedQueries.transactionsForEvent(getCurrentEvent()), SELECT_DISCOUNT);
-		CannedQueries.deleteAll(discounts);
+		
+		// Can't delete all in one transaction as seperate entity groups
+		for(Transaction discount : discounts)
+			CannedQueries.delete(discount);
 		
 		CannedQueries.save(discountsToApply);
 		addActionMessage(String.format("Successfully added %d discounts", discountsToApply.size()));
@@ -141,6 +150,10 @@ public class ApplyCoCampDiscountsAction extends SessionBasedAction {
 
 	public List<DiscountLine> getDiscountLines() {
 		return discountLines;
+	}
+
+	public double getTotalDiscount() {
+		return totalDiscount;
 	}
 
 	public static class DiscountLine implements Serializable
