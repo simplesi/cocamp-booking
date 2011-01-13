@@ -192,7 +192,7 @@ public class ApplyCoCampDiscountsAction extends SessionBasedAction {
 			// iterate the bookings until we have no money left
 			for(Booking booking : qualifyingBookings)
 			{
-				if (balance > booking.getFee() / 2)
+				if (balance >= booking.getFee() / 2)
 				{
 					balance -= (booking.getFee() / 2);
 					paidBookings.add(booking);
