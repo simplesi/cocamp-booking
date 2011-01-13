@@ -392,6 +392,14 @@
 			<result type="freemarker">/templates/accounts/accounts.ftl</result>
 		</action>
 		
+		<action name="generateDiscounts" method="generateDiscounts" class="uk.org.woodcraft.bookings.ApplyCoCampDiscountsAction">
+			<result type="freemarker">/templates/accounts/discounts.ftl</result>
+		</action>
+		
+		<action name="confirmDiscounts" method="confirmDiscounts" class="uk.org.woodcraft.bookings.ApplyCoCampDiscountsAction">
+			<result type="redirect">redirectToTransactionList</result>
+		</action>
+		
 		<!--  Transactions -->
 		<action name="listTransactions" method="list" class="uk.org.woodcraft.bookings.persistence.TransactionAction">
 			<result type="freemarker">/templates/datamodel/transactionList.ftl</result>

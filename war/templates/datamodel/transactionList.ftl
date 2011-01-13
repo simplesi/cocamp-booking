@@ -1,6 +1,10 @@
 <#assign pagetitle = 'Transactions'>
 
 <#include "/templates/header.ftl">
+
+<@s.actionmessage/>
+<@s.actionerror/>
+
 <h2>Transactions</h2>
 <p>Please click a transaction below to see the full details. 
 <@s.url id="addURL" action="addTransaction" namespace="/manageAll" />

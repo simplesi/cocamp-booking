@@ -736,7 +736,10 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	
 	public static void delete(Object objectToDelete)
 	{
-		 deleteAll(Arrays.asList(objectToDelete));
+		@SuppressWarnings("rawtypes")
+		Collection list = new ArrayList();
+		list.add(objectToDelete);
+		deleteAll(list);
 	}
 	
 	@SuppressWarnings("rawtypes")
