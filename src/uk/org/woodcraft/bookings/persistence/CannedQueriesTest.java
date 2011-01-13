@@ -175,7 +175,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Unit unit = CannedQueries.unitByName("Unit 1", org);
 		
 		Collection<Booking> bookings = CannedQueries.bookingsForUnitAllEvents(unit);
-		TestUtils.assertNames(bookings, "Test person", "Test person 2", "Test person in other event");
+		TestUtils.assertNames(bookings, "Test person", "Test person 2", "Person booked after earlybird", "Test person in other event");
 		assertDetached(bookings);
 	}
 	
@@ -186,7 +186,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
 		
 		Collection<Booking> bookings = CannedQueries.bookingsForUnit(unit, event1);
-		TestUtils.assertNames(bookings, "Test person", "Test person 2");
+		TestUtils.assertNames(bookings, "Test person", "Test person 2","Person booked after earlybird");
 		assertDetached(bookings);
 	}
 	
@@ -196,7 +196,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
 		
 		Collection<Booking> bookings = CannedQueries.bookingsForOrg(org, event1);
-		TestUtils.assertNames(bookings, "Test person", "Test person 2");
+		TestUtils.assertNames(bookings, "Test person", "Test person 2","Person booked after earlybird", "Test person in unit 2", "Second person in unit 2");
 		assertDetached(bookings);
 	}
 	
@@ -230,6 +230,9 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		
 		testNames.add("Test person");
 		testNames.add("Test person 2");
+		testNames.add("Person booked after earlybird");
+		testNames.add("Test person in unit 2");
+		testNames.add("Second person in unit 2");
 		
 		TestUtils.assertNames(bookings, testNames.toArray(new String[] {}));
 		assertDetached(bookings);
@@ -241,7 +244,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Village village = CannedQueries.villageByName("Village 1", event1);
 		
 		Collection<Booking> bookings = CannedQueries.bookingsForVillage(village);
-		TestUtils.assertNames(bookings, "Test person", "Test person 2");
+		TestUtils.assertNames(bookings, "Test person", "Test person 2", "Person booked after earlybird");
 		assertDetached(bookings);
 		
 		Village village2 = CannedQueries.villageByName("Village 2", event1);
@@ -251,7 +254,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		assertDetached(bookings2);
 
 		Collection<Booking> bookingsHomeless = CannedQueries.bookingsHomeless(event1);
-		TestUtils.assertNames(bookingsHomeless, "Person in unapproved, homeless unit", "Person in other org");
+		TestUtils.assertNames(bookingsHomeless, "Person in unapproved, homeless unit", "Person in other org", "Test person in unit 2", "Second person in unit 2");
 		assertDetached(bookingsHomeless);
 	}
 	
@@ -261,7 +264,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	
 		
 		Collection<Booking> bookings = CannedQueries.bookingsForEvent(event1);
-		TestUtils.assertNames(bookings, "Person in unapproved, homeless unit", "Test person", "Test person 2", "Person in other org");
+		TestUtils.assertNames(bookings, "Person in unapproved, homeless unit", "Test person", "Test person 2", "Person booked after earlybird", "Person in other org", "Test person in unit 2", "Second person in unit 2");
 		assertDetached(bookings);
 	}
 	
@@ -329,7 +332,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Unit unit = CannedQueries.unitByName("Unit 1", org);
 		
 		Collection<Transaction> transactions = CannedQueries.transactionsForUnit(unit, event1);
-		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Refund 1");
+		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Payment 3", "Refund 1", "Payment after earlybird","Discount for early payment");
 	}
 
 	@Test
@@ -337,7 +340,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		Event event1 = CannedQueries.eventByName(TestConstants.EVENT1_NAME);	
 		
 		Collection<Transaction> transactions = CannedQueries.transactionsForEvent(event1);
-		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Refund 1");
+		TestUtils.assertNames(transactions, "Payment 1", "Payment 2", "Payment 3","Refund 1", "Payment after earlybird","Discount for early payment", "Unit 2 payment");
 	}
 	
 	@Test
@@ -371,7 +374,11 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		
 		testTransNames.add("Payment 1");
 		testTransNames.add("Payment 2");
+		testTransNames.add("Payment 3");
 		testTransNames.add("Refund 1");
+		testTransNames.add("Payment after earlybird");
+		testTransNames.add("Discount for early payment");
+		testTransNames.add("Unit 2 payment");
 		TestUtils.assertNames(transactions, testTransNames.toArray(new String[] {}));
 		assertDetached(transactions);
 	}

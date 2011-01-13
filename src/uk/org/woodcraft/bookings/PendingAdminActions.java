@@ -65,7 +65,7 @@ public class PendingAdminActions extends SessionBasedAction {
 		}
 		
 		if(delete)	{
-			CannedQueries.delete(changedUsers);
+			CannedQueries.deleteAll(changedUsers);
 			
 			addActionMessage(String.format("Deleted %d users", changedUsers.size()));
 			
@@ -136,7 +136,7 @@ public class PendingAdminActions extends SessionBasedAction {
 					errors.add(error);
 			}
 			
-			CannedQueries.delete(changedAndPreconditionPassed);
+			CannedQueries.deleteAll(changedAndPreconditionPassed);
 			
 			addActionMessage(String.format("Deleted %d orgs", changedAndPreconditionPassed.size()));
 			if(errors.size() > 0)
@@ -201,7 +201,7 @@ public class PendingAdminActions extends SessionBasedAction {
 					errors.add(error);
 			}
 			
-			CannedQueries.delete(changedAndPreconditionPassed);
+			CannedQueries.deleteAll(changedAndPreconditionPassed);
 			
 			addActionMessage(String.format("Deleted %d units", changedAndPreconditionPassed.size()));
 			if(errors.size() > 0)

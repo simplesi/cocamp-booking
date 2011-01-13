@@ -736,11 +736,11 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	
 	public static void delete(Object objectToDelete)
 	{
-		 delete(Arrays.asList(objectToDelete));
+		 deleteAll(Arrays.asList(objectToDelete));
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static void delete(List objectsToDelete)
+	public static void deleteAll(Collection objectsToDelete)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Transaction tx = pm.currentTransaction();

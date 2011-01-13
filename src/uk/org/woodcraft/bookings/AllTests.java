@@ -32,7 +32,8 @@ import uk.org.woodcraft.bookings.utils.DateUtilsTest;
         KeyBasedDataWithAuditTest.class,
         CoCampPricingStrategyTest.class,
         UpgradeDataActionTest.class,
-        AgeGroupTest.class
+        AgeGroupTest.class,
+        ApplyCoCampDiscountActionTest.class
         })
 
 public class AllTests {

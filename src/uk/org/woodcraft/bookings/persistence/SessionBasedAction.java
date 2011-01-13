@@ -68,6 +68,10 @@ public class SessionBasedAction extends ActionSupport implements SessionAware, S
 		return (User)getSessionObject(SessionConstants.USER_HANDLE);
 	}
 	
+	public void setClock(Clock clock) {
+		this.clock = clock;
+	}
+	
 	public Clock getClock() {
 		return clock;
 	}

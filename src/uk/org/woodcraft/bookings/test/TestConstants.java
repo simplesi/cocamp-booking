@@ -16,6 +16,7 @@ public class TestConstants {
 	public static final String ORG1_NAME = "Woodcraft Folk";
 	
 	public static final String UNIT1_NAME = "Unit 1";
+	public static final String UNIT2_NAME = "Unit 2";
 	
 	public static final String USER_ADMIN_EMAIL = "globaladmin@example.com";
 	
