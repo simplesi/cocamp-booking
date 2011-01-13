@@ -48,7 +48,9 @@ public class ApplyCoCampDiscountsAction extends SessionBasedAction {
 		totalDiscount = 0;
 		for(Unit unit : transactionsByUnit.keySet())
 		{
-			DiscountLine unitDiscount = new DiscountLine(getClock(), event, unit, bookingsByUnit.get(unit.getKeyCheckNotNull()), transactionsByUnit.get(unit), DISCOUNT_AMOUNT);
+			List<Booking> bookingsForUnit = bookingsByUnit.get(unit.getKeyCheckNotNull());
+			if (bookingsForUnit == null) bookingsForUnit = new ArrayList<Booking>();
+			DiscountLine unitDiscount = new DiscountLine(getClock(), event, unit, bookingsForUnit, transactionsByUnit.get(unit), DISCOUNT_AMOUNT);
 			getDiscountLines().add(unitDiscount);
 			
 			// Only persist the discount if it is non-zero
