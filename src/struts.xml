@@ -517,6 +517,15 @@
 			<result type="freemarker">/templates/approvalLists.ftl</result>
 		</action>		
 		
+		<action name="reportGenerate" method="execute" class="uk.org.woodcraft.bookings.CannedReportAction">
+			<result type="stream">
+            	<param name="contentType">application/vnd.ms-excel</param>
+	           	<param name="inputName">stream</param>
+	            <param name="contentDisposition">attachment; filename="${fileName}"</param>
+            	<param name="bufferSize">1024</param>
+        	</result>
+		</action>
+		
 	</package>
 
 	<!--  Protected through datastore variable so only run once -->

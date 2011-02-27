@@ -148,6 +148,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	private Set<Key> eventsRegistered = new HashSet<Key>();
 	
 	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "5", trim = true, message = "Name is required for unit")
+	@CannedReportColumn(priority = 1)
 	public String getName() {
 		return name;
 	}
@@ -156,7 +157,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.name = name;
 	}
 
-	
+	@SkipInCannedReports
 	public Key getOrganisationKey() {
 		return organisationKey;
 	}
@@ -164,12 +165,15 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	public void setOrganisationWebKey(String webKey) {
 		organisationKey = KeyFactory.stringToKey(webKey);
 	}
+	
+	@SkipInCannedReports
 	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "1", trim = true, message = "Organisation must be specified")
 	public String getOrganisationWebKey() {
 		if (organisationKey == null) return null;
 		return KeyFactory.keyToString(organisationKey);
 	}
 
+	@CannedReportColumn(priority = 2)
 	public Organisation getOrganisation() {
 		return CannedQueries.orgByKey(getOrganisationKey());
 	}
@@ -178,7 +182,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.organisationKey = organisation.getKeyCheckNotNull();
 	}
 
-
+	@CannedReportColumn(priority = 21)
 	public String getNotesString() {
 		if(notes == null) return ""; 
 		
@@ -232,6 +236,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.eventsRegistered.add(event.getKeyCheckNotNull());
 	}
 
+	@SkipInCannedReports
 	public Set<Key> getEventsRegistered() {
 		return eventsRegistered;
 	}
@@ -253,6 +258,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		return true;
 	}
 
+	@SkipInCannedReports
 	@Override
 	public Map<String, String> getValidationErrors() {
 		Map<String,String> errors = null;
@@ -268,6 +274,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		return errors;
 	}
 
+	@CannedReportColumn(priority = 31)
 	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
 	public int getEstimateWoodchip() {
 		return estimateWoodchip;
@@ -277,6 +284,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.estimateWoodchip = estimateWoodchip;
 	}
 
+	@CannedReportColumn(priority = 32)
 	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
 	public int getEstimateElfin() {
 		return estimateElfin;
@@ -286,6 +294,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.estimateElfin = estimateElfin;
 	}
 
+	@CannedReportColumn(priority = 33)
 	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
 	public int getEstimatePioneer() {
 		return estimatePioneer;
@@ -295,6 +304,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.estimatePioneer = estimatePioneer;
 	}
 
+	@CannedReportColumn(priority = 34)
 	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
 	public int getEstimateVenturer() {
 		return estimateVenturer;
@@ -304,6 +314,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.estimateVenturer = estimateVenturer;
 	}
 
+	@CannedReportColumn(priority = 35)
 	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
 	public int getEstimateDF() {
 		return estimateDF;
@@ -313,6 +324,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.estimateDF = estimateDF;
 	}
 
+	@CannedReportColumn(priority = 36)
 	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
 	public int getEstimateAdult() {
 		return estimateAdult;
@@ -322,6 +334,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.estimateAdult = estimateAdult;
 	}
 
+	@CannedReportColumn(priority = 40)
 	public boolean getEquipmentKitchen() {
 		return equipmentKitchen;
 	}
@@ -330,6 +343,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.equipmentKitchen = equipmentKitchen;
 	}
 
+	@CannedReportColumn(priority = 41)
 	public boolean getEquipmentTables() {
 		return equipmentTables;
 	}
@@ -338,6 +352,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.equipmentTables = equipmentTables;
 	}
 
+	@CannedReportColumn(priority = 42)
 	public boolean getEquipmentBenches() {
 		return equipmentBenches;
 	}
@@ -346,6 +361,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.equipmentBenches = equipmentBenches;
 	}
 
+	@CannedReportColumn(priority = 43)
 	public boolean getEquipmentLighting() {
 		return equipmentLighting;
 	}
@@ -354,6 +370,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.equipmentLighting = equipmentLighting;
 	}
 
+	@CannedReportColumn(priority = 44)
 	public String getEquipmentOther() {
 		if (equipmentOther == null) return null;
 		return equipmentOther.getValue();
@@ -363,6 +380,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.equipmentOther = new Text(equipmentOther);
 	}
 
+	@CannedReportColumn(priority = 50)
 	public boolean getCanvasMarquee() {
 		return canvasMarquee;
 	}
@@ -371,6 +389,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.canvasMarquee = canvasMarquee;
 	}
 
+	@CannedReportColumn(priority = 51)
 	public boolean getCanvasKitchen() {
 		return canvasKitchen;
 	}
@@ -379,6 +398,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.canvasKitchen = canvasKitchen;
 	}
 
+	@CannedReportColumn(priority = 52)
 	public boolean getCanvasStore() {
 		return canvasStore;
 	}
@@ -387,6 +407,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.canvasStore = canvasStore;
 	}
 
+	@CannedReportColumn(priority = 53)
 	public String getCanvasOther() {
 		if (canvasOther == null) return null;
 		return canvasOther.getValue();
@@ -396,6 +417,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.canvasOther = new Text(canvasOther);
 	}
 
+	@CannedReportColumn(priority = 54)
 	public boolean getLargeCanvasTown() {
 		return largeCanvasTown;
 	}
@@ -404,6 +426,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.largeCanvasTown = largeCanvasTown;
 	}
 
+	@CannedReportColumn(priority = 55)
 	public boolean getLargeCanvasActivity() {
 		return largeCanvasActivity;
 	}
@@ -412,6 +435,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.largeCanvasActivity = largeCanvasActivity;
 	}
 
+	@CannedReportColumn(priority = 56)
 	public boolean getLargeCanvasCafe() {
 		return largeCanvasCafe;
 	}
@@ -420,6 +444,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.largeCanvasCafe = largeCanvasCafe;
 	}
 
+	@CannedReportColumn(priority = 57)
 	public String getLargeCanvasOther() {
 		if (largeCanvasOther == null) return null;
 		return largeCanvasOther.getValue();
@@ -429,6 +454,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.largeCanvasOther = new Text(largeCanvasOther);
 	}
 
+	@CannedReportColumn(priority = 60)
 	public String getVillagePartner() {
 		return villagePartner;
 	}
@@ -437,6 +463,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.villagePartner = villagePartner;
 	}
 
+	@CannedReportColumn(priority = 61)
 	public String getDelegation() {
 		if (delegation == null) return null;
 		return delegation.getValue();

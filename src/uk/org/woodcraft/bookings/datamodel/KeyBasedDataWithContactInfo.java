@@ -30,6 +30,7 @@ public abstract class KeyBasedDataWithContactInfo extends KeyBasedDataWithAudit 
 	}
 	
 	@EmailValidator(type = ValidatorType.FIELD, message = "Email must be valid or blank" )
+	@CannedReportColumn(priority = 10)
 	public String getEmail()
 	{
 		return email;
@@ -40,6 +41,7 @@ public abstract class KeyBasedDataWithContactInfo extends KeyBasedDataWithAudit 
 		this.phone = phone;
 	}
 	
+	@CannedReportColumn(priority = 11)
 	public String getPhone()
 	{
 		return phone;
@@ -50,6 +52,7 @@ public abstract class KeyBasedDataWithContactInfo extends KeyBasedDataWithAudit 
 		this.address = address;
 	}
 	
+	@CannedReportColumn(priority = 12)
 	public String getAddress()
 	{
 		return address;
