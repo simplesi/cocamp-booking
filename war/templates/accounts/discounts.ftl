@@ -5,6 +5,9 @@
 <p>Below are the proposed discounts for each unit, based on the bookings and payments registered as being in the system prior to the early bird discount deadline.</p>
 <p><strong>To add these discounts</strong> (and replace any existing discounts), click 'apply discounts' below.</p>
 
+<p><strong>Included Bookings</strong> are bookings that are full price for camp, and were covered by payments received before the deadline - hence they do qualify for discounts.<br/>
+<strong>Unfunded Bookings</strong> are full price for camp (ie not woodchips, or part-time on camp), but there was insufficient money to cover them, so they don't qualify for discounts.</br/>
+
 <h3>Discounts</h3>
 <#if ( discountLines.size() == 0)>
 <p><em>There are no discounts in the system.</em></p>

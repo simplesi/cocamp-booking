@@ -98,8 +98,9 @@ public class SignupAction extends BasePersistenceAction<User>{
 		
 		String subject = "Co-Camp Booking - Activate your account";
 		String body = "Someone signed up for CoCamp bookings using your email address. \n\n" 
-					+ "If this was you, please go to the following link to confirm this email and enter the booking system. " 
+					+ "If this was you, please go to the following link to confirm this email. " 
 					+ "If this was not you, please disregard this email. \n"
+					+"Once you have confirmed your email address, your account will be checked and approved.  Please note that this approval is checked by our staff so there may be a delay, especially if you have signed up outside of office hours"
 					+ buildUserConfirmData(user)
 					+ "\n\nThanks,The Co-Camp Team";
 		System.out.println(body);
