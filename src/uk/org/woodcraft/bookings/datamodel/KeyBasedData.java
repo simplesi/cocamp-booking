@@ -24,6 +24,7 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	@Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
 	private Key key;
 	
+	@SkipInCannedReports
 	public Key getKey() {
 		return key;
 	}
@@ -33,6 +34,7 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	 *  Retrieve the key value, and throw if it is null
 	 * @return Key 
 	 */
+	@SkipInCannedReports
 	public Key getKeyCheckNotNull(){
 		if(key == null)
 			throw( new IllegalStateException(
@@ -45,6 +47,7 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 		this.key = key;
 	}
 	
+	@SkipInCannedReports
 	public String getWebKey() {
 		if (key == null) return null;
 		return KeyFactory.keyToString(key);

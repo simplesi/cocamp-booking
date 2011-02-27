@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.ObjectState;
+import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;
@@ -77,6 +78,7 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 		log.info(String.format("%s deleted %s", SessionUtils.getAuditUser().getKey(), getObjectAuditDescription()));
 	}
 	
+	@SkipInCannedReports
 	private String getObjectAuditDescription() {
 		if (this instanceof NamedEntity)
 			return String.format("{type:%s, key:%s, name:%s}", this.getClass().getName(), getKey(), ((NamedEntity)this).getName());
@@ -87,12 +89,15 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 	public void setAuditRecord(AuditRecord auditRecord) {
 		this.auditRecord = auditRecord;
 	}
-
+	
+	@SkipInCannedReports
 	public AuditRecord getAuditRecord() {
 		if (auditRecord == null) auditRecord = new AuditRecord();
 		return auditRecord;
 	}
 	
+	// FIXME: make the audit record detach correctly, and then remove this skip
+	@SkipInCannedReports
 	public String getCreatorUserKey() {
 		return getAuditRecord().getCreatorUserKey();
 	}
@@ -101,6 +106,7 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 		this.getAuditRecord().setCreatorUserKey(creatorUserKey);
 	}
 	
+	@SkipInCannedReports
 	public Date getCreateTime() {
 		return getAuditRecord().getCreateTime();
 	}
@@ -109,6 +115,7 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 		this.getAuditRecord().setCreateTime(createTime);
 	}
 	
+	@SkipInCannedReports
 	public String getUpdatedUserKey() {
 		return getAuditRecord().getUpdatedUserKey();
 	}
@@ -117,6 +124,7 @@ public class KeyBasedDataWithAudit extends KeyBasedData implements StoreCallback
 		this.getAuditRecord().setUpdatedUserKey(updatedUserKey);
 	}
 	
+	@SkipInCannedReports
 	public Date getUpdatedTime() {
 		return getAuditRecord().getUpdatedTime();
 	}
