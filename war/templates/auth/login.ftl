@@ -14,7 +14,10 @@
     
     </@s.form>
 </div>
-<p><strong>Welcome to the CoCamp booking system!</strong></p>
+<p><strong>Welcome to the CoCamp group booking system!</strong></p>
+<p>This is a system for booking secretaries only. If you are not the booking secretary for your district, unit or organisation, please contact the booking secretary in order to book in for CoCamp.</p>
+
+
 <p>To access the Booking System, you must log in.</p>
 <p>If this is your first visit, please <@s.url id="signupURL" namespace="/" action="signup/"/><@s.a href="${signupURL}">Sign Up</@s.a> for an account.</p>
 
