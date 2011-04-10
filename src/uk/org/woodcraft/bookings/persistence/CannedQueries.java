@@ -687,6 +687,15 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		return allUsers(null, unit, false);
 	}
 	
+	public static <T> Collection<T> allEntriesForClass(Class<T> clazz)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		Query query = pm.newQuery(clazz);
+		
+		return queryDetachAndClose(clazz, query);
+	}
+	
+	
 	public static <T> T getByKey(Class<T> clazz, Object key)
 	{
 		// TODO: Implement caching here

@@ -41,7 +41,7 @@ public class BookedUnitsReportTest extends BaseFixtureTestCase{
 	{
 		BookedUnitsReport report = new BookedUnitsReport();
 		
-		report.getResults();
+		report.getResults(null);
 	}
 	
 	

@@ -1,6 +1,7 @@
 package uk.org.woodcraft.bookings;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import uk.org.woodcraft.bookings.datamodel.Unit;
@@ -11,7 +12,7 @@ public class BookedUnitsReport extends CannedReport<Unit> {
 	
 	
 	@Override
-	protected List<Unit> getRows() {
+	protected List<Unit> getRows(CannedReportLabel selectedReport) {
 		// FIXME: This should be doing something event-specific, but event-specific unit bookings not sorted yet
 		return new ArrayList<Unit>(CannedQueries.allUnits(true));
 	}
@@ -19,6 +20,12 @@ public class BookedUnitsReport extends CannedReport<Unit> {
 	@Override
 	protected Class<Unit> getDataType() {
 		return Unit.class;
+	}
+
+
+	@Override
+	protected List<CannedReportLabel> getAvailableReports() {
+		return Collections.singletonList(new CannedReportLabel("BookedUnitsReport", "All Booked Units", "All units booked into the event"));
 	}
 
 }
