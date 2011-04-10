@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -88,10 +89,10 @@ public abstract class CannedReport<DataType extends Object> {
 	
 	protected abstract Class<DataType> getDataType();
 	
-	protected abstract List<DataType> getRows();
+	protected abstract Collection<DataType> getRows(CannedReportLabel selectedReport);
 	
 	
-	public byte[] getResults() 
+	public byte[] getResults(CannedReportLabel selectedReport) 
 	{
 		// Stream containing excel data
 		  ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -129,7 +130,7 @@ public abstract class CannedReport<DataType extends Object> {
 		  
 		  
 		  
-		  for(DataType row : getRows())
+		  for(DataType row : getRows(selectedReport))
 		  {
 			  List<Object> rowData = renderRow(row);
 			  if(rowData.size() != headers.size())
@@ -221,4 +222,32 @@ public abstract class CannedReport<DataType extends Object> {
 		return cells;
 	}
 	
+	protected abstract List<CannedReportLabel> getAvailableReports();
+	
+	class CannedReportLabel
+	{
+		private String tag;
+		private String displayName;
+		private String description;
+		
+		public CannedReportLabel( String tag, String displayName, String description) {
+			this.tag = tag;
+			this.displayName = displayName;
+			this.description = description;
+		}
+
+		public String getTag() {
+			return tag;
+		}
+
+		public String getDisplayedName() {
+			return displayName;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+		
+		
+	}
 }
