@@ -21,6 +21,7 @@ public class BookedUnitsReportTest extends BaseFixtureTestCase{
 	public void testGetHeaders()
 	{
 		BookedUnitsReport report = new BookedUnitsReport();
+		report.initialize(null);
 		List<String> headers = report.getHeaders();
 		/*
 		for(String header : headers)

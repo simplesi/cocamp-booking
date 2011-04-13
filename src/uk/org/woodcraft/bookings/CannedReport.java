@@ -31,7 +31,7 @@ public abstract class CannedReport<DataType extends Object> {
 
 	protected List<Method> reportedMethods;
 
-	public CannedReport() {
+	public void initialize(CannedReportLabel selectedReport) {
 		reportedMethods = new ArrayList<Method>();
 		
 		for(Method candidateMethod : getDataType().getMethods())
@@ -94,6 +94,8 @@ public abstract class CannedReport<DataType extends Object> {
 	
 	public byte[] getResults(CannedReportLabel selectedReport) 
 	{
+		initialize(selectedReport);
+		
 		// Stream containing excel data
 		  ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -240,7 +242,7 @@ public abstract class CannedReport<DataType extends Object> {
 			return tag;
 		}
 
-		public String getDisplayedName() {
+		public String getDisplayName() {
 			return displayName;
 		}
 

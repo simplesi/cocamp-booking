@@ -19,6 +19,7 @@ public class CannedReportAction extends ActionSupport {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String execute()
 	{
+		if (selectedReport == null) return INPUT;
 		
 		for(CannedReportMapping mapping : getAvailableReports())
 		{
@@ -53,7 +54,7 @@ public class CannedReportAction extends ActionSupport {
 	
 	public String getFileName()
 	{
-		return "QueryResult.xls";
+		return selectedReport;
 	}
 	
 	public void setSelectedReport(String selectedReport) {
