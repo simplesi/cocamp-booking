@@ -517,8 +517,9 @@
 			<result type="freemarker">/templates/approvalLists.ftl</result>
 		</action>		
 		
-		<action name="reportGenerate" method="execute" class="uk.org.woodcraft.bookings.CannedReportAction">
-			<result type="stream">
+		<action name="cannedReports" method="execute" class="uk.org.woodcraft.bookings.CannedReportAction">
+			<result name="input" type="freemarker">/templates/cannedReport.ftl</result>
+			<result name="success" type="stream">
             	<param name="contentType">application/vnd.ms-excel</param>
 	           	<param name="inputName">stream</param>
 	            <param name="contentDisposition">attachment; filename="${fileName}"</param>

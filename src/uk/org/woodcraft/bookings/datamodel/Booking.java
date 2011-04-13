@@ -309,6 +309,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 	}
 
 	@Override
+	@SkipInCannedReports
 	public Map<String, String> getValidationErrors() {
 		Map<String, String> errors = new HashMap<String, String>();
 		

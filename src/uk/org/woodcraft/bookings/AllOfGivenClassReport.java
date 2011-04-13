@@ -27,22 +27,27 @@ public class AllOfGivenClassReport <DataType> extends CannedReport<DataType> {
 	
 	private Class<DataType> _clazz;
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void initialize(CannedReportLabel selectedReport) {
+		if (AVAILABLE_CLASSES.containsKey(selectedReport.getTag()))
+		{
+			_clazz = AVAILABLE_CLASSES.get(selectedReport.getTag());
+		} else 
+			throw new IllegalArgumentException("Unrecognised report type "+ selectedReport.getTag());	
+		
+		super.initialize(selectedReport);
+	}
+	
 	@Override
 	protected Class<DataType> getDataType() {
 		return _clazz;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected Collection<DataType> getRows(CannedReportLabel selectedReport) {
 		
-		if (AVAILABLE_CLASSES.containsKey(selectedReport.getTag()))
-		{
-			_clazz = AVAILABLE_CLASSES.get(selectedReport.getTag());
-			return CannedQueries.allEntriesForClass(_clazz);
-		}
-		
-		throw new IllegalArgumentException("Unrecognised report type "+ selectedReport.getTag());	
+		return CannedQueries.allEntriesForClass(_clazz);
 	}
 
 	@Override

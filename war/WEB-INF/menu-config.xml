@@ -45,6 +45,7 @@
        		<Item name="AdminFinanceDiscount" 		title="Generate discounts"	location="/manageAll/generateDiscounts"/>
        		
        	</Item>
+       	<Item name="AdminReports" 		title="Reports" 				location="/manageAll/cannedReports"/>
   </Menu>
   
   <Menu name="MyAccount" title="My Account" >
