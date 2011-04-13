@@ -13,6 +13,9 @@ import java.util.Date;
 import java.util.List;
 
 import jxl.Workbook;
+import jxl.biff.DisplayFormat;
+import jxl.write.DateFormat;
+import jxl.write.DateFormats;
 import jxl.write.DateTime;
 import jxl.write.Label;
 import jxl.write.WritableCell;
@@ -129,7 +132,7 @@ public abstract class CannedReport<DataType extends Object> {
 		  // Generates Data Cells
 		  WritableFont dataFont = new WritableFont(WritableFont.TAHOMA, 12);
 		  WritableCellFormat dataCellFormat = new WritableCellFormat(dataFont);
-		  
+		  WritableCellFormat dateCellFormat = new WritableCellFormat(dataFont, DateFormats.FORMAT2);
 		  
 		  
 		  for(DataType row : getRows(selectedReport))
@@ -164,7 +167,7 @@ public abstract class CannedReport<DataType extends Object> {
 						 cell = new jxl.write.Number(currentColumn, currentRow, ((Number)cellData).doubleValue(), dataCellFormat);
 					 } else if (cellData instanceof Date)
 					 {
-						 cell = new DateTime(currentColumn, currentRow, (Date)cellData, dataCellFormat);
+						 cell = new DateTime(currentColumn, currentRow, (Date)cellData, dateCellFormat);
 					 } else 
 					 {
 						 if (!(cellData instanceof String) )
