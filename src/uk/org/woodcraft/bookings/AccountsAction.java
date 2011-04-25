@@ -98,8 +98,10 @@ public class AccountsAction extends SessionBasedAction{
 	
 	private LineItem bucketedBookingsToLineItem(BookingsBucket bucket, Collection<Booking> contents)
 	{
+		String cancellation = "";
+		if (bucket.isCancelled)  cancellation = "(cancelled) ";
 		return new LineItem(null, TransactionType.Fees, 
-				String.format("%s - %d days", bucket.ageGroup.toString(), bucket.days), contents.size(), bucket.fee);
+				String.format("%s %s- %d days", bucket.ageGroup.toString(), cancellation, bucket.days), contents.size(), bucket.fee);
 	}
 	
 	
@@ -109,7 +111,7 @@ public class AccountsAction extends SessionBasedAction{
 		Map<BookingsBucket, Collection<Booking>> buckets = new HashMap<AccountsAction.BookingsBucket, Collection<Booking>>();
 		for(Booking booking: bookings)
 		{
-			BookingsBucket bucketKey = new BookingsBucket(booking.getAgeGroup(), 
+			BookingsBucket bucketKey = new BookingsBucket(booking.getAgeGroup(), booking.getIsCancelled(),
 												DateUtils.daysBetween(booking.getArrivalDate(), booking.getDepartureDate()), 
 												booking.getFee());
 			if (!buckets.containsKey(bucketKey))
@@ -189,11 +191,13 @@ public class AccountsAction extends SessionBasedAction{
 	class BookingsBucket implements Comparable<BookingsBucket>
 	{
 		final AgeGroup ageGroup;
+		final boolean isCancelled;
 		final int days;
 		final double fee;
 		 
-		public BookingsBucket(AgeGroup ageGroup, int days, double fee) {
+		public BookingsBucket(AgeGroup ageGroup, boolean isCancelled, int days, double fee) {
 			this.ageGroup = ageGroup;
+			this.isCancelled = isCancelled;
 			this.days = days;
 			this.fee = fee;
 		}
@@ -208,15 +212,21 @@ public class AccountsAction extends SessionBasedAction{
 			if (! (obj instanceof BookingsBucket)) return false;
 			BookingsBucket other = (BookingsBucket) obj;
 			
-			return ageGroup.equals(other.ageGroup) 
+			return ageGroup.equals(other.ageGroup) && isCancelled == other.isCancelled
 				&& days == other.days;
 		}
 
-		// Agegroup, days (desc)
+		// Cancellation, Agegroup, days (desc)
 		@Override
 		public int compareTo(BookingsBucket o) {
+			if (isCancelled != o.isCancelled)
+			{
+				if (isCancelled) 
+					return 1;
+				else
+					return -1;
+			}
 			if (ageGroup != o.ageGroup) return ageGroup.compareTo(o.ageGroup);
-			
 			if (days == o.days) return 0;
 			if (days > o.days) return -1;
 			return 1;

@@ -15,8 +15,8 @@
         <@s.hidden name="webKey"/>
         <@s.hidden name="email"/>
    
-        <@s.submit name="Delete" name="confirmDelete" value="Delete"/>
-        <@s.submit value="Cancel" name="cancelDelete" id="Cancel" />
+        <@s.submit name="confirmDelete" value="Delete"/>
+        <@s.submit name="cancelDelete" value="Cancel"  id="Cancel" />
     
 	</@s.form>
 </@s.push>

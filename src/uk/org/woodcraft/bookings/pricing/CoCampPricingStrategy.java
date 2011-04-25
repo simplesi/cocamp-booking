@@ -34,9 +34,19 @@ public class CoCampPricingStrategy implements PricingStrategy {
 			// Late booking fee is 25
 			price += 25;
 		}
+			
 		
-		
-		// TODO: Need to handle cancellation
+		if (booking.getCancellationDate() != null)
+		{
+			if (booking.getCancellationDate().before(event.getBookingDeadline()))
+				// £75 for bookings cancelled after booking deadline, capped at fee
+				return Math.min(25d, price);
+			else
+			{	
+				// £75 for bookings cancelled after booking deadline, capped at fee
+				return Math.min(75d, price);
+			}
+		}
 		
 		return price;
 		

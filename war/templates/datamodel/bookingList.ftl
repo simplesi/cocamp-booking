@@ -19,7 +19,7 @@
     <#list ModelList as booking>
     <@s.url id="editURL" action="editBooking" webKey="${booking.webKey}" />
         <tr>
-            <td> <@s.a href="${editURL}">${booking.name!"unnamed"}</@s.a></td>
+            <td> <@s.a href="${editURL}">${booking.name!"unnamed"}</@s.a><#if booking.isCancelled> (Cancelled)</#if></td>
             <td>${booking.ageGroup}</td>
             <td>${(booking.arrivalDate?date)!}</td>
             <td>${(booking.departureDate?date)!}</td>
