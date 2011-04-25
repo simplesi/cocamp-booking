@@ -88,6 +88,13 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 	@Persistent
 	private Date bookingCreationDate;
 	
+	/**
+	 *  This is the date when the booking was unlocked so that it could be updated after the deadline, qualifying for late booking fee
+	 */
+	@Persistent
+	private Date bookingUnlockDate;
+	
+	
 	@SuppressWarnings("unused")
 	private Booking() {
 		// For JDO
@@ -340,6 +347,11 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 		return bookingCreationDate;
 	}
 
-	
-	
+	public void setBookingUnlockDate(Date bookingUnlockDate) {
+		this.bookingUnlockDate = bookingUnlockDate;
+	}
+
+	public Date getBookingUnlockDate() {
+		return bookingUnlockDate;
+	}
 }

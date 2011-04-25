@@ -29,9 +29,10 @@ public class CoCampPricingStrategy implements PricingStrategy {
 		}
 		
 		
-		if (booking.getBookingCreationDate().after(event.getBookingDeadline()))
+		if (booking.getBookingCreationDate().after(event.getBookingDeadline())
+				|| (booking.getBookingUnlockDate() != null && booking.getBookingUnlockDate().after(event.getBookingDeadline())))
 		{
-			// Late booking fee is 25
+			// Late booking fee is 25, applies for any booking created or updated after this time
 			price += 25;
 		}
 			

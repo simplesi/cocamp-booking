@@ -466,18 +466,22 @@ header
 }
 
 #booking_arrivalDate, #booking_dob, #booking_departureDate, #event_publicEventStart,
-#event_publicEventEnd, #event_internalEventStart, #event_internalEventEnd
+#event_publicEventEnd, #event_internalEventStart, #event_internalEventEnd, #event_earlyBookingDeadline, #event_bookingDeadline, #event_bookingSystemLocked
 {   background-image: url(/css/custom-theme/images/ui-icon-calendar.png);
 	background-position: 98%;
 	background-repeat: no-repeat;
 }
 
 #wwctrl_signup_signup, #wwctrl_booking_Save, #wwctrl_booking_Cancel, 
-#wwctrl_organisation_Save, #wwctrl_organization_Cancel, #wwctrl_unit_Save,
-#wwctrl_booking_cancelEditBooking,#wwctrl_booking_cancelBooking, #wwctrl_booking_unCancelBooking
-{	width: 18em;
-	padding: 5px 10px 0px 10px;
+#wwctrl_organisation_Save, #wwctrl_organization_Cancel, #wwctrl_unit_Save, #wwctrl_unit_cancelEditUnit,
+#wwctrl_booking_cancelEditBooking,#wwctrl_booking_cancelBooking, #wwctrl_booking_unCancelBooking, #wwctrl_booking_unlockBooking
+{	/*width: 18em;*/
+	padding: 5px 0px 0px 5px;
+	display: inline;
 }
+
+#wwlbl_booking_becomeMember 
+{ display: inline; }
 
 .errorMessage
 {   text-align: center;   padding: 4px;   position: relative;   background-color: #c11e24;
