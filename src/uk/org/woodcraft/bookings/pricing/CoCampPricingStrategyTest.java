@@ -63,7 +63,13 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		lateBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
 		
 		assertEquals("Bookings after the deadline cost more", 175d, pricer.priceOf(lateBooking), 0);
+
+		Booking lateUpdatedBooking = new Booking(testUnit,cocamp, testClock);
+		lateUpdatedBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
+		lateUpdatedBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
+		lateUpdatedBooking.setBookingUnlockDate(TestConstants.DATE_AFTER_DEADLINE);
 		
+		assertEquals("Bookings unlocked for updating after the deadline cost more", 175d, pricer.priceOf(lateUpdatedBooking), 0);
 		
 		Booking woodchipBooking = new Booking(testUnit, cocamp, testClock);
 		woodchipBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));

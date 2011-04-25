@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.ObjectState;
-import javax.jdo.annotations.Element;
 import javax.jdo.annotations.Inheritance;
 import javax.jdo.annotations.InheritanceStrategy;
 import javax.jdo.annotations.PersistenceCapable;

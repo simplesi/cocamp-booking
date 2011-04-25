@@ -26,6 +26,8 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	private String cancelCancelBooking = "";
 	private String confirmUnCancelBooking = "";
 	private String cancelUnCancelBooking = "";
+	private String confirmUnlockBooking = "";
+	private String cancelUnlockBooking = "";
 	
 	@SkipValidation
 	public String listForUnit() {		
@@ -100,12 +102,55 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		return save();
 	}
 	
+	public String unlock() {
+		if (getConfirmUnlockBooking().length() == 0)
+		{
+			if (getCancelUnlockBooking().length() != 0)
+				return "cancel-unlock";
+			else
+				return "confirm-unlock";
+		}
+		
+		return doUnlock();
+	}
+	
+	private String doUnlock() {
+		getModel().setBookingUnlockDate(getCurrentTime());
+		return save();
+	}
+	
 	public Date getEarliestDate() {
 		return getCurrentEvent().getPublicEventStart();
 	}
 	public Date getLatestDate() {
 		return getCurrentEvent().getPublicEventEnd();
 	}
+	
+	public Date getEditCutoffDate() {
+		if (getModel().getBookingUnlockDate() != null){
+			Date cutoff = getModel().getBookingUnlockDate();
+			cutoff.setTime(cutoff.getTime() + (60 * 60 * 1000 * 24));
+			return cutoff;
+		}
+		return getCurrentEvent().getBookingDeadline();	
+	}
+	
+	public boolean getIsEditable() {
+		if (getModel().getKey() == null) return true;
+		
+		if (getCurrentTime().before(getCurrentEvent().getBookingDeadline()) ) return true;
+		if (getCurrentTime().after(getCurrentEvent().getBookingSystemLocked()) ) return false;
+		
+		Date bookingUnlockDate = getModel().getBookingUnlockDate();
+		if (bookingUnlockDate == null) return false;
+		
+		long millisBetween = getCurrentTime().getTime() - bookingUnlockDate.getTime();
+		double hours = Math.floor((double)millisBetween / (60 * 60 * 1000 * 24));
+		
+		// Can edit up to 24 hours after unlock
+		return (hours <= 24);
+	}
+	
 	public Collection<Diet> getDiets()
 	{
 		return Arrays.asList(Diet.values());
@@ -148,5 +193,21 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 
 	public void setCancelUnCancelBooking(String cancelUnCancelBooking) {
 		this.cancelUnCancelBooking = cancelUnCancelBooking;
+	}
+
+	public String getConfirmUnlockBooking() {
+		return confirmUnlockBooking;
+	}
+
+	public void setConfirmUnlockBooking(String confirmUnlockBooking) {
+		this.confirmUnlockBooking = confirmUnlockBooking;
+	}
+
+	public String getCancelUnlockBooking() {
+		return cancelUnlockBooking;
+	}
+
+	public void setCancelUnlockBooking(String cancelUnlockBooking) {
+		this.cancelUnlockBooking = cancelUnlockBooking;
 	}
 }

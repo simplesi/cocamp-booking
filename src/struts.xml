@@ -266,6 +266,12 @@
 			<result type="redirect">redirectToBookingList</result>
 		</action>
 		
+		<action name="unlockBooking" method="unlock" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="cancel-unlock" type="redirectAction">redirectToBookingList</result>
+			<result name="error" type="redirectAction">redirectToBookingList</result>
+			<result name="confirm-unlock" type="freemarker">/templates/datamodel/confirmUnlock.ftl</result>
+			<result type="redirect">redirectToBookingList</result>
+		</action>
 		<action name="accounts" method="accountsForUnit" class="uk.org.woodcraft.bookings.AccountsAction">
 			<result type="freemarker">/templates/accounts/accounts.ftl</result>
 		</action>
