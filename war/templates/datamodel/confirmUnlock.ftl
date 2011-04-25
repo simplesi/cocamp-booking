@@ -11,7 +11,8 @@
 <h3>'${name}'</h3>
 <p>Are you sure you wish to unlock this booking for editing? 
 This will incur the late booking fee (${25?string.currency}).</p>
-</p>
+
+<p>You will have 24 hours to modify this booking before it becomes locked again.</p>
 	<@s.form id="unlockBooking" method="post">    
         <@s.hidden name="webKey"/>
    
