@@ -11,7 +11,7 @@ import uk.org.woodcraft.bookings.utils.Clock;
 import com.google.appengine.api.datastore.Key;
 
 @PersistenceCapable(detachable="true")
-public class Transaction extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted{
+public class Transaction extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted, Comparable<Transaction>{
 
 	private static final long serialVersionUID = -8661368205753174806L;
 	
@@ -120,6 +120,11 @@ public class Transaction extends KeyBasedDataWithAudit implements NamedEntity, D
 	@Override
 	public boolean deleteRequiresConfirmation() {
 		return true;
+	}
+
+	@Override
+	public int compareTo(Transaction o) {
+		return this.getTimestamp().compareTo(o.getTimestamp());
 	}
 	
 }

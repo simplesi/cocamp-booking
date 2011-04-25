@@ -3,6 +3,7 @@ package uk.org.woodcraft.bookings.persistence;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -464,7 +465,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		return batchQuery(query, keysForOrg, event.getKeyCheckNotNull());
 	}
 	
-	private static <T> Collection<T> batchQuery(Query query, Collection<Key> batchedParam, Object... otherArgs)
+	private static <T extends Comparable<T>> Collection<T> batchQuery(Query query, Collection<Key> batchedParam, Object... otherArgs)
 	{
 		List<T> result = new ArrayList<T>();		
 		Iterator<Key> iterator = batchedParam.iterator();
@@ -484,6 +485,9 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 			Collection<T> resultsForBatch = (Collection<T>) query.executeWithArray(params.toArray());
 			result.addAll(query.getPersistenceManager().detachCopyAll(resultsForBatch));
 		}
+		
+		Collections.sort(result);
+		
 		return result;
 	}
 	
