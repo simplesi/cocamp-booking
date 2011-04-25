@@ -26,7 +26,7 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
 
 @PersistenceCapable(detachable="true")
-public class Booking extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted, ValidatableModelObject{
+public class Booking extends KeyBasedDataWithAudit implements NamedEntity, DeleteRestricted, ValidatableModelObject, Comparable<Booking>{
 
 	private static final long serialVersionUID = 1L;
 
@@ -353,5 +353,10 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 
 	public Date getBookingUnlockDate() {
 		return bookingUnlockDate;
+	}
+
+	@Override
+	public int compareTo(Booking o) {
+		return this.getName().compareTo(o.getName());
 	}
 }

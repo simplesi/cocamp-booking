@@ -301,7 +301,7 @@ body:before /* thanks to Maleika (Kohoutec)*/
 
 
 header
-{	border-bottom-width: 1px;	border-style: solid;	border-color: #cccccc;	background-color: #ececec;
+{	border-bottom-width: 1px;	border-style: solid;	border-color: #cccccc;	background-color: #dcdcdc;
 	background-repeat: repeat-x;	margin-right: auto;	margin-left: auto;    width: 100%;    height: 99px;
 }
 
@@ -338,12 +338,12 @@ header
 }
 
 #content th
-{	border-bottom: 1px;		border-style: solid;	border-color: #CCC;
+{	border-bottom: 1px;		border-style: solid;	border-color: #CCC; background-color: #dcdcdc;
 }
 
 #content tr.subtotal
 {
-	border-top: 1px;	border-bottom: 1px; 	border-style: solid;	border-color: #CCC;
+	border-top: 1px;	border-bottom: 1px; 	border-style: solid;	border-color: #CCC; background-color: #dcdcdc;
 }
 
 #content tr.divider
