@@ -22,6 +22,11 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	private boolean showUnit = false;
 	private boolean showOrg = false;
 	
+	private String confirmCancelBooking = "";
+	private String cancelCancelBooking = "";
+	private String confirmUnCancelBooking = "";
+	private String cancelUnCancelBooking = "";
+	
 	@SkipValidation
 	public String listForUnit() {		
 		Unit unit = getCurrentUnit();		
@@ -59,7 +64,42 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 			setModel(new Booking(getCurrentUnit(), getCurrentEvent()));
 		}
 	}
+	
+	public String cancel() {
+		if (getConfirmCancelBooking().length() == 0)
+		{
+			if (getCancelCancelBooking().length() != 0)
+				return "cancel-cancel";
+			else
+				return "confirm-cancel";
+		}
+		
+		return doCancel();
+	}
 
+	private String doCancel() {
+		getModel().setCancellationDate(getCurrentTime());
+		return save();
+	}
+
+	
+	public String unCancel() {
+		if (getConfirmUnCancelBooking().length() == 0)
+		{
+			if (getCancelUnCancelBooking().length() != 0)
+				return "cancel-uncancel";
+			else
+				return "confirm-uncancel";
+		}
+		
+		return doUnCancel();
+	}
+	
+	private String doUnCancel() {
+		getModel().setCancellationDate(null);
+		return save();
+	}
+	
 	public Date getEarliestDate() {
 		return getCurrentEvent().getPublicEventStart();
 	}
@@ -76,5 +116,37 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 	}
 	public boolean getShowOrg() {
 		return showOrg;
+	}
+
+	public String getConfirmCancelBooking() {
+		return confirmCancelBooking;
+	}
+
+	public void setConfirmCancelBooking(String confirmCancelBooking) {
+		this.confirmCancelBooking = confirmCancelBooking;
+	}
+
+	public String getCancelCancelBooking() {
+		return cancelCancelBooking;
+	}
+
+	public void setCancelCancelBooking(String cancelCancelBooking) {
+		this.cancelCancelBooking = cancelCancelBooking;
+	}
+
+	public String getConfirmUnCancelBooking() {
+		return confirmUnCancelBooking;
+	}
+
+	public void setConfirmUnCancelBooking(String confirmUnCancelBooking) {
+		this.confirmUnCancelBooking = confirmUnCancelBooking;
+	}
+
+	public String getCancelUnCancelBooking() {
+		return cancelUnCancelBooking;
+	}
+
+	public void setCancelUnCancelBooking(String cancelUnCancelBooking) {
+		this.cancelUnCancelBooking = cancelUnCancelBooking;
 	}
 }

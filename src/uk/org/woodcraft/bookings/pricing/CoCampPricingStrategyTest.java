@@ -79,8 +79,49 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		assertEquals("Those without a DOB are regular price", 150d, pricer.priceOf(missingDOBBooking), 0);
 		
 		woodchipBooking.setBookingCreationDate(TestConstants.DATE_AFTER_DEADLINE);
-		assertEquals("Late woodchip bookings have an admin fee", 25d, pricer.priceOf(woodchipBooking), 0);
-		
+		assertEquals("Late woodchip bookings have an admin fee", 25d, pricer.priceOf(woodchipBooking), 0);	
 	}
+	
+	@Test
+	public void testCancellation(){
+		CoCampPricingStrategy pricer = new CoCampPricingStrategy();
+		
+		Event cocamp = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
+		Organisation testOrg = CannedQueries.orgByName(TestConstants.ORG1_NAME);
+		Unit testUnit = CannedQueries.unitByName(TestConstants.UNIT1_NAME, testOrg);
+		
+		TestClock testClock = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
+		
+		Booking regularBooking = new Booking(testUnit, cocamp, testClock);
+		regularBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
+		regularBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
+		assertEquals("Regular bookings are 150", 150d, pricer.priceOf(regularBooking), 0);
+		
+		regularBooking.setCancellationDate(TestConstants.DATE_BEFORE_DEADLINE);
+		assertEquals("Cancelled bookings before the deadline are £25", 25d, pricer.priceOf(regularBooking), 0);
+
+		regularBooking.setCancellationDate(TestConstants.DATE_AFTER_DEADLINE);
+		assertEquals("Cancelled bookings after the deadline are £75", 75d, pricer.priceOf(regularBooking), 0);
+		
+		regularBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
+		regularBooking.setDepartureDate(DateUtils.getDate(2011, 7, 1));
+		assertEquals("Cancelled bookings which cost less than £75 are capped at their cost if cancelled after the deadline are £75", 65d, pricer.priceOf(regularBooking), 0);
+		
+		Booking woodchipBooking = new Booking(testUnit, cocamp, testClock);
+		woodchipBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
+		woodchipBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));	
+		woodchipBooking.setDob(DateUtils.getDate(2005, 6, 31)); // Latest possible date to be 5 at start of camp
+		assertEquals("Woodchips are free", 0d, pricer.priceOf(woodchipBooking), 0);
+		
+		woodchipBooking.setCancellationDate(TestConstants.DATE_BEFORE_DEADLINE);
+		assertEquals("Cancelled woodchip bookings before the deadline are free", 0d, pricer.priceOf(woodchipBooking), 0);
+		
+		woodchipBooking.setCancellationDate(TestConstants.DATE_AFTER_DEADLINE);
+		assertEquals("Woodchip bookings made before the deadline and cancelled after the deadline are £0", 0d, pricer.priceOf(woodchipBooking), 0);
+		
+		woodchipBooking.setBookingCreationDate(TestConstants.DATE_AFTER_DEADLINE);
+		assertEquals("Woodchip bookings made after the deadline (hence £25) and cancelled after the deadline are £25", 25d, pricer.priceOf(woodchipBooking), 0);
+	}
+	
 
 }

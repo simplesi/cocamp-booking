@@ -214,7 +214,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 		return getName();
 	}
 	
-	public boolean isCancelled() {
+	public boolean getIsCancelled() {
 		return getCancellationDate() != null;
 	}
 

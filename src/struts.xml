@@ -251,6 +251,20 @@
 		<action name="cancelEditBooking">
 			<result type="redirect">redirectToBookingList</result>
 		</action>
+		<!-- Fixme - the below redirects should be to editBooking, but it's going to a new bookings page due to losing state right now -->
+		<action name="cancelBooking" method="cancel" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="cancel-cancel" type="redirectAction">redirectToBookingList</result>
+			<result name="error" type="redirectAction">redirectToBookingList</result>
+			<result name="confirm-cancel" type="freemarker">/templates/datamodel/confirmCancel.ftl</result>
+			<result type="redirect">redirectToBookingList</result>
+		</action>
+		
+		<action name="unCancelBooking" method="unCancel" class="uk.org.woodcraft.bookings.persistence.BookingAction">
+			<result name="cancel-uncancel" type="redirect">redirectToBookingList</result>
+			<result name="error" type="redirect">redirectToBookingList</result>
+			<result name="confirm-uncancel" type="freemarker">/templates/datamodel/confirmUnCancel.ftl</result>
+			<result type="redirect">redirectToBookingList</result>
+		</action>
 		
 		<action name="accounts" method="accountsForUnit" class="uk.org.woodcraft.bookings.AccountsAction">
 			<result type="freemarker">/templates/accounts/accounts.ftl</result>

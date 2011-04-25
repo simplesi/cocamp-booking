@@ -474,7 +474,7 @@ header
 
 #wwctrl_signup_signup, #wwctrl_booking_Save, #wwctrl_booking_Cancel, 
 #wwctrl_organisation_Save, #wwctrl_organization_Cancel, #wwctrl_unit_Save,
-#wwctrl_booking_cancelEditBooking
+#wwctrl_booking_cancelEditBooking,#wwctrl_booking_cancelBooking, #wwctrl_booking_unCancelBooking
 {	width: 18em;
 	padding: 5px 10px 0px 10px;
 }
