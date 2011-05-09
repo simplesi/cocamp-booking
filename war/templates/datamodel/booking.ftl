@@ -29,7 +29,7 @@ This information should be as accurate as possible, details cannot be changed af
 <@s.form id="booking" method="post">
 
 	<#if !isEditable>
-		<p><em>This booking is locked for editing, except the membership number field. See below for more details.</em></p>
+		<p><em>This booking is locked for editing, except for the membership number, health details and contact information. See below for more details.</em></p>
 	<#else>
 		<p><em>This booking can be edited until ${editCutoffDate?date}.</em></p>
 	</#if>  
@@ -39,8 +39,8 @@ This information should be as accurate as possible, details cannot be changed af
         <@s.textfield name="dob" label="Date Of Birth (dd/mm/yyyy)" value="%{getText('format.date',{dob})}" readonly=!isEditable/>
         <#if model.dob?exists && model.ageGroup!="" >Age group for event: ${model.ageGroup}<br/></#if>
         
-        <@s.textfield name="email" label="Email" readonly=!isEditable/>
-        <@s.textfield name="phoneNumber" label="Phone Number" readonly=!isEditable/>
+        <@s.textfield name="email" label="Email"/>
+        <@s.textfield name="phoneNumber" label="Phone Number" />
       	<@s.textfield name="membershipNumber" label="Wcf Membership Number (if a member)"/> 
       	
       	<#if isEditable>
@@ -50,7 +50,7 @@ This information should be as accurate as possible, details cannot be changed af
         </#if>
         
         <@s.textfield name="dietNotes" label="Additional diet notes" readonly=!isEditable/>
-        <@s.textarea name="otherNeeds" label="Other needs (disability, allergies, health conditions)" readonly=!isEditable/>
+        <@s.textarea name="otherNeeds" label="Other needs (disability, allergies, health conditions)" />
         
         <@s.checkbox label="Become a CoCamp member?" name="becomeMember"/>
         
