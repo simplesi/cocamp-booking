@@ -87,7 +87,7 @@ public class AccountsAction extends SessionBasedAction{
 		{
 			if (transaction.getType().getIsCost())
 			{
-				LineItem item = new LineItem(transaction.getTimestamp(), transaction.getType(), transaction.getName(), null, transaction.getAmount());				
+				LineItem item = new LineItem(transaction.getTimestamp(), transaction.getType(), transaction.getName(), null, transaction.getAmount(), 0);				
 				costs.add(item);
 			} else {
 				payments.add(transaction);
@@ -99,9 +99,15 @@ public class AccountsAction extends SessionBasedAction{
 	private LineItem bucketedBookingsToLineItem(BookingsBucket bucket, Collection<Booking> contents)
 	{
 		String cancellation = "";
-		if (bucket.isCancelled)  cancellation = "(cancelled) ";
+		
+		int bookingQuantity = contents.size();
+		if (bucket.isCancelled)
+		{
+			cancellation = "(cancelled) ";
+			bookingQuantity = 0;
+		}
 		return new LineItem(null, TransactionType.Fees, 
-				String.format("%s %s- %d days", bucket.ageGroup.toString(), cancellation, bucket.days), contents.size(), bucket.fee);
+				String.format("%s %s- %d days", bucket.ageGroup.toString(), cancellation, bucket.days), contents.size(), bucket.fee, bookingQuantity);
 	}
 	
 	
@@ -144,7 +150,7 @@ public class AccountsAction extends SessionBasedAction{
 		for(LineItem item : costs)
 		{
 			if(item.getType() == TransactionType.Fees)
-			total += item.getQuantity();
+			total += item.getBookingQuantity();
 		}
 		return total;
 	}

@@ -11,14 +11,16 @@ public class LineItem {
 	private final String name;
 	private final Integer quantity;
 	private final double price;
+	private final int bookingQuantity;
 	
 
-	public LineItem(Date date, TransactionType type, String name, Integer quantity, double price) {
+	public LineItem(Date date, TransactionType type, String name, Integer quantity, double price, int bookingQuantity) {
 		this.date = date;
 		this.type = type;
 		this.name = name;
 		this.quantity = quantity;
 		this.price = price;
+		this.bookingQuantity = bookingQuantity;
 	}
 
 	public Date getDate()
@@ -40,6 +42,9 @@ public class LineItem {
 		return quantity;
 	}
 
+	public Integer getBookingQuantity() {
+		return bookingQuantity;
+	}
 
 	public double getPrice() {
 		return price;
