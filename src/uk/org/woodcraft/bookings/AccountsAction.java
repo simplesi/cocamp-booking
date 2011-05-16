@@ -219,7 +219,7 @@ public class AccountsAction extends SessionBasedAction{
 			BookingsBucket other = (BookingsBucket) obj;
 			
 			return ageGroup.equals(other.ageGroup) && isCancelled == other.isCancelled
-				&& days == other.days;
+				&& days == other.days && fee == other.fee;
 		}
 
 		// Cancellation, Agegroup, days (desc)
@@ -235,6 +235,7 @@ public class AccountsAction extends SessionBasedAction{
 			if (ageGroup != o.ageGroup) return ageGroup.compareTo(o.ageGroup);
 			if (days == o.days) return 0;
 			if (days > o.days) return -1;
+			if (fee < o.fee) return -1; // want people who have booked late to come after those that have booked early
 			return 1;
 		}
 	}
