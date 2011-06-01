@@ -94,6 +94,17 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 	@Persistent
 	private Date bookingUnlockDate;
 	
+	/**
+	 *  The my village key they receive by email, used to validate them
+	 */
+	@Persistent
+	private String myVillageAuthKey;
+
+	/**
+	 *  The my village username
+	 */
+	@Persistent
+	private String myVillageUsername;
 	
 	@SuppressWarnings("unused")
 	private Booking() {
@@ -349,6 +360,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 
 	public void setBookingUnlockDate(Date bookingUnlockDate) {
 		this.bookingUnlockDate = bookingUnlockDate;
+		updateFee();
 	}
 
 	public Date getBookingUnlockDate() {
@@ -358,5 +370,21 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 	@Override
 	public int compareTo(Booking o) {
 		return this.getName().compareTo(o.getName());
+	}
+
+	public void setMyVillageAuthKey(String myVillageAuthKey) {
+		this.myVillageAuthKey = myVillageAuthKey;
+	}
+
+	public String getMyvillageAuthKey() {
+		return myVillageAuthKey;
+	}
+
+	public void setMyVillageUsername(String myVillageUsername) {
+		this.myVillageUsername = myVillageUsername;
+	}
+
+	public String getMyVillageUsername() {
+		return myVillageUsername;
 	}
 }
