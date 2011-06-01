@@ -36,15 +36,15 @@ public class UpgradeDataAction extends ActionSupport {
 		
 		for(Booking booking : bookings)
 		{
-			// creation date not present on earlier versions of class
-			if (booking.getBookingCreationDate() == null) 
-				booking.setBookingCreationDate(clock.getTime());
-			
-			// changed to double version of fee (and renamed from price for backwards compatibility)
-			booking.updateFee();
+			// BookingUnlockDate wasn't previously updating the fee
+			if (booking.getBookingUnlockDate() != null) 
+			{
+				booking.updateFee();
+				CannedQueries.save(booking);
+			}
 		}
 		
-		CannedQueries.save(bookings);
+		//CannedQueries.save(bookings);
 		
 		addActionMessage("Completed bookings upgrade at "+clock.getTime());
 		
