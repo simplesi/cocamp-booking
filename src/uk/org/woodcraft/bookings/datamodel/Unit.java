@@ -2,9 +2,7 @@ package uk.org.woodcraft.bookings.datamodel;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
@@ -20,6 +18,14 @@ import com.opensymphony.xwork2.validator.annotations.IntRangeFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.StringLengthFieldValidator;
 import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 
+/**
+ * This class should really be UnitBooking, since it's an event-specific mapping, even if it didn't 
+ * start out that way. At some point, this will need to be factored out into an Unit and a UnitBooking.
+ * But this is hard to do now given the proximity to CoCamp
+ * 
+ * @author simon
+ *
+ */
 @PersistenceCapable(detachable="true")
 public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, DeleteRestricted, ValidatableModelObject{
 	
@@ -45,6 +51,9 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	
 	@Persistent
 	private Key organisationKey;
+	
+	@Persistent
+	private Key villageKey = null;
 	
 	@Persistent
 	private Text notes;
@@ -141,11 +150,6 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	@Persistent
 	private Text delegation;
 	                                					
-	/**
-	 * The events that this unit is registered for
-	 */
-	@Persistent
-	private Set<Key> eventsRegistered = new HashSet<Key>();
 	
 	@StringLengthFieldValidator(type = ValidatorType.FIELD, minLength = "5", trim = true, message = "Name is required for unit")
 	@CannedReportColumn(priority = 1)
@@ -207,21 +211,6 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.approved = approved;
 	}
 
-
-	public void setDefaultVillageForEvent(Event event, Village defaultVillage) {
-		CannedQueries.persistDefaultVillageKeyForUnit(event, this, defaultVillage);
-	}
-
-	// TODO: Use a cache for this
-	public Village getDefaultVillageForEvent(Event event) {
-		Key key= (CannedQueries.defaultVillageKeyForUnit(event, this));
-		
-		if (key == null) return null;
-		
-		return (CannedQueries.villageByKey(key));
-	}
-
-
 	public Collection<Booking> getBookings(Event event)
 	{
 		return (CannedQueries.bookingsForUnit(this, event));
@@ -229,16 +218,6 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	
 	public String toString() {
 		return getName();
-	}
-
-    // FIXME: Need to ensure this is called so we know who's going to the event
-	public void addEventRegistration(Event event) {
-		this.eventsRegistered.add(event.getKeyCheckNotNull());
-	}
-
-	@SkipInCannedReports
-	public Set<Key> getEventsRegistered() {
-		return eventsRegistered;
 	}
 
 	@Override
@@ -473,9 +452,12 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.delegation = new Text(delegation);
 	}
 
-	
-	public void setEventsRegistered(Set<Key> eventsRegistered) {
-		this.eventsRegistered = eventsRegistered;
+	public void setVillageKey(Key villageKey) {
+		this.villageKey = villageKey;
+	}
+
+	public Key getVillageKey() {
+		return villageKey;
 	}
 	
 }

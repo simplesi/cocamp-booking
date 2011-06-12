@@ -14,12 +14,9 @@ import javax.jdo.Query;
 import javax.jdo.Transaction;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
-import org.apache.commons.collections.Transformer;
 
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
-import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.KeyBasedData;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
@@ -297,29 +294,17 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		Query query = pm.newQuery(EventUnitVillageMapping.class);
+		Query query = pm.newQuery(Unit.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
 		
 		query.setFilter("villageKey == villageKeyParam");
 		query.declareParameters("Key villageKeyParam");
 		
-		List<EventUnitVillageMapping> mappings = (List<EventUnitVillageMapping>) query.execute(village.getKeyCheckNotNull());
-		
-		Collection<Key> unitKeys = CollectionUtils.collect(mappings, new Transformer() {
-			public Object transform(Object input) {
-				return ((EventUnitVillageMapping)input).getUnitKey();
-			}
-		});
-			
-		query = pm.newQuery(Unit.class, ":keys.contains(key)");
-		query.declareImports("import com.google.appengine.api.datastore.Key");
-		
-		return queryDetachAndClose(Unit.class, query, unitKeys);
+		return queryDetachAndClose(Unit.class, query, village.getKeyCheckNotNull());
 	}
 	
 	/**
-	 * Fetch the units homed in a particular village. 
-	 * @param village The village to query for
+	 * Fetch the units that have no home
 	 * @return List of units
 	 */
 	public static Collection<Unit> unitsHomeless(Event event)
@@ -327,41 +312,12 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		// Get the list of village mappings in place for this event
-		Query query = pm.newQuery(EventUnitVillageMapping.class);
+		Query query = pm.newQuery(Unit.class);
 		query.declareImports("import com.google.appengine.api.datastore.Key");
 		
-		query.setFilter("eventKey == eventKeyParam");
-		query.declareParameters("Key eventKeyParam");
+		query.setFilter("villageKey == null");
 		
-		List<EventUnitVillageMapping> mappings = (List<EventUnitVillageMapping>) query.execute(event.getKeyCheckNotNull());
-		
-		final Collection<Key> unitKeysWithMappings = CollectionUtils.collect(mappings, new Transformer() {
-			public Object transform(Object input) {
-				return ((EventUnitVillageMapping)input).getUnitKey();
-			}
-		});
-		
-		
-		// Fetch the set of units registered for this event
-		query = pm.newQuery(Unit.class);
-		query.declareImports("import com.google.appengine.api.datastore.Key");
-		
-		query.setFilter("eventsRegistered == eventsRegisteredParam");
-		query.declareParameters("Key eventsRegisteredParam");
-		
-		List<Unit> unitsAttendingEvent = (List<Unit>)query.execute(event.getKeyCheckNotNull());
-		
-		Collection<Unit> unitsWithNoVillage = CollectionUtils.select(unitsAttendingEvent, new Predicate() {
-			
-			public boolean evaluate(Object unit) {
-				return (!unitKeysWithMappings.contains(((Unit)unit).getKey()));
-			}
-		});
-		
-		unitsWithNoVillage = pm.detachCopyAll(unitsWithNoVillage);
-		pm.close();
-		
-		return unitsWithNoVillage;
+		return queryDetachAndClose(Unit.class, query);
 	}
 
 	/**
@@ -627,35 +583,6 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, event.getKeyCheckNotNull());
 	}
 
-	public static Key defaultVillageKeyForUnit(Event event, Unit unit)
-	{	
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Key key = EventUnitVillageMapping.getKeyFor(event, unit);
-		EventUnitVillageMapping mapping = null;
-		try {
-			mapping = pm.getObjectById(EventUnitVillageMapping.class, key);
-		}
-		catch(JDOObjectNotFoundException exception)
-		{
-			// If the object didn't exist, that's fine
-		}
-	    Key defaultVillageKey = null;
-		if (mapping != null) 
-			defaultVillageKey = mapping.getVillageKey();
-		
-	    pm.close();
-	    return defaultVillageKey;
-	}
-	
-	public static void persistDefaultVillageKeyForUnit(Event event, Unit unit, Village village)
-	{
-		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		EventUnitVillageMapping mapping = new EventUnitVillageMapping(event.getKeyCheckNotNull(), unit.getKeyCheckNotNull(), village.getKeyCheckNotNull());
-		pm.makePersistent(mapping);
-		pm.close();
-	}
 	
 	public static User getUserByEmail(String email)
 	{

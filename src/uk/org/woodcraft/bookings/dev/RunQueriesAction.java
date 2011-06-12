@@ -88,10 +88,6 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.allUsersForOrg(org1);
 		CannedQueries.allUsersForUnit(unit1);
 		CannedQueries.getUserByEmail(TestConstants.USER_ADMIN_EMAIL);
-		
-		// Others
-		CannedQueries.defaultVillageKeyForUnit(event1, unit1);
-
 		return SUCCESS;
 	}
 }

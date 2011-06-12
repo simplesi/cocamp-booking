@@ -120,9 +120,10 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity, Delet
 	{
 		this.unitKey = unit.getKeyCheckNotNull();
 		
-		//FIXME: Could be optimized to not pull back village
-		Village village = unit.getDefaultVillageForEvent(event);
-		if (village != null) villageKey = village.getKey();
+		// Grab the default village from the unit, if it's set
+		// This can be overriden by the admin later if required
+		Key defaultVillageKey = unit.getVillageKey();
+		if (defaultVillageKey != null) villageKey = defaultVillageKey;
 		
 		this.eventKey = event.getKeyCheckNotNull();
 		this.arrivalDate = event.getPublicEventStart();

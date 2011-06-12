@@ -26,8 +26,9 @@ public class UpgradeDataActionTest extends BaseFixtureTestCase {
 		super(TestFixture.BASIC_DATA);
 	}
 	
-	@Test
-	public void testUpgradeBookings() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException
+	//@Test
+	/*Upgrade below has since been decomissioned. If we upgrade more data, this can be used
+	 * public void testUpgradeBookings() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException
 	{
 		// Make some dummy data bad
 		
@@ -37,11 +38,6 @@ public class UpgradeDataActionTest extends BaseFixtureTestCase {
 		Event testEvent = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
 		Organisation testOrg = CannedQueries.orgByName(TestConstants.ORG1_NAME);
 		Unit testUnit = CannedQueries.unitByName(TestConstants.UNIT1_NAME, testOrg.getKey());	
-		
-		Booking bookingWithNoBookingTime = new Booking("NoBookingTimePerson", testUnit, testEvent, testClock);
-		bookingWithNoBookingTime.setBookingCreationDate(null);
-		
-		bookings.add(bookingWithNoBookingTime);
 		
 		Booking bookingWithNoFee = new Booking("NoFeePerson", testUnit, testEvent, testClock);
 		bookingWithNoFee.setArrivalDate(TestConstants.EVENT1_START);
@@ -60,10 +56,6 @@ public class UpgradeDataActionTest extends BaseFixtureTestCase {
 
 		
 		// Confirm it's broken
-		bookings = CannedQueries.bookingsForName("NoBookingTimePerson");
-		Booking noBookingTimePerson = bookings.iterator().next();
-		assertEquals(null, noBookingTimePerson.getBookingCreationDate());
-		
 		bookings = CannedQueries.bookingsForName("NoFeePerson");
 		Booking noFeePerson = bookings.iterator().next();
 		assertEquals(null, noFeePerson.getBookingCreationDate());
@@ -76,14 +68,11 @@ public class UpgradeDataActionTest extends BaseFixtureTestCase {
 		
 		
 		// Check the results
-		bookings = CannedQueries.bookingsForName("NoBookingTimePerson");
-		noBookingTimePerson = bookings.iterator().next();
-		assertEquals(noBookingTimePerson.getBookingCreationDate(), testClock.getTime());
-		
 		bookings = CannedQueries.bookingsForName("NoFeePerson");
 		noFeePerson = bookings.iterator().next();
 		assertEquals(noFeePerson.getBookingCreationDate(), testClock.getTime());
 		assertTrue(noFeePerson.getFee() > 0);
 	
 	}
+	*/
 }
