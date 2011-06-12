@@ -13,8 +13,6 @@ import java.util.Date;
 import java.util.List;
 
 import jxl.Workbook;
-import jxl.biff.DisplayFormat;
-import jxl.write.DateFormat;
 import jxl.write.DateFormats;
 import jxl.write.DateTime;
 import jxl.write.Label;

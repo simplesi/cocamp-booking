@@ -5,7 +5,7 @@
 <struts>
 
 	<include file="struts-default.xml"></include>
-	<constant name="struts.action.excludePattern" value="/_ah/.*,/api/.*"/>	
+	<constant name="struts.action.excludePattern" value="/_ah/.*,/api/.*,/soapapi.*"/>	
 	
 	<constant name="struts.action.extension" value=",action"/>	
 	<constant name="struts.devMode" value="false" />

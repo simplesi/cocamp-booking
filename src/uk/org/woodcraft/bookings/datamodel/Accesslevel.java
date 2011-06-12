@@ -7,7 +7,8 @@ public enum Accesslevel {
 	UNIT_ADMIN("Unit booking secretary", true, false, false, false),
 //	UNASSIGNED("Unassigned user"),
 //	AWAITING_EMAIL_CONFIRM("New user pending approval"),
-	NO_LOGIN("System user");
+	NO_LOGIN("System user"),
+	API("API Access");
 	
 	private final String displayName;
 	private final boolean canLogin;

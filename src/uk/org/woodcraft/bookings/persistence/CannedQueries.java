@@ -26,6 +26,7 @@ import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
 
+import com.google.appengine.api.datastore.Email;
 import com.google.appengine.api.datastore.Key;
 
 @SuppressWarnings("unchecked")
@@ -545,6 +546,21 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.declareParameters("Key eventKeyParam");
 		
 		return queryDetachAndClose(Booking.class, query, event.getKeyCheckNotNull());
+	}
+	
+	public static Collection<Booking> bookingsForEventAndEmail(Key eventKey, Email email)
+	{
+		if (eventKey == null) throw new IllegalArgumentException("Cannot retrieve bookings for an empty event.");
+		
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		
+		Query query = pm.newQuery(Booking.class);
+		query.declareImports("import com.google.appengine.api.datastore.Key; import com.google.appengine.api.datastore.Email");
+		query.setOrdering("name");
+		query.setFilter("eventKey == eventKeyParam && email == emailParam");
+		query.declareParameters("Key eventKeyParam, Email emailParam");
+		
+		return queryDetachAndClose(Booking.class, query, eventKey,email);
 	}
 	
 	/* NB - App engine doesn't support partial like matching for strings, so this is equality only...

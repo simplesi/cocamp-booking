@@ -24,7 +24,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	    <servlet-name>RemoteApi</servlet-name>
 	    <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
 	</servlet>
+
+	<servlet>
+	    <servlet-name>SOAPApi</servlet-name>
+	    <servlet-class>uk.org.woodcraft.bookings.soap.BookingsAPISOAPServerServlet</servlet-class>
+	</servlet>
 	
+	<servlet-mapping>
+	    <servlet-name>SOAPApi</servlet-name>
+	    <url-pattern>/soapapi</url-pattern>
+	</servlet-mapping>
+
 	<servlet-mapping>
 	    <servlet-name>RemoteApi</servlet-name>
 	    <url-pattern>/api/remote_api</url-pattern>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://soap.bookings.woodcraft.org.uk/" xmlns:tns="http://soap.bookings.woodcraft.org.uk/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="authenticate" type="tns:authenticate"/>
+
+  <xs:element name="authenticateResponse" type="tns:authenticateResponse"/>
+
+  <xs:element name="myVillageSignup" type="tns:myVillageSignup"/>
+
+  <xs:element name="myVillageSignupResponse" type="tns:myVillageSignupResponse"/>
+
+  <xs:complexType name="authenticate">
+    <xs:sequence>
+      <xs:element name="siteKey" type="xs:string" minOccurs="1"/>
+      <xs:element name="username" type="xs:string" minOccurs="1"/>
+      <xs:element name="password" type="xs:string" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="authenticateResponse">
+    <xs:sequence>
+      <xs:element name="success" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="myVillageSignup">
+    <xs:sequence>
+      <xs:element name="eventKey" type="xs:string" minOccurs="1"/>
+      <xs:element name="userEmail" type="xs:string" minOccurs="1"/>
+      <xs:element name="userKey" type="xs:string" minOccurs="1"/>
+      <xs:element name="externalUsername" type="xs:string" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="myVillageSignupResponse">
+    <xs:sequence>
+      <xs:element name="result" type="tns:myVillageResponse" minOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="myVillageResponse">
+    <xs:sequence>
+      <xs:element name="errorMessage" type="xs:string" minOccurs="0"/>
+      <xs:element name="success" type="xs:boolean"/>
+      <xs:element name="userName" type="xs:string" minOccurs="0"/>
+      <xs:element name="villageKey" type="xs:string" minOccurs="0"/>
+      <xs:element name="villageName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
