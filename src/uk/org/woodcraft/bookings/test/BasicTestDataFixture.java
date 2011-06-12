@@ -98,7 +98,10 @@ public class BasicTestDataFixture extends TestFixture {
 			List<Booking> bookings = new ArrayList<Booking>();
 			
 			// Before earlybird deadline
-			bookings.add(new Booking("Test person", unit1, event1, testClock));
+			Booking b = new Booking("Test person", unit1, event1, testClock);
+			b.setEmail("email@example.com");
+			bookings.add(b);
+			
 			bookings.add(new Booking("Test person 2", unit1, event1,testClock));
 			bookings.add(new Booking("Test person in unit 2", unit2, event1,testClock));
 			bookings.add(new Booking("Second person in unit 2", unit2, event1,testClock));

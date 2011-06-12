@@ -12,6 +12,7 @@ import uk.org.woodcraft.bookings.datamodel.Village;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.test.TestConstants;
 
+import com.google.appengine.api.datastore.Email;
 import com.opensymphony.xwork2.ActionSupport;
 
 /**
@@ -73,6 +74,7 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.bookingsHomeless(event1);
 		CannedQueries.bookingByKey(bookings.iterator().next().getKeyCheckNotNull());
 		CannedQueries.bookingsForName("Test person 2");
+		CannedQueries.bookingsForEventAndEmail(event1.getKeyCheckNotNull(), new Email("email@example.com"));
 		 
 		// Transaction queries
 		Collection<Transaction> transactions = CannedQueries.transactionsForUnit(unit1, event1);

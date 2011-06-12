@@ -13,6 +13,7 @@ public class AppSetting {
 
 	public static final String DEFAULT_EVENT = "Default.Event";
 	public static final String SETUP_COMPLETE = "setup.complete";
+	public static final String SITE_API_KEY = "Site API Key";
 	
 	
 	@PrimaryKey
