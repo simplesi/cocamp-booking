@@ -233,10 +233,9 @@ public class AccountsAction extends SessionBasedAction{
 					return -1;
 			}
 			if (ageGroup != o.ageGroup) return ageGroup.compareTo(o.ageGroup);
-			if (days == o.days) return 0;
-			if (days > o.days) return -1;
-			if (fee < o.fee) return -1; // want people who have booked late to come after those that have booked early
-			return 1;
+			if (days != o.days) return Double.compare(days, o.days);
+			if (fee != o.fee) return Double.compare(fee, o.fee); // want people who have booked late to come after those that have booked early
+			return 0;
 		}
 	}
 	
