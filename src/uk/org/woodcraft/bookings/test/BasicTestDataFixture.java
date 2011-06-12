@@ -9,7 +9,6 @@ import uk.org.woodcraft.bookings.datamodel.Accesslevel;
 import uk.org.woodcraft.bookings.datamodel.AppSetting;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
-import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Transaction;
 import uk.org.woodcraft.bookings.datamodel.TransactionType;
@@ -73,12 +72,18 @@ public class BasicTestDataFixture extends TestFixture {
 			// Units
 			List<Unit> units = new ArrayList<Unit>();
 			Unit unit1 = new Unit(TestConstants.UNIT1_NAME, organisations.get(0), true);
-			unit1.addEventRegistration(event1);
-			unit1.addEventRegistration(event2);	
+			unit1.setVillageKey(village1.getKeyCheckNotNull());
+			
+			// FIXME: Note, all units are in all events for now...
+			
+			//unit1.addEventRegistration(event1);
+			//unit1.addEventRegistration(event2);	
 			units.add(unit1);
 			
 			Unit unit2 = new Unit(TestConstants.UNIT2_NAME, organisations.get(0), true);
-			unit2.addEventRegistration(event1);
+			
+			// FIXME: Note, all units are in all events for now...
+			//unit2.addEventRegistration(event1);
 			units.add(unit2);
 			
 			Unit unapprovedWcfUnit = new Unit("Unapproved unit for wcf", organisations.get(0), false);
@@ -88,11 +93,6 @@ public class BasicTestDataFixture extends TestFixture {
 			Unit otherOrgUnit2 = new Unit("Approved unit in other org", organisations.get(1), true);
 			units.add(otherOrgUnit2);
 			pm.makePersistentAll(units);
-			
-			// Unit village defaults
-			List<EventUnitVillageMapping> unitVillageMapping = new ArrayList<EventUnitVillageMapping>();
-			unitVillageMapping.add(new EventUnitVillageMapping(event1.getKeyCheckNotNull(), unit1.getKeyCheckNotNull(), village1.getKeyCheckNotNull()));
-			pm.makePersistentAll(unitVillageMapping);
 			
 			// Bookings
 			List<Booking> bookings = new ArrayList<Booking>();

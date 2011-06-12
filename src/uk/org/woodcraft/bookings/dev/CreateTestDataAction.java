@@ -6,7 +6,6 @@ import javax.jdo.Query;
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
-import uk.org.woodcraft.bookings.datamodel.EventUnitVillageMapping;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.Village;
@@ -27,7 +26,7 @@ public class CreateTestDataAction extends ActionSupport {
 		
 		// Wipe out old data
 		Class[] classesToDelete = new Class[]{
-				Event.class, Organisation.class, Unit.class, Village.class, Booking.class, EventUnitVillageMapping.class
+				Event.class, Organisation.class, Unit.class, Village.class, Booking.class
 		};
 		
 		for(Class clazz: classesToDelete)
