@@ -160,4 +160,8 @@ public abstract class BasePersistenceAction<ModelObject> extends SessionBasedAct
 			}
 		}
 	}
+	
+	public boolean getCanAssignVillage() {
+		return SecurityModel.isAdminUser(this);
+	}
 }

@@ -16,6 +16,11 @@
         <@s.textfield name="name" label="Unit Name"/>
         <@s.select name="organisationWebKey" label="Organisation" headerKey="" headerValue="-- Please Select --" 
         	list="allOrgs" listKey="webKey" listValue="name"/>
+        
+		<#if model.village?exists>
+			Village: ${model.village.name!}<br/>
+		</#if>
+        	
         <@s.textfield name="email" label="Email"/>
         <@s.textfield name="phone" label="Phone Number"/>
         <@s.textarea name="address" label="Address"/>

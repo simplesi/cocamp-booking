@@ -5,6 +5,7 @@
 <table>
     <tr>
         <th>Name</th>
+        <th>Village</th>
         <th>Approved</th>
         <th>Delete</th>
     </tr>
@@ -13,6 +14,7 @@
         <tr>
             <td> <@s.url id="editURL" action="editUnit" webKey="${unit.webKey}" />
             <@s.a href="${editURL}">${unit.name!"unnamed"}</@s.a></td>
+            <td><#if unit.villageKey?exists>${unit.village.name!""}</#if></td>
             <td>${unit.approved?string("yes", "no")}</td>
             <td>
                 <@s.url id="deleteURL" action="deleteUnit" webKey="${unit.webKey}" />
