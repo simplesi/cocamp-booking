@@ -12,6 +12,7 @@ import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Diet;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
+import uk.org.woodcraft.bookings.datamodel.Village;
 
 import com.google.appengine.api.datastore.Key;
 
@@ -67,6 +68,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		}
 	}
 	
+	@SkipValidation
 	public String cancel() {
 		if (getConfirmCancelBooking().length() == 0)
 		{
@@ -79,6 +81,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		return doCancel();
 	}
 
+	@SkipValidation
 	private String doCancel() {
 		getModel().setCancellationDate(getCurrentTime());
 		return save();
@@ -102,6 +105,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		return save();
 	}
 	
+	@SkipValidation
 	public String unlock() {
 		if (getConfirmUnlockBooking().length() == 0)
 		{
@@ -149,6 +153,13 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		
 		// Can edit up to 24 hours after unlock
 		return (hours <= 24);
+	}
+	
+
+
+	public Collection<Village> getVillages()
+	{
+		return CannedQueries.villagesForEvent(getCurrentEvent());
 	}
 	
 	public Collection<Diet> getDiets()

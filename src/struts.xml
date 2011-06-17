@@ -236,6 +236,7 @@
 		</action>
 		<action name="editBooking" method="edit" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
+			<result name="error" type="freemarker">/templates/datamodel/booking.ftl</result>
 		</action>
 		<action name="saveBooking" method="save" class="uk.org.woodcraft.bookings.persistence.BookingAction">
 			<result name="input" type="freemarker">/templates/datamodel/booking.ftl</result>
@@ -477,6 +478,44 @@
 		<action name="cancelEditEvent">
 			<result type="redirect">redirectToEventList</result>
 		</action>	
+			
+		<!--  For all villages -->
+		<action name="listVillages" method="list" class="uk.org.woodcraft.bookings.persistence.VillageAction">
+			<result type="freemarker">/templates/datamodel/villageList.ftl</result>
+		</action>
+		<action name="redirectToVillageList">
+			<result type="redirectAction">
+				<param name="actionName">listVillages</param>
+			</result>
+		</action>
+		<action name="addVillage" method="create" class="uk.org.woodcraft.bookings.persistence.VillageAction">
+			<result name="input" type="freemarker">/templates/datamodel/village.ftl</result>
+		</action>
+		<action name="editVillage" method="edit" class="uk.org.woodcraft.bookings.persistence.VillageAction">
+			<result name="input" type="freemarker">/templates/datamodel/village.ftl</result>
+		</action>
+		<action name="saveVillage" method="save" class="uk.org.woodcraft.bookings.persistence.VillageAction">
+			<result name="input" type="freemarker">/templates/datamodel/village.ftl</result>
+			<result type="redirect">redirectToVillageList</result>
+		</action>
+		<action name="deleteVillage" method="delete" class="uk.org.woodcraft.bookings.persistence.VillageAction">
+			<result type="redirect">redirectToVillageList</result>
+			<result name="cancel-delete" type="redirect">redirectToVillageList</result>
+			<!-- cant do this because list() not called on redirect when result name is input
+			 result name="error" type="redirect">redirectToEventList</result> -->
+			<result name="error" type="redirectAction">listVillages</result>
+		</action>
+		<action name="cancelEditVillage">
+			<result type="redirect">redirectToVillageList</result>
+		</action>		
+			
+		<action name="listUnitVillageMappings" method="list" class="uk.org.woodcraft.bookings.persistence.UnitVillageMappingAction">
+			<result type="freemarker">/templates/datamodel/unitVillageMapping.ftl</result>
+		</action>
+		<action name="applyUnitVillageMappings" method="applyMappings" class="uk.org.woodcraft.bookings.persistence.UnitVillageMappingAction">
+			<result type="freemarker">/templates/datamodel/unitVillageMapping.ftl</result>
+		</action>
+		
 			
 		<!-- For all users -->
 		<action name="listUsers" method="list" class="uk.org.woodcraft.bookings.persistence.UserAction">

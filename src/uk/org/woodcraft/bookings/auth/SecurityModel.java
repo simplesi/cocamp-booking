@@ -27,6 +27,12 @@ public class SecurityModel {
 			checkAllowed(operation, null, null, (User)object, null);
 		else if (object instanceof Booking)
 			checkAllowed(operation, null, null, null, (Booking)object);
+		else {
+			// By default only admins
+			if (operation.equals(Operation.WRITE))
+				checkIsAdminUser();
+		}
+			
 	}
 	
 	public static void checkAllowed(Operation operation, Organisation org)
@@ -93,6 +99,11 @@ public class SecurityModel {
 	public static void checkIsAdminUser()
 	{
 		checkIsAdmin(SessionUtils.currentUser(false));
+	}
+
+	public static boolean isAdminUser(SessionBasedAction action)
+	{
+		return (action.getCurrentUser().getAccessLevel().equals(Accesslevel.GLOBAL_ADMIN));
 	}
 	
 	private static void checkIsAdmin(User user)

@@ -57,6 +57,14 @@ This information should be as accurate as possible, details cannot be changed af
         <@s.textfield name="arrivalDate" label="Arrival Date" value="%{getText('format.date',{arrivalDate})}" readonly=!isEditable/>
         <@s.textfield name="departureDate" label="Departure Date" value="%{getText('format.date',{departureDate})}" readonly=!isEditable/>
 
+		<#if canAssignVillage>
+			<@s.select name="villageWebKey" list="villages" label="Village" listKey="webKey" listValue="name"/>
+		<#else>
+			<#if model.village?exists>
+			Village: ${model.village.name!}<br/><br/>
+			</#if>
+		</#if>  
+
 		<#if bookingCreationDate?exists && webKey?exists >
 		Booking created : ${model.bookingCreationDate?date}<br/>
 		</#if>

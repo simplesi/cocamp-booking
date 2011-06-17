@@ -42,6 +42,7 @@ public class BasicTestDataFixture extends TestFixture {
 			Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true);
 			event1.setEarlyBookingDeadline(DateUtils.getDate(2011, 0, 1));
 			event1.setBookingDeadline(DateUtils.getDate(2011, 4, 2));
+			event1.setBookingSystemLocked(DateUtils.getDate(2011, 7, 28));
 	 		
 			
 			events.add(event1);

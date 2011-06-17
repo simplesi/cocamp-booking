@@ -459,5 +459,19 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	public Key getVillageKey() {
 		return villageKey;
 	}
+
+	public void setVillageWebKey(String villageWebKey) {
+		if (villageWebKey.equals("")) return;
+		this.villageKey = KeyFactory.stringToKey(villageWebKey);
+	}
+
+	public String getVillageWebKey() {
+		if (villageKey == null) return "";
+		return KeyFactory.keyToString(villageKey);
+	}
+
+	public Village getVillage() {
+		return CannedQueries.villageByKey(villageKey);
+	}
 	
 }
