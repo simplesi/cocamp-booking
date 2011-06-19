@@ -208,6 +208,11 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 		this.name = name;
 	}
 
+	public Unit getUnit() {
+		if (unitKey == null) return null;
+		return CannedQueries.unitByKey(unitKey);
+	}
+	
 	public Key getUnitKey() {
 		return unitKey;
 	}
