@@ -3,7 +3,6 @@ package uk.org.woodcraft.bookings;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -136,32 +135,11 @@ public abstract class CannedReport {
 		  return outputStream.toByteArray();
 	}
 
-	protected List<String> getHeaders(List<Method> reportedMethods) {
-		List<String> headers = new ArrayList<String>();
-		for(Method m : reportedMethods)
-		{
-			String methodName = m.getName();
-			// Drop the get prefix
-			headers.add(methodName.substring(3));
-		}
-		return headers;
-	}
+	protected abstract List<String> getHeaders(List<Method> reportedMethods);
+	protected abstract List<Object> renderRow(List<Method> reportedMethods, Object data);
 
-	protected List<Object> renderRow(List<Method> reportedMethods, Object data) {
-		List<Object> cells = new ArrayList<Object>();
-		for(Method m : reportedMethods)
-		{
-			try {
-				cells.add(m.invoke(data));
-			} catch(Exception e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
-		return cells;
-	}
+	protected abstract List<Method> getReportedMethods(CannedReportLabel selectedReport);
 
 	protected abstract List<CannedReportLabel> getAvailableReports();
 
-	protected abstract List<Method> getReportedMethods(CannedReportLabel selectedReport);
 }

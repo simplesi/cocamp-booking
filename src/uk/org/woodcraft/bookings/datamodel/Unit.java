@@ -471,6 +471,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	}
 
 	public Village getVillage() {
+		if (villageKey == null) return null;
 		return CannedQueries.villageByKey(villageKey);
 	}
 	
