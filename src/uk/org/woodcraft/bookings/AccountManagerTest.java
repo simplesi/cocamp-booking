@@ -1,20 +1,19 @@
 package uk.org.woodcraft.bookings;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
-import uk.org.woodcraft.bookings.AccountsAction.BookingsBucket;
+import uk.org.woodcraft.bookings.accounts.BookingsBucket;
 import uk.org.woodcraft.bookings.datamodel.AgeGroup;
-import static org.junit.Assert.*;
 
-public class AccountsActionTest {
+public class AccountManagerTest {
 
 	@Test
 	public void testBookingsBucket()
 	{
-		AccountsAction action = new AccountsAction();
-		
-		BookingsBucket booking1a = action.new BookingsBucket(AgeGroup.DF, false, 6, 120d);
-		BookingsBucket booking1b = action.new BookingsBucket(AgeGroup.DF, false, 5, 100d);
+		BookingsBucket booking1a = new BookingsBucket(AgeGroup.DF, false, 6, 120d);
+		BookingsBucket booking1b = new BookingsBucket(AgeGroup.DF, false, 5, 100d);
 		assetCompareIsTransitive(booking1a, booking1b);
 		
 	}
