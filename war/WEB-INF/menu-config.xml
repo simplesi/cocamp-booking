@@ -35,7 +35,11 @@
        <Item name="AdminApprovals" 		title="Pending approvals" 		location="/manageAll/approvalList"/>
        <Item name="AdminUsers" 			title="Users" 					location="/manageAll/listUsers"/>
        <Item name="AdminEvents" 		title="Events" 					location="/manageAll/listEvents"/>
-       <Item name="AdminVillages"		title="Villages" 				location="/manageAll/listVillages"/>
+       <Item name="AdminVillages"		title="Villages">
+       		<Item name="AdminVillagesList" title="View/Edit villages" 		location="/manageAll/listVillages"/>
+       		<Item name="AdminVillageMapping" title="Village assignments"	location="/manageAll/listUnitVillageMappings"/>
+       </Item>
+       	
        <Item name="AdminOrgs" 			title="Organisations" 			location="/manageAll/listOrgs"/>
        <Item name="AdminUnits" 			title="Units" 					location="/manageAll/listUnits"/>
        <Item name="AdminBookings" 		title="Bookings" 				location="/manageAll/listBookings"/>
