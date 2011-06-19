@@ -26,7 +26,7 @@
 </#if>
 
 <p>To change the village for a given unit, please alter it in the dropdown below, and press apply. 
-Bookings which were already manually changed to a different unit will not be affected.</p>
+Bookings which were already manually assigned to a different village will not be affected. You can manually change the village for a given booking by editing the booking directly.</p>
 
 
 <@s.form action="applyUnitVillageMappings" method="post">
