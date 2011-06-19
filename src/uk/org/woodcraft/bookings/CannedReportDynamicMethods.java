@@ -75,4 +75,29 @@ public abstract class CannedReportDynamicMethods extends CannedReport {
 	
 	@SuppressWarnings("rawtypes")
 	protected abstract Class getDataType();
+	
+	protected List<String> getHeaders(List<Method> reportedMethods) {
+		List<String> headers = new ArrayList<String>();
+		for(Method m : reportedMethods)
+		{
+			String methodName = m.getName();
+			// Drop the get prefix
+			headers.add(methodName.substring(3));
+		}
+		return headers;
+	}
+
+	protected List<Object> renderRow(List<Method> reportedMethods, Object data) {
+		List<Object> cells = new ArrayList<Object>();
+		for(Method m : reportedMethods)
+		{
+			try {
+				cells.add(m.invoke(data));
+			} catch(Exception e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		return cells;
+	}
 }

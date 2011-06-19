@@ -5,9 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.opensymphony.xwork2.ActionSupport;
+import uk.org.woodcraft.bookings.persistence.SessionBasedAction;
 
-public class CannedReportAction extends ActionSupport {
+public class CannedReportAction extends SessionBasedAction {
 	
 	private static final long serialVersionUID = 4198648529700221398L;
 	
@@ -39,7 +39,7 @@ public class CannedReportAction extends ActionSupport {
 		
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new BookedUnitsReport()));
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new AllOfGivenClassReport()));
-		
+		reports.addAll(CannedReportMapping.buildReportMappingForReport(new AccountBalancesReport(getCurrentEvent())));
 		return reports;
 	}
 	
