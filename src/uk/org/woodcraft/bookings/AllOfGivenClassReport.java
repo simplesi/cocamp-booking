@@ -1,5 +1,6 @@
 package uk.org.woodcraft.bookings;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import uk.org.woodcraft.bookings.datamodel.Transaction;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 
-public class AllOfGivenClassReport <DataType> extends CannedReport<DataType> {
+public class AllOfGivenClassReport extends CannedReportDynamicMethods {
 
 	@SuppressWarnings("rawtypes")
 	private static Map<String, Class> AVAILABLE_CLASSES = new HashMap<String, Class>();
@@ -25,27 +26,30 @@ public class AllOfGivenClassReport <DataType> extends CannedReport<DataType> {
 		AVAILABLE_CLASSES.put("Audit logs of data changes", AuditRecord.class);
 	}
 	
-	private Class<DataType> _clazz;
+	@SuppressWarnings("rawtypes")
+	private Class _clazz;
 	
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public void initialize(CannedReportLabel selectedReport) {
+	public List<Method> getReportedMethods(CannedReportLabel selectedReport) {
 		if (AVAILABLE_CLASSES.containsKey(selectedReport.getTag()))
 		{
 			_clazz = AVAILABLE_CLASSES.get(selectedReport.getTag());
 		} else 
 			throw new IllegalArgumentException("Unrecognised report type "+ selectedReport.getTag());	
 		
-		super.initialize(selectedReport);
+		return super.getReportedMethods(selectedReport);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	protected Class<DataType> getDataType() {
+	protected Class getDataType() {
 		return _clazz;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
-	protected Collection<DataType> getRows(CannedReportLabel selectedReport) {
+	protected Collection getRows(CannedReportLabel selectedReport) {
 		
 		return CannedQueries.allEntriesForClass(_clazz);
 	}

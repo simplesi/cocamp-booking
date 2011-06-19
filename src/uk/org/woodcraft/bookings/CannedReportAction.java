@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import uk.org.woodcraft.bookings.CannedReport.CannedReportLabel;
-
 import com.opensymphony.xwork2.ActionSupport;
 
 public class CannedReportAction extends ActionSupport {
@@ -16,7 +14,6 @@ public class CannedReportAction extends ActionSupport {
 	private InputStream stream;
 	private String selectedReport;
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public String execute()
 	{
 		if (selectedReport == null) return INPUT;
@@ -35,8 +32,7 @@ public class CannedReportAction extends ActionSupport {
 		
 		return INPUT;
 	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+
 	public List<CannedReportMapping> getAvailableReports()
 	{
 		List<CannedReportMapping> reports = new ArrayList<CannedReportMapping>();
@@ -65,28 +61,27 @@ public class CannedReportAction extends ActionSupport {
 		return selectedReport;
 	}
 	
-	static class CannedReportMapping <T>
+	static class CannedReportMapping
 	{
-		private CannedReport<T> report;
-		private CannedReport<T>.CannedReportLabel label;
+		private CannedReport report;
+		private CannedReportLabel label;
 		
-		public CannedReportMapping(CannedReport<T> report, CannedReport<T>.CannedReportLabel label) {
+		public CannedReportMapping(CannedReport report, CannedReportLabel label) {
 			this.report = report;
 			this.label = label;
 		}
 
-		public CannedReport<T> getReport() {
+		public CannedReport getReport() {
 			return report;
 		}
 		
-		public CannedReport<T>.CannedReportLabel getLabel() {
+		public CannedReportLabel getLabel() {
 			return label;
 		}	
 		
-		@SuppressWarnings({ "rawtypes", "unchecked" })
-		public static <D, T extends CannedReport<D>> List<CannedReportMapping<T>> buildReportMappingForReport(T report)
+		public static  List<CannedReportMapping> buildReportMappingForReport(CannedReport report)
 		{
-			List<CannedReportMapping<T>> mappings = new ArrayList<CannedReportMapping<T>>();
+			List<CannedReportMapping> mappings = new ArrayList<CannedReportMapping>();
 			for(CannedReportLabel label : report.getAvailableReports())
 			{
 				mappings.add(new CannedReportMapping(report, label));
@@ -94,5 +89,4 @@ public class CannedReportAction extends ActionSupport {
 			return mappings;
 		}
 	}
-	
 }

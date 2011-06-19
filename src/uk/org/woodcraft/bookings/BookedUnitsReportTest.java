@@ -2,6 +2,7 @@ package uk.org.woodcraft.bookings;
 
 import static junit.framework.Assert.assertEquals;
 
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class BookedUnitsReportTest extends BaseFixtureTestCase{
 	public void testGetHeaders()
 	{
 		BookedUnitsReport report = new BookedUnitsReport();
-		report.initialize(null);
-		List<String> headers = report.getHeaders();
+		List<Method> methods = report.getReportedMethods(null);
+		List<String> headers = report.getHeaders(methods);
 		/*
 		for(String header : headers)
 			System.out.print(header + "\",\"");
