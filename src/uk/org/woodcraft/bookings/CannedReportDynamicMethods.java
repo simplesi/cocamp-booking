@@ -11,7 +11,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import uk.org.woodcraft.bookings.auth.LoginInterceptor;
 import uk.org.woodcraft.bookings.datamodel.CannedReportColumn;
 import uk.org.woodcraft.bookings.datamodel.SkipInCannedReports;
 
@@ -81,7 +80,7 @@ public abstract class CannedReportDynamicMethods extends CannedReport {
 	@SuppressWarnings("rawtypes")
 	protected abstract Class getDataType();
 	
-	protected List<String> getHeaders(List<Method> reportedMethods) {
+	protected List<String> getHeaders(CannedReportLabel selectedReport, List<Method> reportedMethods) {
 		List<String> headers = new ArrayList<String>();
 		for(Method m : reportedMethods)
 		{

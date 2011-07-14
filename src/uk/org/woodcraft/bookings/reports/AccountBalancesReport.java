@@ -1,4 +1,4 @@
-package uk.org.woodcraft.bookings;
+package uk.org.woodcraft.bookings.reports;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import uk.org.woodcraft.bookings.CannedReport;
+import uk.org.woodcraft.bookings.CannedReportLabel;
 import uk.org.woodcraft.bookings.accounts.AccountManager;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Unit;
@@ -47,7 +49,7 @@ public class AccountBalancesReport extends CannedReport {
 	}
 	
 	@Override
-	protected List<String> getHeaders(List<Method> reportedMethods) {
+	protected List<String> getHeaders(CannedReportLabel selectedReport, List<Method> reportedMethods) {
 		return Arrays.asList("Organisation", "Unit", "Total Bookings", "Total Cost", "Total Payments", "Balance");
 	}
 

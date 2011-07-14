@@ -1,9 +1,11 @@
-package uk.org.woodcraft.bookings;
+package uk.org.woodcraft.bookings.reports;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import uk.org.woodcraft.bookings.CannedReportDynamicMethods;
+import uk.org.woodcraft.bookings.CannedReportLabel;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 

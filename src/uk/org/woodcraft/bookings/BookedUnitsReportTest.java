@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import uk.org.woodcraft.bookings.reports.BookedUnitsReport;
 import uk.org.woodcraft.bookings.test.BaseFixtureTestCase;
 import uk.org.woodcraft.bookings.test.TestFixture;
 
@@ -23,7 +24,7 @@ public class BookedUnitsReportTest extends BaseFixtureTestCase{
 	{
 		BookedUnitsReport report = new BookedUnitsReport();
 		List<Method> methods = report.getReportedMethods(null);
-		List<String> headers = report.getHeaders(methods);
+		List<String> headers = report.getHeaders(null, methods);
 		/*
 		for(String header : headers)
 			System.out.print(header + "\",\"");
