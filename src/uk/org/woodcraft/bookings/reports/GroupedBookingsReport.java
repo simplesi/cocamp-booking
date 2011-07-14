@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 import uk.org.woodcraft.bookings.BookingGrouper;
+import uk.org.woodcraft.bookings.BookingGrouper.AgeTransformer;
 import uk.org.woodcraft.bookings.BookingGrouper.AllDatesAtEventTransformer;
 import uk.org.woodcraft.bookings.BookingGrouper.BookingTransformer;
 import uk.org.woodcraft.bookings.BookingGrouper.DietTransformer;
+import uk.org.woodcraft.bookings.BookingGrouper.OrgTransformer;
+import uk.org.woodcraft.bookings.BookingGrouper.UnitTransformer;
 import uk.org.woodcraft.bookings.BookingGrouper.VillageTransformer;
 import uk.org.woodcraft.bookings.CannedReport;
 import uk.org.woodcraft.bookings.CannedReportLabel;
@@ -23,7 +26,12 @@ public class GroupedBookingsReport extends CannedReport {
 
 	private static Map<String, List<? extends BookingTransformer>> GroupedReports = new HashMap<String, List<? extends BookingTransformer>>();
 	static{
+		GroupedReports.put("Bookings count by age", Arrays.asList(new AgeTransformer()));
+		GroupedReports.put("Bookings count by org, unit", Arrays.asList(new OrgTransformer(), new UnitTransformer()));
+		GroupedReports.put("Bookings count by org, unit, village", Arrays.asList(new OrgTransformer(), new UnitTransformer(), new VillageTransformer()));
 		GroupedReports.put("Bookings count by village", Arrays.asList(new VillageTransformer()));
+		GroupedReports.put("Bookings count by village, age", Arrays.asList(new VillageTransformer(),new AgeTransformer()));
+		GroupedReports.put("Bookings count by day, village, age", Arrays.asList(new AllDatesAtEventTransformer(), new VillageTransformer(), new AgeTransformer()));
 		GroupedReports.put("Bookings count by village, diet", Arrays.asList(new VillageTransformer(), new DietTransformer()));
 		GroupedReports.put("Bookings count by day, village, diet", Arrays.asList(new AllDatesAtEventTransformer(), new VillageTransformer(), new DietTransformer()));
 	}
