@@ -35,7 +35,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 	private void populateMappings() 
 	{
 		map.clear();
-		for(Unit unit : CannedQueries.allUnits(false))
+		for(Unit unit : CannedQueries.allUnits(false, false))
 		{
 			map.put(Base64.encode(unit.getWebKey().getBytes()), unit.getVillageWebKey());
 		}
@@ -43,7 +43,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 	
 	public Collection<Unit> getUnits()
 	{
-		return CannedQueries.allUnits(false);
+		return CannedQueries.allUnits(false, false);
 	}
 	
 	public String list()

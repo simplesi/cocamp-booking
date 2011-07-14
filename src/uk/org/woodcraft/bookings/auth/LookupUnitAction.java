@@ -18,7 +18,7 @@ public class LookupUnitAction extends ActionSupport {
 		
 		if (organisationKey != null)
 		{
-			setUnits(CannedQueries.unitsForOrg(organisationKey, false));
+			setUnits(CannedQueries.unitsForOrg(organisationKey, false, false));
 		}
 		
 		return SUCCESS;

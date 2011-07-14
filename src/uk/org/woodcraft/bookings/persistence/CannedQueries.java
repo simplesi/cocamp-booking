@@ -1,5 +1,6 @@
 package uk.org.woodcraft.bookings.persistence;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,9 +33,8 @@ public class CannedQueries {
  @SuppressWarnings("unused")
 private static final Logger log = Logger.getLogger(CannedQueries.class.getName());
 
-	
 	public static Collection<Event> allEvents(boolean showNonOpenEvents)
-	{
+	{	
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
 		Query query = pm.newQuery(Event.class);
@@ -42,7 +42,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		
 		if(!showNonOpenEvents) query.setFilter("isCurrentlyOpen == true");
 		
-		return queryDetachAndClose(Event.class, query);
+		return queryDetachAndClose(Event.class, query, true);
 	}
 	
 	/**
@@ -58,7 +58,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("name == nameParam");
 		query.declareParameters("String nameParam");
 		
-		return querySingleDetachAndClose(Event.class, query, eventName);
+		return querySingleDetachAndClose(Event.class, query, false, eventName);
 	}
 	
 	/**
@@ -76,11 +76,11 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		{
 			query.setFilter("name == nameParam");
 			query.declareParameters("String nameParam");
-			return querySingleDetachAndClose(Event.class, query, eventName);
+			return querySingleDetachAndClose(Event.class, query, false, eventName);
 		} else {
 			query.setFilter("name == nameParam && key != ignoreKeyParam");
 			query.declareParameters("String nameParam, Key ignoreKeyParam");
-			return querySingleDetachAndClose(Event.class, query, eventName, ignoreKey);
+			return querySingleDetachAndClose(Event.class, query, false, eventName, ignoreKey);
 		}
 	}
 	
@@ -99,7 +99,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("eventKey == eventKeyParam");
 		query.declareParameters("Key eventKeyParam");
 		
-		return queryDetachAndClose(Village.class, query, event.getKeyCheckNotNull());
+		return queryDetachAndClose(Village.class, query, true, event.getKeyCheckNotNull());
 	}
 	
 	
@@ -129,7 +129,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("name == nameParam && eventKey == eventKeyParam");
 		query.declareParameters("String nameParam, Key eventKeyParam");
 		
-		return querySingleDetachAndClose(Village.class, query,  villageName, eventKey);
+		return querySingleDetachAndClose(Village.class, query, false, villageName, eventKey);
 	}
 	
 	/**
@@ -148,11 +148,11 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		{
 			query.setFilter("name == nameParam && eventKey == eventKeyParam");
 			query.declareParameters("String nameParam, Key eventKeyParam");
-			return querySingleDetachAndClose(Village.class, query,  villageName, eventKey);
+			return querySingleDetachAndClose(Village.class, query, false, villageName, eventKey);
 		} else {
 			query.setFilter("name == nameParam && eventKey == eventKeyParam && key != ignoreKeyParam");
 			query.declareParameters("String nameParam, Key eventKeyParam, Key ignoreKeyParam");
-			return querySingleDetachAndClose(Village.class, query,  villageName, eventKey, ignoreKey);
+			return querySingleDetachAndClose(Village.class, query, false, villageName, eventKey, ignoreKey);
 		}
 		
 	}
@@ -167,7 +167,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		return getByKey(Village.class, villageKey);
 	}
 	
-	public static Collection<Organisation> allOrgs(boolean includeUnapproved )
+	public static Collection<Organisation> allOrgs(boolean includeUnapproved, boolean cache )
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -176,7 +176,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		
 		if(!includeUnapproved) query.setFilter("approved == true");
 		
-		return queryDetachAndClose(Organisation.class, query);
+		return queryDetachAndClose(Organisation.class, query, cache);
 	}
 	
 	public static Collection<Organisation> allUnapprovedOrgs()
@@ -187,7 +187,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setOrdering("name");	
 		query.setFilter("approved == false");
 		
-		return queryDetachAndClose(Organisation.class, query);
+		return queryDetachAndClose(Organisation.class, query, false);
 	}
 	
 	/**
@@ -203,7 +203,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("name == nameParam");
 		query.declareParameters("String nameParam");
 		
-		return querySingleDetachAndClose(Organisation.class, query, orgName);
+		return querySingleDetachAndClose(Organisation.class, query, false, orgName);
 	}
 
 	/**
@@ -223,11 +223,11 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		{
 			query.setFilter("name == nameParam");
 			query.declareParameters("String nameParam");
-			return querySingleDetachAndClose(Organisation.class, query, orgName);			
+			return querySingleDetachAndClose(Organisation.class, query, false, orgName);			
 		} else {	
 			query.setFilter("name == nameParam && key != ignoreKeyParam");
 			query.declareParameters("String nameParam, Key ignoreKeyParam");
-			return querySingleDetachAndClose(Organisation.class, query, orgName, ignoreKey);
+			return querySingleDetachAndClose(Organisation.class, query, false, orgName, ignoreKey);
 		}
 	}
 	
@@ -236,7 +236,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		return getByKey(Organisation.class, orgKey);
 	}
 	
-	public static Collection<Unit> unitsForOrg(Key orgKey, boolean includeUnapproved)
+	public static Collection<Unit> unitsForOrg(Key orgKey, boolean includeUnapproved, boolean cache)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -253,16 +253,16 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		
 		
 		query.declareParameters("Key organisationKeyParam");
-		return queryDetachAndClose(Unit.class, query, orgKey);
+		return queryDetachAndClose(Unit.class, query, cache, orgKey);
 	}
 	
 	
-	public static Collection<Unit> unitsForOrg(Organisation org, boolean includeUnapproved)
+	public static Collection<Unit> unitsForOrg(Organisation org, boolean includeUnapproved, boolean cache)
 	{
-		return unitsForOrg(org.getKeyCheckNotNull(), includeUnapproved);
+		return unitsForOrg(org.getKeyCheckNotNull(), includeUnapproved, cache);
 	}
 	
-	public static Collection<Unit> allUnits(boolean includeUnapproved )
+	public static Collection<Unit> allUnits(boolean includeUnapproved, boolean cache )
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -271,7 +271,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		
 		if(!includeUnapproved) query.setFilter("approved == true");
 		
-		return queryDetachAndClose(Unit.class, query);
+		return queryDetachAndClose(Unit.class, query, cache);
 	}
 	
 	public static Collection<Unit> allUnapprovedUnits()
@@ -282,7 +282,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setOrdering("name");
 		query.setFilter("approved == false");
 		
-		return queryDetachAndClose(Unit.class, query);
+		return queryDetachAndClose(Unit.class, query, false);
 	}
 	
 	/**
@@ -300,7 +300,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("villageKey == villageKeyParam");
 		query.declareParameters("Key villageKeyParam");
 		
-		return queryDetachAndClose(Unit.class, query, village.getKeyCheckNotNull());
+		return queryDetachAndClose(Unit.class, query, false, village.getKeyCheckNotNull());
 	}
 	
 	/**
@@ -317,7 +317,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		
 		query.setFilter("villageKey == null");
 		
-		return queryDetachAndClose(Unit.class, query);
+		return queryDetachAndClose(Unit.class, query, false);
 	}
 
 	/**
@@ -342,12 +342,12 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		{
 			query.setFilter("name == nameParam && organisationKey == organisationKeyParam");
 			query.declareParameters("String nameParam, Key organisationKeyParam");
-			return querySingleDetachAndClose(Unit.class, query, unitName, orgKey);
+			return querySingleDetachAndClose(Unit.class, query, false, unitName, orgKey);
 		} else 
 		{
 			query.setFilter("name == nameParam && organisationKey == organisationKeyParam && key != ignoreKeyParam");
 			query.declareParameters("String nameParam, Key organisationKeyParam, Key ignoreKeyParam");
-			return querySingleDetachAndClose(Unit.class, query, unitName, orgKey, ignoreKey);
+			return querySingleDetachAndClose(Unit.class, query, false, unitName, orgKey, ignoreKey);
 		}
 		
 	}
@@ -385,7 +385,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		Query query = pm.newQuery(Booking.class);	
 		if (validOnly)
 			query.setFilter("cancellationDate == null");
-		return queryDetachAndClose(Booking.class, query);
+		return queryDetachAndClose(Booking.class, query, true);
 	}
 	
 	public static Collection<Booking> bookingsForUnit(Unit unit, Event event)
@@ -398,7 +398,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("unitKey == unitKeyParam && eventKey == eventKeyParam");
 		query.declareParameters("Key unitKeyParam, Key eventKeyParam");
 		
-		return queryDetachAndClose(Booking.class, query, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
+		return queryDetachAndClose(Booking.class, query, false, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
 	}
 	
 	public static Collection<Booking> bookingsForUnitAllEvents(Unit unit)
@@ -411,12 +411,12 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("unitKey == unitKeyParam");
 		query.declareParameters("Key unitKeyParam");
 		
-		return queryDetachAndClose(Booking.class, query, unit.getKeyCheckNotNull());
+		return queryDetachAndClose(Booking.class, query, false, unit.getKeyCheckNotNull());
 	}
 	
 	public static Collection<Booking> bookingsForOrg(Organisation org, Event event)
 	{
-		Collection<Key> keysForOrg = CollectionUtils.collect(unitsForOrg(org.getKey(), false), new KeyBasedData.ToKey());
+		Collection<Key> keysForOrg = CollectionUtils.collect(unitsForOrg(org.getKey(), false, true), new KeyBasedData.ToKey());
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -473,7 +473,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("villageKey == villageKeyParam");
 		query.declareParameters("Key villageKeyParam");
 		
-		return queryDetachAndClose(Booking.class, query, village.getKeyCheckNotNull());
+		return queryDetachAndClose(Booking.class, query, false, village.getKeyCheckNotNull());
 	}
 	
 	/**
@@ -493,7 +493,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("eventKey == eventKeyParam && villageKey == null");
 		query.declareParameters("Key eventKeyParam");
 		
-		return queryDetachAndClose(Booking.class, query, event.getKeyCheckNotNull());
+		return queryDetachAndClose(Booking.class, query, false, event.getKeyCheckNotNull());
 	}
 	
 	public static Collection<Booking> bookingsForEvent(Event event)
@@ -508,7 +508,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("eventKey == eventKeyParam");
 		query.declareParameters("Key eventKeyParam");
 		
-		return queryDetachAndClose(Booking.class, query, event.getKeyCheckNotNull());
+		return queryDetachAndClose(Booking.class, query, true, event.getKeyCheckNotNull());
 	}
 	
 	public static Collection<Booking> bookingsForEventAndEmail(Key eventKey, Email email)
@@ -523,7 +523,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("eventKey == eventKeyParam && email == emailParam");
 		query.declareParameters("Key eventKeyParam, Email emailParam");
 		
-		return queryDetachAndClose(Booking.class, query, eventKey,email);
+		return queryDetachAndClose(Booking.class, query, false, eventKey,email);
 	}
 	
 	/* NB - App engine doesn't support partial like matching for strings, so this is equality only...
@@ -541,7 +541,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("name == nameParam");
 		query.declareParameters("Key nameParam");
 		
-		return queryDetachAndClose(Booking.class, query, name);
+		return queryDetachAndClose(Booking.class, query, false, name);
 	}
 	
 	public static uk.org.woodcraft.bookings.datamodel.Transaction TransactionByKey(Key key)
@@ -559,12 +559,12 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("unitKey == unitKeyParam && eventKey == eventKeyParam");
 		query.declareParameters("Key unitKeyParam, Key eventKeyParam");
 		
-		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
+		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, false, unit.getKeyCheckNotNull(), event.getKeyCheckNotNull());
 	}
 	
 	public static Collection<uk.org.woodcraft.bookings.datamodel.Transaction> transactionsForOrg(Organisation org, Event event)
 	{
-		Collection<Key> keysForOrg = CollectionUtils.collect(unitsForOrg(org.getKey(), false), new KeyBasedData.ToKey());
+		Collection<Key> keysForOrg = CollectionUtils.collect(unitsForOrg(org.getKey(), false, false), new KeyBasedData.ToKey());
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -587,7 +587,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		query.setFilter("eventKey == eventKeyParam");
 		query.declareParameters("Key eventKeyParam");
 		
-		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, event.getKeyCheckNotNull());
+		return queryDetachAndClose(uk.org.woodcraft.bookings.datamodel.Transaction.class, query, false, event.getKeyCheckNotNull());
 	}
 
 	
@@ -607,18 +607,18 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		if (org != null) {
 			query.setFilter("organisationKey == orgKeyParam");
 			query.declareParameters("Key orgKeyParam");
-			return queryDetachAndClose(User.class, query, org.getKey());
+			return queryDetachAndClose(User.class, query, false, org.getKey());
 		}
 		
 		if (unit != null) {
 			query.setFilter("unitKey == unitKeyParam");
 			query.declareParameters("Key unitKeyParam");
-			return queryDetachAndClose(User.class, query, unit.getKey());
+			return queryDetachAndClose(User.class, query, false, unit.getKey());
 		}
 		
 		if(unapprovedOnly) 
 			query.setFilter("approved == false");
-		return queryDetachAndClose(User.class, query);
+		return queryDetachAndClose(User.class, query, false);
 	}
 
 	public static Collection<User> allUsers()
@@ -646,16 +646,19 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(clazz);
 		
-		return queryDetachAndClose(clazz, query);
+		return queryDetachAndClose(clazz, query, true);
 	}
 	
 	
 	public static <T> T getByKey(Class<T> clazz, Object key)
 	{
 		// TODO: Implement caching here
+		T result = null;
+		result = (T) CacheSupport.cacheGet(key);
+		if (result != null) return result;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		T result = null;
+		
 		try {
 			result = pm.getObjectById(clazz, key);
 			result = pm.detachCopy(result);
@@ -666,6 +669,8 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		} finally {
 			pm.close();
 		}
+		
+		CacheSupport.cachePut(key, (Serializable) result);
 		return result;
 	}
 	
@@ -694,6 +699,18 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		finally {
 			pm.close();
 		}
+		
+		// Update in cache
+		for(T object : objectsToSave)
+		{
+			try {
+				if (object instanceof KeyBasedData)
+					CacheSupport.cachePut(((KeyBasedData)object).getKeyCheckNotNull(), (KeyBasedData)object);
+				} 
+			catch(Exception e)
+			{};
+		}
+		
 		return objectsToSave;
 	}
 	
@@ -714,6 +731,15 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 			tx.begin();
 			pm.deletePersistentAll(objectsToDelete);
 			tx.commit();
+			
+			for(Object obj: objectsToDelete)
+			{
+				try{
+				if (obj instanceof KeyBasedData)
+					CacheSupport.cacheDelete(((KeyBasedData)obj).getKeyCheckNotNull());
+				} catch(Exception e)
+				{}
+			}
 		} catch(Exception e) {
 			if (tx.isActive()) 
 				tx.rollback();
@@ -731,9 +757,9 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	 * @param query The query
 	 * @return The detached results
 	 */
-	private static <T> Collection<T> queryDetachAndClose(Class<T> clazz, Query query)
+	private static <T> Collection<T> queryDetachAndClose(Class<T> clazz, Query query, boolean cache)
 	{
-		return queryDetachAndClose(clazz, query, new Object[]{});
+		return queryDetachAndClose(clazz, query, cache, new Object[]{} );
 	}
 	
 	/***
@@ -744,13 +770,35 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	 * @param params The query parameter
 	 * @return The detached results
 	 */
-	private static <T> Collection<T> queryDetachAndClose(Class<T> clazz, Query query, Object... params)
+	private static <T> Collection<T> queryDetachAndClose(Class<T> clazz, Query query, boolean cache, Object... params)
 	{
+		String cacheKey = null;
+		Collection<T> results;
+		if (cache)
+		{
+			if (params.length != 0)
+			{
+				// Can't rely on toString of params, since it frequently uses hashcode
+				cache = false;
+			}
+			else 
+			{
+				cacheKey = clazz.toString() + query.toString();
+				results = (Collection<T>) CacheSupport.cacheGet(cacheKey);
+				if (results != null) return results;
+			}
+		}
+		
 		PersistenceManager pm = query.getPersistenceManager();
-		Collection<T> results = (Collection<T>) query.executeWithArray(params);
+		results = (Collection<T>) query.executeWithArray(params);
 		//pm.refreshAll(results); // hmm
 		results = pm.detachCopyAll(results);
 		pm.close();
+		
+		if (cache)
+		{
+			CacheSupport.cachePutExp(cacheKey, (Serializable) results, 600);
+		}
 		return results;
 	}
 	
@@ -761,9 +809,9 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	 * @param query The query
 	 * @return The detached results
 	 */
-	private static <T> T querySingleDetachAndClose(Class<T> clazz, Query query, Object... params )
+	private static <T> T querySingleDetachAndClose(Class<T> clazz, Query query, boolean cache, Object... params )
 	{
-		return querySingleDetachAndClose(clazz, query, true, params);
+		return querySingleDetachAndClose(clazz, query, true, cache, params);
 	}
 	
 	/***
@@ -775,9 +823,9 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	 * @param params The query parameters
 	 * @return The detached results
 	 */
-	private static <T> T querySingleDetachAndClose(Class<T> clazz, Query query, boolean nullIfEmpty, Object... params)
+	private static <T> T querySingleDetachAndClose(Class<T> clazz, Query query, boolean nullIfEmpty, boolean cache, Object... params)
 	{
-		Collection<T> results = queryDetachAndClose(clazz, query, params);
+		Collection<T> results = queryDetachAndClose(clazz, query, cache, params);
 		
 		if (results.size() != 1) 
 		{

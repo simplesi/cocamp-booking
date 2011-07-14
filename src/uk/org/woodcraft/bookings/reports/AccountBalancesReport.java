@@ -27,7 +27,7 @@ public class AccountBalancesReport extends CannedReport {
 		// FIXME: Assumes one event only
 		
 		List rows = new ArrayList();
-		for(Unit unit : CannedQueries.allUnits(true))
+		for(Unit unit : CannedQueries.allUnits(true, true))
 		{
 			AccountManager accountManager = new AccountManager(currentEvent, unit);
 			rows.add(buildRow(accountManager, unit));

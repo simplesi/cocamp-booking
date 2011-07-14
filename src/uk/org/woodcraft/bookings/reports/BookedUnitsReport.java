@@ -14,7 +14,7 @@ public class BookedUnitsReport extends CannedReportDynamicMethods {
 	@Override
 	protected List<Unit> getRows(CannedReportLabel selectedReport) {
 		// FIXME: This should be doing something event-specific, but event-specific unit bookings not sorted yet
-		return new ArrayList<Unit>(CannedQueries.allUnits(true));
+		return new ArrayList<Unit>(CannedQueries.allUnits(true, true));
 	}
 
 	@Override

@@ -13,14 +13,14 @@
 	  
 	  <#if Session.USER.accessLevel.canChangeUnit>   	
 	    	<@s.select value="%{'${Session.CURRENT_UNIT.webKey}'}"
-	    	name="navUnitKey" list="myUnits" listKey="webKey" listValue="name" />
+	    	name="navUnitKey" list="myUnitsCached" listKey="webKey" listValue="name" />
 	  <#else>
 	    	<span id="static_text">Unit: ${Session.CURRENT_UNIT.name}</span>
 	  </#if>
 	  
 	  <#if Session.USER.accessLevel.canChangeOrg>
 	    	<@s.select name="navOrgKey"
-	        	list=allOrgs listKey="webKey" listValue="name" value="%{'${Session.CURRENT_ORG.webKey}'}" />
+	        	list=allOrgsCached listKey="webKey" listValue="name" value="%{'${Session.CURRENT_ORG.webKey}'}" />
 	  <#else>
 	    	<span id="static_text">Organisation: ${Session.CURRENT_ORG.name} | </span>
 	  </#if>

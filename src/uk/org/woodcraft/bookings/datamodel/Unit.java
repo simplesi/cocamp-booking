@@ -456,6 +456,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		this.villageKey = villageKey;
 	}
 
+	@SkipInCannedReports
 	public Key getVillageKey() {
 		return villageKey;
 	}

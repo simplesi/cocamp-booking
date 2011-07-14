@@ -33,7 +33,7 @@ public class BookedUnitsReportTest extends BaseFixtureTestCase{
 				"EstimateWoodchip","EstimateElfin","EstimatePioneer","EstimateVenturer","EstimateDF",
 				"EstimateAdult","EquipmentKitchen","EquipmentTables","EquipmentBenches","EquipmentLighting",
 				"EquipmentOther","CanvasMarquee","CanvasKitchen","CanvasStore","CanvasOther","LargeCanvasTown",
-				"LargeCanvasActivity","LargeCanvasCafe","LargeCanvasOther","VillagePartner","Delegation","Key", "VillageKey"};
+				"LargeCanvasActivity","LargeCanvasCafe","LargeCanvasOther","VillagePartner","Delegation","Key", "Village", "VillageWebKey"};
 		
 		
 		assertEquals(Arrays.asList(expectedHeaders), headers);

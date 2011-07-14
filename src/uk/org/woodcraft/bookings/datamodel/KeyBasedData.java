@@ -55,6 +55,7 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 		return KeyFactory.keyToString(key);
 	}
 	
+	@SkipInCannedReports
 	public String getBase64EncodedWebKey() {
 		return Base64.encode(getWebKey().getBytes());
 	}

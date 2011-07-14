@@ -39,7 +39,7 @@ public class OrganisationAction extends BasePersistenceAction<Organisation>{
 	public String list() {
 		
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
-		setModelList(CannedQueries.allOrgs(true));
+		setModelList(CannedQueries.allOrgs(true, false));
 		return SUCCESS;
 	}
 

@@ -44,8 +44,8 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.villageByKey(village1.getKeyCheckNotNull());
 		
 		// Org queries
-		CannedQueries.allOrgs(false);
-		CannedQueries.allOrgs(true);
+		CannedQueries.allOrgs(false, false);
+		CannedQueries.allOrgs(true, false);
 		CannedQueries.allUnapprovedOrgs();
 		Organisation org1 = CannedQueries.orgByName(TestConstants.ORG1_NAME);
 		@SuppressWarnings("unused")
@@ -53,15 +53,15 @@ public class RunQueriesAction extends ActionSupport{
 		CannedQueries.orgByKey(org1.getKeyCheckNotNull());
 		
 		// Unit queries
-		CannedQueries.allUnits(false);
-		CannedQueries.allUnits(true);
+		CannedQueries.allUnits(false, false);
+		CannedQueries.allUnits(true, false);
 		CannedQueries.allUnapprovedUnits();
 		Unit unit1 = CannedQueries.unitByName(TestConstants.UNIT1_NAME, org1);
 		@SuppressWarnings("unused")
 		Unit duplicateUnit = CannedQueries.unitByName(TestConstants.UNIT1_NAME, org1.getKeyCheckNotNull(), unit1.getKey());
 		CannedQueries.unitByKey(unit1.getKeyCheckNotNull());
-		CannedQueries.unitsForOrg(org1.getKeyCheckNotNull(), false);
-		CannedQueries.unitsForOrg(org1.getKeyCheckNotNull(), true);
+		CannedQueries.unitsForOrg(org1.getKeyCheckNotNull(), false, false);
+		CannedQueries.unitsForOrg(org1.getKeyCheckNotNull(), true, false);
 		CannedQueries.unitsHomeless(event1);
 		CannedQueries.unitsForVillage(village1);
 		
