@@ -234,6 +234,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	}
 
 	public String getVillageWebKey() {
+		if (villageKey == null) return "";
 		return KeyFactory.keyToString(villageKey);
 	}
 	

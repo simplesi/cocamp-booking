@@ -39,6 +39,7 @@ public class AccountBalancesReport extends CannedReport {
 		List cols = new ArrayList();
 		cols.add(unit.getOrganisation().getName());
 		cols.add(unit.getName());
+		cols.add(acctMgr.getTotalBookingsCount());
 		cols.add(acctMgr.getTotalCost());
 		cols.add(acctMgr.getPaymentTotal());
 		cols.add(acctMgr.getBalance());
@@ -47,7 +48,7 @@ public class AccountBalancesReport extends CannedReport {
 	
 	@Override
 	protected List<String> getHeaders(List<Method> reportedMethods) {
-		return Arrays.asList("Organisation", "Unit", "Total Cost", "Total Payments", "Balance");
+		return Arrays.asList("Organisation", "Unit", "Total Bookings", "Total Cost", "Total Payments", "Balance");
 	}
 
 	@Override
