@@ -10,9 +10,11 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 import org.apache.commons.collections.Transformer;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.repackaged.com.google.common.util.Base64;
 
 @PersistenceCapable(detachable="true")
 @Inheritance(strategy = InheritanceStrategy.SUBCLASS_TABLE)
@@ -51,6 +53,10 @@ public abstract class KeyBasedData implements Serializable, Keyed<Key>{
 	public String getWebKey() {
 		if (key == null) return null;
 		return KeyFactory.keyToString(key);
+	}
+	
+	public String getBase64EncodedWebKey() {
+		return Base64.encode(getWebKey().getBytes());
 	}
 	
 	public void setWebKey(String webKey) {

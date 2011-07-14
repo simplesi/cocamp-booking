@@ -40,7 +40,7 @@ Bookings which were already manually assigned to a different village will not be
         <tr>
             <td>${unit.name!"unnamed unit"}</td>
             <td>
-				<@s.select name="map['${unit.webKey}']" list="villages" label="" listKey="webKey" listValue="name" labelposition="left" labelSeparator=""/>		
+				<@s.select name="map['${unit.base64EncodedWebKey}']" list="villages" label="" listKey="webKey" listValue="name" labelposition="left" labelSeparator=""/>		
 			</td>
         </tr>
     </#list>
