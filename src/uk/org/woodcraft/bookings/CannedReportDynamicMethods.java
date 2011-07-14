@@ -8,13 +8,18 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import uk.org.woodcraft.bookings.auth.LoginInterceptor;
 import uk.org.woodcraft.bookings.datamodel.CannedReportColumn;
 import uk.org.woodcraft.bookings.datamodel.SkipInCannedReports;
 
 
 public abstract class CannedReportDynamicMethods extends CannedReport {
 
-
+	private static final Log log = LogFactory.getLog (CannedReportDynamicMethods.class);
+	
 	public List<Method> getReportedMethods(CannedReportLabel selectedReport) {
 		ArrayList<Method> reportedMethods = new ArrayList<Method>();
 		
@@ -92,7 +97,15 @@ public abstract class CannedReportDynamicMethods extends CannedReport {
 		for(Method m : reportedMethods)
 		{
 			try {
-				cells.add(m.invoke(data));
+				Object cellResult = null;
+				try {
+					cellResult = m.invoke(data); 
+				} catch(Exception e)
+				{
+					// Ignore exceptions, best effort basis
+					log.error(String.format("Exception thrown accessing method : %s - %s", m.toString(), e.toString()));
+				}
+				cells.add(cellResult);
 			} catch(Exception e)
 			{
 				throw new RuntimeException(e);
