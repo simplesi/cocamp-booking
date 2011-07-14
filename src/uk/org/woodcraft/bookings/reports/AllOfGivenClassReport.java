@@ -1,4 +1,4 @@
-package uk.org.woodcraft.bookings;
+package uk.org.woodcraft.bookings.reports;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uk.org.woodcraft.bookings.CannedReportDynamicMethods;
+import uk.org.woodcraft.bookings.CannedReportLabel;
 import uk.org.woodcraft.bookings.datamodel.AuditRecord;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Organisation;

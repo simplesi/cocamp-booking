@@ -375,9 +375,16 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	
 	public static Collection<Booking> allBookings()
 	{
+		return allBookings(false);
+	}
+	
+	public static Collection<Booking> allBookings(boolean validOnly)
+	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
-		Query query = pm.newQuery(Booking.class);		
+		Query query = pm.newQuery(Booking.class);	
+		if (validOnly)
+			query.setFilter("cancellationDate == null");
 		return queryDetachAndClose(Booking.class, query);
 	}
 	

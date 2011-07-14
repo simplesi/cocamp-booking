@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import uk.org.woodcraft.bookings.persistence.SessionBasedAction;
+import uk.org.woodcraft.bookings.reports.AccountBalancesReport;
+import uk.org.woodcraft.bookings.reports.AllOfGivenClassReport;
+import uk.org.woodcraft.bookings.reports.BookedUnitsReport;
+import uk.org.woodcraft.bookings.reports.GroupedBookingsReport;
 
 public class CannedReportAction extends SessionBasedAction {
 	
@@ -40,6 +44,7 @@ public class CannedReportAction extends SessionBasedAction {
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new BookedUnitsReport()));
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new AllOfGivenClassReport()));
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new AccountBalancesReport(getCurrentEvent())));
+		reports.addAll(CannedReportMapping.buildReportMappingForReport(new GroupedBookingsReport(getCurrentEvent())));
 		return reports;
 	}
 	

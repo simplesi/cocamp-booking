@@ -53,7 +53,7 @@ public abstract class CannedReport {
 		  int currentRow = 0;
 		  int currentColumn = 0;
 		  
-		  List<String> headers = getHeaders(reportedMethods);
+		  List<String> headers = getHeaders(selectedReport, reportedMethods);
 		  
 		  for(String header : headers)
 			try {
@@ -135,7 +135,7 @@ public abstract class CannedReport {
 		  return outputStream.toByteArray();
 	}
 
-	protected abstract List<String> getHeaders(List<Method> reportedMethods);
+	protected abstract List<String> getHeaders(CannedReportLabel selectedReport, List<Method> reportedMethods);
 	protected abstract List<Object> renderRow(List<Method> reportedMethods, Object data);
 
 	protected abstract List<Method> getReportedMethods(CannedReportLabel selectedReport);
