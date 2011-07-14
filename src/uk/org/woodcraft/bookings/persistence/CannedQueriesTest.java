@@ -71,11 +71,20 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 
 	@Test
 	public void testAllOrgs() {
-		Collection<Organisation> allOrgs = CannedQueries.allOrgs(true);
+		Collection<Organisation> allOrgs = CannedQueries.allOrgs(true,false);
+		assertEquals(2, allOrgs.size());
+		assertDetached(allOrgs);
+
+		allOrgs = CannedQueries.allOrgs(true,true);
 		assertEquals(2, allOrgs.size());
 		assertDetached(allOrgs);
 		
-		Collection<Organisation> approvedOrgs = CannedQueries.allOrgs(false);		
+		Collection<Organisation> approvedOrgs = CannedQueries.allOrgs(false,false);		
+		assertEquals(1, approvedOrgs.size());
+		assertEquals("Woodcraft Folk", approvedOrgs.iterator().next().getName());
+		assertDetached(approvedOrgs);
+		
+		approvedOrgs = CannedQueries.allOrgs(false,true);		
 		assertEquals(1, approvedOrgs.size());
 		assertEquals("Woodcraft Folk", approvedOrgs.iterator().next().getName());
 		assertDetached(approvedOrgs);
@@ -106,11 +115,19 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	public void testUnitsForOrg() {
 		Organisation org = CannedQueries.orgByName("Woodcraft Folk");
 		
-		Collection<Unit> units = CannedQueries.unitsForOrg(org, true);
+		Collection<Unit> units = CannedQueries.unitsForOrg(org, true,false);
 		TestUtils.assertNames(units, "Unit 1", "Unit 2", "Unapproved unit for wcf");
 		assertDetached(units);
 
-		Collection<Unit> approvedOnly = CannedQueries.unitsForOrg(org, false);
+		units = CannedQueries.unitsForOrg(org, true,true);
+		TestUtils.assertNames(units, "Unit 1", "Unit 2", "Unapproved unit for wcf");
+		assertDetached(units);
+		
+		Collection<Unit> approvedOnly = CannedQueries.unitsForOrg(org, false,false);
+		TestUtils.assertNames(approvedOnly, "Unit 1", "Unit 2" );
+		assertDetached(approvedOnly);
+
+		approvedOnly = CannedQueries.unitsForOrg(org, false,true);
 		TestUtils.assertNames(approvedOnly, "Unit 1", "Unit 2" );
 		assertDetached(approvedOnly);
 	}
@@ -137,11 +154,20 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 	
 	@Test
 	public void testAllUnits() {
-		Collection<Unit> allUnits = CannedQueries.allUnits(true);
+		Collection<Unit> allUnits = CannedQueries.allUnits(true,false);
 		assertEquals(5, allUnits.size());
 		assertDetached(allUnits);
 		
-		Collection<Unit> approvedUnits = CannedQueries.allUnits(false);		
+		allUnits = CannedQueries.allUnits(true, true);
+		assertEquals(5, allUnits.size());
+		assertDetached(allUnits);
+		
+		Collection<Unit> approvedUnits = CannedQueries.allUnits(false, false);		
+		assertEquals(3, approvedUnits.size());
+		TestUtils.assertNames(approvedUnits, "Unit 1", "Unit 2", "Approved unit in other org");
+		assertDetached(approvedUnits);
+		
+		approvedUnits = CannedQueries.allUnits(false, true);		
 		assertEquals(3, approvedUnits.size());
 		TestUtils.assertNames(approvedUnits, "Unit 1", "Unit 2", "Approved unit in other org");
 		assertDetached(approvedUnits);

@@ -41,7 +41,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 	@SkipValidation
 	public String listAll() {
 		SecurityModel.checkGlobalOperationAllowed(Operation.READ);
-		setModelList(CannedQueries.allUnits(true));
+		setModelList(CannedQueries.allUnits(true, false));
 		return SUCCESS;
 	}
 
@@ -52,7 +52,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 		Organisation org = SessionUtils.getCurrentOrg();
 		
 		SecurityModel.checkAllowed(Operation.READ, org);
-		setModelList(CannedQueries.unitsForOrg(org, true));
+		setModelList(CannedQueries.unitsForOrg(org, true, false));
 		return SUCCESS;
 	}
 	
@@ -82,7 +82,7 @@ public class UnitAction extends BasePersistenceAction<Unit>{
 	
 	public Collection<Organisation> getAllOrgs()
 	{
-		Collection<Organisation> orgs = CannedQueries.allOrgs(false);
+		Collection<Organisation> orgs = CannedQueries.allOrgs(false, false);
 		Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ADDED_ORG);
 		if (userAddedOrg != null) {
 			orgs.add(userAddedOrg);

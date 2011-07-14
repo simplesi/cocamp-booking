@@ -63,7 +63,7 @@ public class SignupAction extends BasePersistenceAction<User>{
 
 	public Collection<Organisation> getAllOrgs()
 	{
-		Collection<Organisation> orgs = CannedQueries.allOrgs(false);
+		Collection<Organisation> orgs = CannedQueries.allOrgs(false, false);
 		Organisation userAddedOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ADDED_ORG);
 		if (userAddedOrg != null) {
 			orgs.add(userAddedOrg);
@@ -77,7 +77,7 @@ public class SignupAction extends BasePersistenceAction<User>{
 		Organisation currentOrg = (Organisation)getSessionObject(SessionConstants.SIGNUP_ORG);
 		
 		Collection<Unit> units = new ArrayList<Unit>();
-		if (currentOrg != null) units = CannedQueries.unitsForOrg(currentOrg.getKey(), false);
+		if (currentOrg != null) units = CannedQueries.unitsForOrg(currentOrg.getKey(), false, false);
 		Unit userAddedUnit = (Unit)getSessionObject(SessionConstants.SIGNUP_ADDED_UNIT);
 		if (userAddedUnit != null && currentOrg != null && userAddedUnit.getOrganisationKey().equals(currentOrg.getKey())) {
 			units.add(userAddedUnit);

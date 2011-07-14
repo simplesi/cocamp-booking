@@ -74,7 +74,7 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 
 	public Collection<Unit> getUnits(boolean includeUnapproved) {
 	
-		return CannedQueries.unitsForOrg(this, includeUnapproved);
+		return CannedQueries.unitsForOrg(this, includeUnapproved, false);
 	}
 	
 	public String toString() {
@@ -83,7 +83,7 @@ public class Organisation extends KeyBasedDataWithContactInfo implements NamedEn
 
 	@Override
 	public String getDeleteConditionError(Clock clock) {
-		Collection<Unit> unitsForOrg = CannedQueries.unitsForOrg(this.getKeyCheckNotNull(), true);
+		Collection<Unit> unitsForOrg = CannedQueries.unitsForOrg(this.getKeyCheckNotNull(), true, false);
 		
 		if (unitsForOrg.size() > 0)
 		{
