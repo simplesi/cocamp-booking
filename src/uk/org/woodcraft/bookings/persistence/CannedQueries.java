@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import uk.org.woodcraft.bookings.datamodel.Booking;
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.KeyBasedData;
+import uk.org.woodcraft.bookings.datamodel.Keyed;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.datamodel.User;
@@ -670,7 +671,9 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 			pm.close();
 		}
 		
-		CacheSupport.cachePut(key, (Serializable) result);
+		if (result instanceof Serializable)
+			CacheSupport.cachePut(key, (Serializable) result);
+		
 		return result;
 	}
 	
@@ -704,8 +707,8 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		for(T object : objectsToSave)
 		{
 			try {
-				if (object instanceof KeyBasedData)
-					CacheSupport.cachePut(((KeyBasedData)object).getKeyCheckNotNull(), (KeyBasedData)object);
+				if (object instanceof Keyed)
+					CacheSupport.cachePut(((Keyed<T>)object).getKey(), (Keyed<T>)object);
 				} 
 			catch(Exception e)
 			{};
@@ -735,8 +738,8 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 			for(Object obj: objectsToDelete)
 			{
 				try{
-				if (obj instanceof KeyBasedData)
-					CacheSupport.cacheDelete(((KeyBasedData)obj).getKeyCheckNotNull());
+				if (obj instanceof Keyed)
+					CacheSupport.cacheDelete(((Keyed)obj).getKey());
 				} catch(Exception e)
 				{}
 			}
