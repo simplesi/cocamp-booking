@@ -168,6 +168,36 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 		return AgeGroup.groupFor(age);
 	}
 
+	/**
+	 * Age as of the first day of the event
+	 * 
+	 * @return
+	 */
+	public int getAge() {
+		if (this.dob == null)
+			return -1;
+
+		Event event = CannedQueries.eventByKey(eventKey);
+		if (event == null)
+			return -1;
+
+		int age = DateUtils.ageOnDay(dob, event.getPublicEventStart());
+
+		return age;
+	}
+	
+	/**
+	 * Are they over 18 on the first day?
+	 * 
+	 * @return
+	 */
+	public Boolean getOver18() {
+		if (getAge() >= 18) 
+			return Boolean.TRUE;
+		else
+			return Boolean.FALSE;
+	}
+	
 	@EmailValidator(type = ValidatorType.FIELD, message = "Email is required")
 	public String getEmail() {
 		if (email == null)
