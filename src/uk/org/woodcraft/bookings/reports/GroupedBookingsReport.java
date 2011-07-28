@@ -31,7 +31,9 @@ public class GroupedBookingsReport extends CannedReport {
 		GroupedReports.put("Bookings count by org, unit, village", Arrays.asList(new OrgTransformer(), new UnitTransformer(), new VillageTransformer()));
 		GroupedReports.put("Bookings count by village", Arrays.asList(new VillageTransformer()));
 		GroupedReports.put("Bookings count by village, age", Arrays.asList(new VillageTransformer(),new AgeTransformer()));
+		GroupedReports.put("Bookings count by day", Arrays.asList(new AllDatesAtEventTransformer()));
 		GroupedReports.put("Bookings count by day, village, age", Arrays.asList(new AllDatesAtEventTransformer(), new VillageTransformer(), new AgeTransformer()));
+		GroupedReports.put("Bookings count by day, village", Arrays.asList(new AllDatesAtEventTransformer(), new VillageTransformer()));
 		GroupedReports.put("Bookings count by village, diet", Arrays.asList(new VillageTransformer(), new DietTransformer()));
 		GroupedReports.put("Bookings count by day, village, diet", Arrays.asList(new AllDatesAtEventTransformer(), new VillageTransformer(), new DietTransformer()));
 	}
