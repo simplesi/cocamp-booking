@@ -29,6 +29,8 @@ import com.opensymphony.xwork2.validator.annotations.ValidatorType;
 public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 		DeleteRestricted, ValidatableModelObject, Comparable<Booking> {
 
+	
+	
 	private static final long serialVersionUID = 1L;
 
 	@Persistent
@@ -42,6 +44,8 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 
 	@Persistent
 	private Date dob;
+	
+	private Integer age;
 
 	@Persistent
 	private Email email;
@@ -155,7 +159,9 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	 * 
 	 * @return
 	 */
+	
 	public AgeGroup getAgeGroup() {
+
 		if (this.dob == null)
 			return AgeGroup.Unknown;
 
@@ -163,9 +169,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 		if (event == null)
 			return AgeGroup.Unknown;
 
-		int age = DateUtils.ageOnDay(dob, event.getPublicEventStart());
-
-		return AgeGroup.groupFor(age);
+		return AgeGroup.groupFor(getAge());
 	}
 
 	/**
@@ -173,7 +177,10 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	 * 
 	 * @return
 	 */
-	public int getAge() {
+	@SkipInCannedReports
+	private int getAge() {
+		if (age != null && age != -1) return age;
+		
 		if (this.dob == null)
 			return -1;
 
@@ -181,8 +188,8 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 		if (event == null)
 			return -1;
 
-		int age = DateUtils.ageOnDay(dob, event.getPublicEventStart());
-
+		age = DateUtils.ageOnDay(dob, event.getPublicEventStart());
+		
 		return age;
 	}
 	
@@ -191,6 +198,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	 * 
 	 * @return
 	 */
+	@SkipInCannedReports
 	public Boolean getOver18() {
 		if (getAge() >= 18) 
 			return Boolean.TRUE;
