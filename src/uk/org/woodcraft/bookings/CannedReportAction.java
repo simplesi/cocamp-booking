@@ -43,6 +43,7 @@ public class CannedReportAction extends SessionBasedAction {
 		
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new BookedUnitsReport()));
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new AllOfGivenClassReport()));
+		reports.addAll(CannedReportMapping.buildReportMappingForReport(new RegistrationReport()));
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new AccountBalancesReport(getCurrentEvent())));
 		reports.addAll(CannedReportMapping.buildReportMappingForReport(new GroupedBookingsReport(getCurrentEvent())));
 		return reports;

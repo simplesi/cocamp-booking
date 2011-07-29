@@ -158,8 +158,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	 * Age group as of the first day of the event
 	 * 
 	 * @return
-	 */
-	
+	 */	
 	public AgeGroup getAgeGroup() {
 
 		if (this.dob == null)
@@ -198,7 +197,6 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	 * 
 	 * @return
 	 */
-	@SkipInCannedReports
 	public Boolean getOver18() {
 		if (getAge() >= 18) 
 			return Boolean.TRUE;
