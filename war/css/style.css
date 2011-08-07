@@ -511,8 +511,6 @@ div.helpcolumn
 	width: 24em;
 }
 
-
-
 /* 
  * print styles
  * inlined to avoid required HTTP connection www.phpied.com/delay-loading-your-print-css/ 
@@ -520,7 +518,20 @@ div.helpcolumn
 @media print {
   * { background: transparent !important; color: #444 !important; text-shadow: none; }
 
+  header {display: none}
+  footer {display: none}
+  div#headerinner, div#menu, div#loggedinas, div#footerInner { display: none }
+  .printhide {display: none }
+  #printhide {display: none }  
+  div.loggedinas {display: none }
+  div#userbar {border: none}
+  #switch_Go {display: none; visibility: false}
+
+  div#content { width: 92%}
+ #userbar {float: left}
+	
   a, a:visited { color: #444 !important; text-decoration: underline; }
+  
 
   a:after { content: " (" attr(href) ")"; } 
 
@@ -532,7 +543,7 @@ div.helpcolumn
   
   img { page-break-inside: avoid; }
 
-  @page { margin: 0.5cm; }
+  /*@page { margin: 0.5cm; }*/
 
   p, h2, h3 { orphans: 3; widows: 3; }
 

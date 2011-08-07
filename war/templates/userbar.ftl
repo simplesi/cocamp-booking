@@ -36,8 +36,10 @@
 	  </@s.form>
 	 </@s.bean>
 
+	<div class="loggedinas">
  	<@s.url action="profile" namespace="/user" id="profileURL" />
 	<a href="${profileURL}" title="Currently logged in as ${Session.USER.name}">${Session.USER.name}</a>
+	</div>
 </div>
 </#if>
 

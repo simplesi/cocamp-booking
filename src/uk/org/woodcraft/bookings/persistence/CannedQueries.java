@@ -646,7 +646,6 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(clazz);
-		
 		return queryDetachAndClose(clazz, query, true);
 	}
 	
@@ -659,7 +658,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 		if (result != null) return result;
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
+
 		try {
 			result = pm.getObjectById(clazz, key);
 			result = pm.detachCopy(result);

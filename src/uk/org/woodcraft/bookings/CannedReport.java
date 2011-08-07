@@ -86,15 +86,11 @@ public abstract class CannedReport {
 				  
 					 if (cellData instanceof NamedEntity)
 						 cellData = ((NamedEntity)cellData).getName();
-					 
-					 if (cellData instanceof Text)
+					 else if (cellData instanceof Text)
 						 cellData = ((Text)cellData).getValue();
 					 
-					 if (cellData instanceof Email)
+					 else if (cellData instanceof Email)
 						 cellData = ((Email)cellData).getEmail();
-					 
-					 
-					 
 					 
 					 if (cellData instanceof Number)
 					 {
