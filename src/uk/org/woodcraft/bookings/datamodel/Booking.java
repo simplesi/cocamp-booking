@@ -197,6 +197,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	 * 
 	 * @return
 	 */
+	@SkipInCannedReports
 	public Boolean getOver18() {
 		if (getAge() >= 18) 
 			return Boolean.TRUE;

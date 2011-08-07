@@ -1,7 +1,7 @@
 <#assign pagetitle = 'Accounts'>
 
 <#include "/templates/header.ftl">
-<h2>Accounts</h2>
+<h2>Accounts - ${Session.CURRENT_UNIT.name}</h2>
 <p>This is your current statement of accounts, listing costs for the bookings you have made, and any payments received for your ${viewLevel}.</p>
 <br/>
 <br/>
