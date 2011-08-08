@@ -3,6 +3,7 @@
 <#include "/templates/header.ftl">
 <h2>Accounts - ${Session.CURRENT_UNIT.name}</h2>
 <p>This is your current statement of accounts, listing costs for the bookings you have made, and any payments received for your ${viewLevel}.</p>
+<p>Please ensure that any outstanding balance is paid before the end of Camp. You can do this by visiting the CoCamp office.</p>
 <br/>
 <br/>
 <h3>Costs</h3>
