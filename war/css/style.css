@@ -526,7 +526,7 @@ div.helpcolumn
   div.loggedinas {display: none }
   div#userbar {border: none}
   #switch_Go {display: none; visibility: false}
-
+  #wwctrl_switch_navUnitKey{ margin-right:10em}
   div#content { width: 92%}
  #userbar {float: left}
 	
