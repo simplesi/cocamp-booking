@@ -64,7 +64,7 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		{
 			setModel(CannedQueries.bookingByKey(key));
 		} else {
-			setModel(new Booking(getCurrentUnit(), getCurrentEvent()));
+			setModel(Booking.create(getCurrentUnit(), getCurrentEvent()));
 		}
 	}
 	

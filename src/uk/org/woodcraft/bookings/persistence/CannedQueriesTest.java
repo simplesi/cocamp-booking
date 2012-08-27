@@ -246,7 +246,7 @@ public class CannedQueriesTest extends BaseFixtureTestCase{
 		for(Unit unit : testUnits)
 		{
 			String bookingName = "Test Booking "+unitNumber++;
-			testBookings.add(new Booking(bookingName, unit, event1, clock));
+			testBookings.add(Booking.create(bookingName, unit, event1, clock));
 			testNames.add(bookingName);
 		}
 		CannedQueries.save(testBookings);

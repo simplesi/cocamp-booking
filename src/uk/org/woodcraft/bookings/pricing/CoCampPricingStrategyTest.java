@@ -33,17 +33,17 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		
 		TestClock testClock = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
 		
-		Booking regularBooking = new Booking(testUnit, cocamp, testClock);
+		Booking regularBooking = Booking.create(testUnit, cocamp, testClock);
 		regularBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		regularBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
 		assertEquals("Regular bookings are 150", 150d, pricer.priceOf(regularBooking), 0);
 		
-		Booking bookingWithPreAndPostCamp = new Booking(testUnit, cocamp, testClock);
+		Booking bookingWithPreAndPostCamp = Booking.create(testUnit, cocamp, testClock);
 		bookingWithPreAndPostCamp.setArrivalDate(DateUtils.getDate(2011, 6, 20));
 		bookingWithPreAndPostCamp.setDepartureDate(DateUtils.getDate(2011, 7, 15));
 		assertEquals("Bookings capped at 150 including pre and post camp", 150d, pricer.priceOf(bookingWithPreAndPostCamp), 0);
 		
-		Booking booking = new Booking(testUnit, cocamp, testClock);
+		Booking booking = Booking.create(testUnit, cocamp, testClock);
 		booking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		booking.setDepartureDate(DateUtils.getDate(2011, 6, 31));
 		assertEquals("1 night", 35 + 15d, pricer.priceOf(booking), 0);
@@ -58,20 +58,20 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		
 		
 		Clock clockAfterDeadline = new TestClock(TestConstants.DATE_AFTER_DEADLINE);	
-		Booking lateBooking = new Booking(testUnit,cocamp, clockAfterDeadline);
+		Booking lateBooking = Booking.create(testUnit,cocamp, clockAfterDeadline);
 		lateBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		lateBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
 		
 		assertEquals("Bookings after the deadline cost more", 175d, pricer.priceOf(lateBooking), 0);
 
-		Booking lateUpdatedBooking = new Booking(testUnit,cocamp, testClock);
+		Booking lateUpdatedBooking = Booking.create(testUnit,cocamp, testClock);
 		lateUpdatedBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		lateUpdatedBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
 		lateUpdatedBooking.setBookingUnlockDate(TestConstants.DATE_AFTER_DEADLINE);
 		
 		assertEquals("Bookings unlocked for updating after the deadline cost more", 175d, pricer.priceOf(lateUpdatedBooking), 0);
 		
-		Booking woodchipBooking = new Booking(testUnit, cocamp, testClock);
+		Booking woodchipBooking = Booking.create(testUnit, cocamp, testClock);
 		woodchipBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		woodchipBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
 		woodchipBooking.setDob(DateUtils.getDate(2005, 6, 30)); // Latest possible date to be 5 at start of camp
@@ -80,7 +80,7 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		woodchipBooking.setDob(DateUtils.getDate(2005, 6, 31)); // Latest possible date to be 5 at start of camp
 		assertEquals("Woodchips are free", 0d, pricer.priceOf(woodchipBooking), 0);
 		
-		Booking missingDOBBooking = new Booking(testUnit, cocamp, testClock);
+		Booking missingDOBBooking = Booking.create(testUnit, cocamp, testClock);
 		missingDOBBooking.setDob(null); 
 		assertEquals("Those without a DOB are regular price", 150d, pricer.priceOf(missingDOBBooking), 0);
 		
@@ -98,7 +98,7 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		
 		TestClock testClock = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
 		
-		Booking regularBooking = new Booking(testUnit, cocamp, testClock);
+		Booking regularBooking = Booking.create(testUnit, cocamp, testClock);
 		regularBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		regularBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
 		assertEquals("Regular bookings are 150", 150d, pricer.priceOf(regularBooking), 0);
@@ -113,7 +113,7 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		regularBooking.setDepartureDate(DateUtils.getDate(2011, 7, 1));
 		assertEquals("Cancelled bookings which cost less than £75 are capped at their cost if cancelled after the deadline are £75", 65d, pricer.priceOf(regularBooking), 0);
 		
-		Booking woodchipBooking = new Booking(testUnit, cocamp, testClock);
+		Booking woodchipBooking = Booking.create(testUnit, cocamp, testClock);
 		woodchipBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		woodchipBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));	
 		woodchipBooking.setDob(DateUtils.getDate(2005, 6, 31)); // Latest possible date to be 5 at start of camp
