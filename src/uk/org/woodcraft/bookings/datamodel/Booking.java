@@ -117,11 +117,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 		// For JDO
 	}
 
-	public Booking(Unit unit, Event event) {
-		this(unit, event, new SystemClock());
-	}
-
-	public Booking(Unit unit, Event event, Clock clock) {
+	private Booking(Unit unit, Event event, Clock clock) {
 		this.unitKey = unit.getKeyCheckNotNull();
 
 		// Grab the default village from the unit, if it's set
@@ -135,12 +131,12 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 		this.departureDate = event.getPublicEventEnd();
 
 		this.bookingCreationDate = clock.getTime();
-		updateFee();
 	}
 
-	public Booking(String name, Unit unit, Event event, Clock clock) {
+	private Booking(String name, Unit unit, Event event, Clock clock) {
 		this(unit, event, clock);
-		this.name = name;
+		
+		if (name != null) this.name = name;
 	}
 
 	@DateRangeFieldValidator(type = ValidatorType.FIELD, min = "1900/01/01", message = "Valid date of birth required")
@@ -453,5 +449,21 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 
 	public String getMyVillageUsername() {
 		return myVillageUsername;
+	}
+	
+	public static final Booking create(String name, Unit unit, Event event, Clock clock) {
+		Booking booking = new Booking(name, unit, event, clock);
+		
+		// Must be done after construction as requires a reference to the object itself.
+		booking.updateFee();
+		return booking;
+	}
+	
+	public static final Booking create(Unit unit, Event event, Clock clock) {
+		return create(null, unit, event, clock);
+	}
+	
+	public static final Booking create(Unit unit, Event event) {
+		return create(unit, event, new SystemClock());
 	}
 }

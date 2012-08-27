@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.codec.base64.Base64;
+
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
 import uk.org.woodcraft.bookings.datamodel.Booking;
@@ -14,7 +16,6 @@ import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.repackaged.com.google.common.util.Base64;
 
 public class UnitVillageMappingAction extends SessionBasedAction{
 
@@ -37,7 +38,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 		map.clear();
 		for(Unit unit : CannedQueries.allUnits(false, false))
 		{
-			map.put(Base64.encode(unit.getWebKey().getBytes()), unit.getVillageWebKey());
+			map.put(Base64.encode(unit.getWebKey()), unit.getVillageWebKey());
 		}
 	}
 	

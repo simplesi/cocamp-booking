@@ -84,7 +84,7 @@ public class BulkBookingParser {
 			Date dateArrival 	= getDate(sheet, row, COL_DATE_ARRIVAL);
 			Date dateDeparture 	= getDate(sheet, row, COL_DATE_DEPARTURE);
 			
-			Booking booking = new Booking(name, unit, event, clock);
+			Booking booking = Booking.create(name, unit, event, clock);
 			booking.setDob(dob);
 			booking.setEmail(email);
 			booking.setPhoneNumber(phone);

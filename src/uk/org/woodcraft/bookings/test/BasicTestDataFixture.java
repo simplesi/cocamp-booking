@@ -99,21 +99,21 @@ public class BasicTestDataFixture extends TestFixture {
 			List<Booking> bookings = new ArrayList<Booking>();
 			
 			// Before earlybird deadline
-			Booking b = new Booking("Test person", unit1, event1, testClock);
+			Booking b = Booking.create("Test person", unit1, event1, testClock);
 			b.setEmail("email@example.com");
 			bookings.add(b);
 			
-			bookings.add(new Booking("Test person 2", unit1, event1,testClock));
-			bookings.add(new Booking("Test person in unit 2", unit2, event1,testClock));
-			bookings.add(new Booking("Second person in unit 2", unit2, event1,testClock));
+			bookings.add(Booking.create("Test person 2", unit1, event1,testClock));
+			bookings.add(Booking.create("Test person in unit 2", unit2, event1,testClock));
+			bookings.add(Booking.create("Second person in unit 2", unit2, event1,testClock));
 			
-			bookings.add(new Booking("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
-			bookings.add(new Booking("Person in other org", otherOrgUnit2, event1, testClock));
-			bookings.add(new Booking("Test person in other event", unit1, events.get(1), testClock));
+			bookings.add(Booking.create("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
+			bookings.add(Booking.create("Person in other org", otherOrgUnit2, event1, testClock));
+			bookings.add(Booking.create("Test person in other event", unit1, events.get(1), testClock));
 			
 			// After earlybird deadline
 			TestClock afterEarlyBird = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
-			bookings.add(new Booking("Person booked after earlybird", unit1, event1, afterEarlyBird));
+			bookings.add(Booking.create("Person booked after earlybird", unit1, event1, afterEarlyBird));
 			pm.makePersistentAll(bookings);
 			
 			

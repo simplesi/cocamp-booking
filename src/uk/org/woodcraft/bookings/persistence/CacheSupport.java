@@ -58,7 +58,7 @@ public class CacheSupport {
 				localcache.put(id, o);
 				memcache.put(id, o);
 			}
-			//log.debug("Added to cache "+id);
+		//	log.debug("Added to cache "+id);
 		}
 		catch (MemcacheServiceException e) {
 			// nothing can be done.
@@ -66,5 +66,13 @@ public class CacheSupport {
 	}
 	public static void cachePut(Object id, Serializable o){
 		cachePutExp(id, o, 0);
+	}
+	
+	/**
+	 *  Flush the cache of everything - for use with testing
+	 */
+	public static void flush(){
+		localcache.clear();
+		log.debug("Cache flushed");
 	}
 }
