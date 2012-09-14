@@ -10,7 +10,8 @@
 <li>5)Have your account approved by an administrator</li>
 </ol>
 </div>
-<p>An email has been sent to your given e-mail address. Please click the confirmation link in that email, or enter the confirmation code below:</p>
+<p>An email has been sent to your given e-mail address.</p>
+<p>Please click the confirmation link in that email, or enter the confirmation code below:</p>
 
 <@s.actionmessage/>
 <@s.actionerror/>
