@@ -30,7 +30,8 @@ public class BookedUnitsReportTest extends BaseFixtureTestCase{
 			System.out.print(header + "\",\"");
 		*/
 		String[] expectedHeaders = {"Name","Organisation","Email","Phone","Address","NotesString",
-				"EstimateWoodchip","EstimateElfin","EstimatePioneer","EstimateVenturer","EstimateDF",
+				//"EstimateWoodchip","EstimateElfin","EstimatePioneer",
+				"EstimateVenturer","EstimateDF",
 				"EstimateAdult","EquipmentKitchen","EquipmentTables","EquipmentBenches","EquipmentLighting",
 				"EquipmentOther","CanvasMarquee","CanvasKitchen","CanvasStore","CanvasOther","LargeCanvasTown",
 				"LargeCanvasActivity","LargeCanvasCafe","LargeCanvasOther","VillagePartner","Delegation","Key", "Village", "VillageWebKey"};

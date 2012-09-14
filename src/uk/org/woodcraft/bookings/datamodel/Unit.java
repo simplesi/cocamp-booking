@@ -70,15 +70,15 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 			Estimate: how many Adults will your district bring to camp?
 */
 	
-	@Persistent
-	private int estimateWoodchip=0;
-	
-	@Persistent
-	private int estimateElfin=0;
-	
-	@Persistent
-	private int estimatePioneer=0;
-	
+//	@Persistent
+//	private int estimateWoodchip=0;
+//	
+//	@Persistent
+//	private int estimateElfin=0;
+//	
+//	@Persistent
+//	private int estimatePioneer=0;
+//	
 	@Persistent
 	private int estimateVenturer=0;
 	
@@ -253,35 +253,35 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		return errors;
 	}
 
-	@CannedReportColumn(priority = 31)
-	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
-	public int getEstimateWoodchip() {
-		return estimateWoodchip;
-	}
-
-	public void setEstimateWoodchip(int estimateWoodchip) {
-		this.estimateWoodchip = estimateWoodchip;
-	}
-
-	@CannedReportColumn(priority = 32)
-	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
-	public int getEstimateElfin() {
-		return estimateElfin;
-	}
-
-	public void setEstimateElfin(int estimateElfin) {
-		this.estimateElfin = estimateElfin;
-	}
-
-	@CannedReportColumn(priority = 33)
-	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
-	public int getEstimatePioneer() {
-		return estimatePioneer;
-	}
-
-	public void setEstimatePioneer(int estimatePioneer) {
-		this.estimatePioneer = estimatePioneer;
-	}
+//	@CannedReportColumn(priority = 31)
+//	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
+//	public int getEstimateWoodchip() {
+//		return estimateWoodchip;
+//	}
+//
+//	public void setEstimateWoodchip(int estimateWoodchip) {
+//		this.estimateWoodchip = estimateWoodchip;
+//	}
+//
+//	@CannedReportColumn(priority = 32)
+//	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
+//	public int getEstimateElfin() {
+//		return estimateElfin;
+//	}
+//
+//	public void setEstimateElfin(int estimateElfin) {
+//		this.estimateElfin = estimateElfin;
+//	}
+//
+//	@CannedReportColumn(priority = 33)
+//	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
+//	public int getEstimatePioneer() {
+//		return estimatePioneer;
+//	}
+//
+//	public void setEstimatePioneer(int estimatePioneer) {
+//		this.estimatePioneer = estimatePioneer;
+//	}
 
 	@CannedReportColumn(priority = 34)
 	@IntRangeFieldValidator(type = ValidatorType.FIELD, min = "0", max = "99", message = "Please enter a number between 0 and 99")
