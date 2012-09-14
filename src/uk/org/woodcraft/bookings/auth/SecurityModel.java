@@ -119,7 +119,7 @@ public class SecurityModel {
 	{
 		if(! Configuration.get().getBooleanProperty("isDev"))
 		{
-			throw new SecurityException("This action can only be performed on a development intance");
+			throw new SecurityException("This action can only be performed on a development instance");
 		}
 	}
 }

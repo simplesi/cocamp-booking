@@ -27,6 +27,7 @@
 <@s.actionerror/>
 
 <p>Internal Start and End are the earliest and latest event booking dates, for working weeks, etc.</p>
+<@s.bean name="uk.org.woodcraft.bookings.BookingDataProvider" var="bookingData">
 <@s.form id="event" method="post">
     <@s.push value="model">
         <@s.hidden name="webKey"/>
@@ -41,14 +42,14 @@
         <@s.textfield name="bookingAmendmentDeadline" value="%{getText('format.date',{bookingAmendmentDeadline})}" label="Amendment deadline"/>
         <@s.textfield name="bookingSystemLocked" value="%{getText('format.date',{bookingSystemLocked})}" label="Booking system locked"/>
         
-        <@s.select label="Pricing algorithm" name="pricingStrategyString" list="pricingStrategies" listValue="DisplayName" />
+        <@s.select label="Pricing algorithm" name="registeredPricingStrategyString" list="pricingStrategies" listValue="DisplayName" />
         
         <@s.checkbox name="isCurrentlyOpen" label="Is open for bookings"/>
         <@s.submit name="Save" value="Save" action="saveEvent"/>
         <@s.submit value="Cancel" action="cancelEditEvent"/>
     </@s.push>
 </@s.form>
-
+</@s.bean>
 
   
 

@@ -86,10 +86,10 @@ public class PendingAdminActions extends SessionBasedAction {
 	
 	private void emailUserToNotifyApproved(User user)
 	{
-		String subject = "Co-Camp Booking - Account approved";
-		String body = "Your access to CoCamp bookings has now been approved, and you can book people in to the event. \n\n" 
+		String subject = "Woodcraft Folk Bookings - Account approved";
+		String body = "Your access to Woodcraft Folk bookings has now been approved, and you can book people in to events. \n\n" 
 					+ "You can visit the booking system here : " + Configuration.get().getProperty("baseurl")
-					+ "\n\nThanks,The Co-Camp Team";
+					+ "\n\nThanks,The Bookings Team";
 		System.out.println(body);
 		EmailUtils.emailUser(user, subject, body);
 	}

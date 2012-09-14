@@ -88,8 +88,8 @@ This information should be as accurate as possible, details cannot be changed af
 		<#if !isEditable>
 		<p>
 		<h3>Booking locked</h3>
-		The booking ammendment deadline for this event has passed, and so bookings cannot be edited.
-		If you need to change this booking, you can unlock it for editing for 24 hours - which will incur the ammendment fee for this booking, as per the event's booking policy.</p>
+		The booking amendment deadline for this event has passed, and so bookings cannot be edited.
+		If you need to change this booking, you can unlock it for editing for 24 hours - which will incur the amendment fee for this booking, as per the event's booking policy.</p>
 		<@s.submit value="Unlock Booking" action="unlockBooking"/>
 		</#if>
 	</@s.push>
