@@ -11,6 +11,7 @@ import uk.org.woodcraft.bookings.datamodel.KeyBasedDataWithAuditTest;
 import uk.org.woodcraft.bookings.datamodel.UserTest;
 import uk.org.woodcraft.bookings.persistence.CannedQueriesTest;
 import uk.org.woodcraft.bookings.pricing.CoCampPricingStrategyTest;
+import uk.org.woodcraft.bookings.pricing.VenturerCampPricingStrategyTest;
 import uk.org.woodcraft.bookings.test.FixtureTest;
 import uk.org.woodcraft.bookings.test.LocalDatastoreTest;
 import uk.org.woodcraft.bookings.test.TestUtilsTest;
@@ -31,6 +32,7 @@ import uk.org.woodcraft.bookings.utils.DateUtilsTest;
         KeyBasedDataTest.class,
         KeyBasedDataWithAuditTest.class,
         CoCampPricingStrategyTest.class,
+        VenturerCampPricingStrategyTest.class,
      //   UpgradeDataActionTest.class,
         AgeGroupTest.class,
         ApplyCoCampDiscountActionTest.class,

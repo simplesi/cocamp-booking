@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.persistence.PMF;
+import uk.org.woodcraft.bookings.pricing.RegisteredPricingStrategy;
 import uk.org.woodcraft.bookings.utils.DateUtils;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
@@ -37,7 +38,7 @@ public class LocalDatastoreTest {
     public void testPersistEvent() {
     	
     	PersistenceManager pm = PMF.get().getPersistenceManager();
-		Event e1 = new Event("Test event", DateUtils.getDate(2011, 1, 1), DateUtils.getDate(2011, 1, 10), true);
+		Event e1 = new Event("Test event", DateUtils.getDate(2011, 1, 1), DateUtils.getDate(2011, 1, 10), true, RegisteredPricingStrategy.COCAMP);
 		pm.makePersistent(e1);
 		
 		Event retrieved = (Event) pm.getObjectById(Event.class, e1.getKey() );

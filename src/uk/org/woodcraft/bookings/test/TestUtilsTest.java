@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.NamedEntity;
+import uk.org.woodcraft.bookings.pricing.RegisteredPricingStrategy;
 
 public class TestUtilsTest {
 
@@ -20,8 +21,8 @@ public class TestUtilsTest {
 		
 		
 		List<NamedEntity> events = new ArrayList<NamedEntity>();
-		events.add(new Event("test1", null, null, false));
-		events.add(new Event("test2", null, null, false));
+		events.add(new Event("test1", null, null, false, RegisteredPricingStrategy.COCAMP));
+		events.add(new Event("test2", null, null, false, RegisteredPricingStrategy.COCAMP));
 		
 		TestUtils.assertNames(events, "test1", "test2");
 		

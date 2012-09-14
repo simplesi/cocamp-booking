@@ -315,7 +315,8 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	}
 
 	public void updateFee() {
-		PricingStrategy pricer = PricingFactory.getPricingStrategy();
+		Event event = CannedQueries.eventByKey(eventKey);
+		PricingStrategy pricer = PricingFactory.getPricingStrategy(event);
 		setFee(pricer.priceOf(this));
 	}
 

@@ -10,6 +10,7 @@ import javax.jdo.annotations.Persistent;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.ValidatableModelObject;
+import uk.org.woodcraft.bookings.pricing.RegisteredPricingStrategy;
 import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.DateUtils;
 
@@ -38,9 +39,11 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 	@Persistent
 	private Date bookingDeadline; 			// Lose deposit after this point
 	@Persistent
-	private Date bookingAmmendmentDeadline; // Fee to change booking after this point
+	private Date bookingAmendmentDeadline; // Fee to change booking after this point
 	@Persistent
 	private Date bookingSystemLocked; 		// Absolutely no changes whatsoever after this point
+	
+	private RegisteredPricingStrategy pricingStrategy; // How this event is priced
 	
 	/**
 	 * Is the event currently open for booking?
@@ -51,11 +54,12 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 	public Event() {
 	}
 	
-	public Event(String name, Date from, Date to, boolean isCurrentlyOpen) {
+	public Event(String name, Date from, Date to, boolean isCurrentlyOpen, RegisteredPricingStrategy strategy) {
 		this.name = name;
 		setPublicEventStart(from);
 		setPublicEventEnd(to);
 		this.isCurrentlyOpen = isCurrentlyOpen;
+		this.pricingStrategy = strategy;
 	}
 	
 	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Start date must be provided")
@@ -176,13 +180,13 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		this.bookingDeadline = bookingDeadline;
 	}
 
-	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Booking ammendment deadline must be provided")
-	public Date getBookingAmmendmentDeadline() {
-		return bookingAmmendmentDeadline;
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Booking amendment deadline must be provided")
+	public Date getBookingAmendmentDeadline() {
+		return bookingAmendmentDeadline;
 	}
 
-	public void setBookingAmmendmentDeadline(Date bookingAmmendementDeadline) {
-		this.bookingAmmendmentDeadline = bookingAmmendementDeadline;
+	public void setBookingAmendmentDeadline(Date bookingAmendementDeadline) {
+		this.bookingAmendmentDeadline = bookingAmendementDeadline;
 	}
 
 	
@@ -193,5 +197,26 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 
 	public void setBookingSystemLocked(Date bookingSystemLocked) {
 		this.bookingSystemLocked = bookingSystemLocked;
+	}
+	
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "A pricing algorithm must be selected")
+	public String getRegisteredPricingStrategyString()
+	{
+		return pricingStrategy.name();
+	}
+	
+	public void setRegisteredPricingStrategyString(String strategyName)
+	{
+		pricingStrategy = RegisteredPricingStrategy.valueOf(strategyName);
+	}
+	
+	public void setRegisteredPricingStrategy(RegisteredPricingStrategy pricingStrategy)
+	{
+		this.pricingStrategy = pricingStrategy;
+	}
+	
+	public RegisteredPricingStrategy getRegisteredPricingStrategy()
+	{
+		return pricingStrategy;
 	}
 }

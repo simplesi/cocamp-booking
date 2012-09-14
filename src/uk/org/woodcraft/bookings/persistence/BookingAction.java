@@ -139,13 +139,13 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 		
 		// TODO: This can potentially end up displaying a date in the past for "This booking can be edited until..."
 		//  	 If this is a new booking after the deadline. Need to better handle that case.
-		return getCurrentEvent().getBookingAmmendmentDeadline();	
+		return getCurrentEvent().getBookingAmendmentDeadline();	
 	}
 	
 	public boolean getIsEditable() {
 		if (getModel().getKey() == null) return true;
 		
-		if (getCurrentTime().before(getCurrentEvent().getBookingAmmendmentDeadline()) ) return true;
+		if (getCurrentTime().before(getCurrentEvent().getBookingAmendmentDeadline()) ) return true;
 		if (getCurrentTime().after(getCurrentEvent().getBookingSystemLocked()) ) return false;
 		
 		
