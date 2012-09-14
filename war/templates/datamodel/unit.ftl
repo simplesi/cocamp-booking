@@ -28,9 +28,9 @@
         
         <h3>Estimate of numbers</h3>
         <p>How may of each of the following will you bring to camp? These numbers are not binding, but please try to be as accurate as possible to help our planning.</p>       
-        <@s.textfield name="estimateWoodchip" 	label="Woodchips"/>
-        <@s.textfield name="estimateElfin" 		label="Elfins"/>
-        <@s.textfield name="estimatePioneer" 	label="Pioneers"/>
+        <!-- @s.textfield name="estimateWoodchip" 	label="Woodchips"/>
+        <!-- @s.textfield name="estimateElfin" 		label="Elfins"/>
+        <!-- @s.textfield name="estimatePioneer" 	label="Pioneers"/>
         <@s.textfield name="estimateVenturer" 	label="Venturers"/>
         <@s.textfield name="estimateDF" 		label="DFs"/>
         <@s.textfield name="estimateAdult" 		label="Adults"/>
@@ -51,15 +51,15 @@
     	<@s.textarea name="canvasOther" 	label="Other canvas offers for village"/>
  
  		<h3>Shared large canvas</h3>
- 		<p>What large canvas can your unit offer (for use in town centre, etc)?</p>
- 		<@s.checkbox name="largeCanvasTown" 		label="Town marquee (for approx 500 people)"/>
+ 		<p>What large canvas can your unit offer (for use centrally)?</p>
+ 		<@s.checkbox name="largeCanvasTown" 		label="Main marquee (for approx 700 people)"/>
  		<@s.checkbox name="largeCanvasActivity" 	label="Activity marquee"/>
  		<@s.checkbox name="largeCanvasCafe" 		label="Cafe marquee"/>
  		<@s.textarea name="largeCanvasOther" 		label="Other large canvas offers for event"/>
 	
 		<h3>Partners and hosting</h3>
 		<@s.textfield name="villagePartner" 	label="Is there another district you would like to be in a village with - if so, who?"/>
-		<@s.textarea name="delegation" 			label="Do you have a delegation in mind that you wish to host?"/>	
+		<@s.textarea name="delegation" 			label="Do you have a delegation in mind that you wish to host? This could be international or from another organisation in this country."/>	
 	
         <@s.submit name="Save" value="Save" action="saveUnit"></@s.submit>
         <@s.submit value="Cancel" action="cancelEditUnit"/>
