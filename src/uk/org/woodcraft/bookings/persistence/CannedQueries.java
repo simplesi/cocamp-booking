@@ -629,7 +629,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	
 	public static Collection<User> allUnapprovedUsers()
 	{
-		return allUsers(null, null, false);
+		return allUsers(null, null, true);
 	}
 	
 	public static Collection<User> allUsersForOrg(Organisation org)
