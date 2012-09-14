@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
 import uk.org.woodcraft.bookings.persistence.CoreData;
+import uk.org.woodcraft.bookings.pricing.RegisteredPricingStrategy;
 import uk.org.woodcraft.bookings.test.BaseAppEngineTestCase;
 import uk.org.woodcraft.bookings.test.TestConstants;
 
@@ -17,7 +18,7 @@ public class KeyBasedDataWithAuditTest extends BaseAppEngineTestCase {
 
 	@Test
 	public void testAuditRecord() {
-		Event event = new Event("name", TestConstants.EVENT1_START, TestConstants.EVENT1_END, false);
+		Event event = new Event("name", TestConstants.EVENT1_START, TestConstants.EVENT1_END, false, RegisteredPricingStrategy.COCAMP);
 		
 		assertNull(event.getCreateTime());
 		assertNull(event.getCreatorUserKey());

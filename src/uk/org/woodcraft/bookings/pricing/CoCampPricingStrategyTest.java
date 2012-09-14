@@ -57,7 +57,7 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		assertEquals("9 nights", 150d, pricer.priceOf(booking), 0);
 		
 		
-		Clock clockAfterDeadline = new TestClock(TestConstants.DATE_AFTER_DEADLINE);	
+		Clock clockAfterDeadline = new TestClock(TestConstants.DATE_AFTER_DEADLINE_BEFORE_AMMENDMENT);	
 		Booking lateBooking = Booking.create(testUnit,cocamp, clockAfterDeadline);
 		lateBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		lateBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
@@ -67,7 +67,7 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		Booking lateUpdatedBooking = Booking.create(testUnit,cocamp, testClock);
 		lateUpdatedBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
 		lateUpdatedBooking.setDepartureDate(DateUtils.getDate(2011, 7, 9));
-		lateUpdatedBooking.setBookingUnlockDate(TestConstants.DATE_AFTER_DEADLINE);
+		lateUpdatedBooking.setBookingUnlockDate(TestConstants.DATE_AFTER_AMMENDMENT_DEADLINE);
 		
 		assertEquals("Bookings unlocked for updating after the deadline cost more", 175d, pricer.priceOf(lateUpdatedBooking), 0);
 		
@@ -84,7 +84,7 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		missingDOBBooking.setDob(null); 
 		assertEquals("Those without a DOB are regular price", 150d, pricer.priceOf(missingDOBBooking), 0);
 		
-		woodchipBooking.setBookingCreationDate(TestConstants.DATE_AFTER_DEADLINE);
+		woodchipBooking.setBookingCreationDate(TestConstants.DATE_AFTER_DEADLINE_BEFORE_AMMENDMENT);
 		assertEquals("Late woodchip bookings have an admin fee", 25d, pricer.priceOf(woodchipBooking), 0);	
 	}
 	
@@ -106,7 +106,7 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		regularBooking.setCancellationDate(TestConstants.DATE_BEFORE_DEADLINE);
 		assertEquals("Cancelled bookings before the deadline are £25", 25d, pricer.priceOf(regularBooking), 0);
 
-		regularBooking.setCancellationDate(TestConstants.DATE_AFTER_DEADLINE);
+		regularBooking.setCancellationDate(TestConstants.DATE_AFTER_DEADLINE_BEFORE_AMMENDMENT);
 		assertEquals("Cancelled bookings after the deadline are £75", 75d, pricer.priceOf(regularBooking), 0);
 		
 		regularBooking.setArrivalDate(DateUtils.getDate(2011, 6, 30));
@@ -122,10 +122,10 @@ public class CoCampPricingStrategyTest extends BaseFixtureTestCase {
 		woodchipBooking.setCancellationDate(TestConstants.DATE_BEFORE_DEADLINE);
 		assertEquals("Cancelled woodchip bookings before the deadline are free", 0d, pricer.priceOf(woodchipBooking), 0);
 		
-		woodchipBooking.setCancellationDate(TestConstants.DATE_AFTER_DEADLINE);
+		woodchipBooking.setCancellationDate(TestConstants.DATE_AFTER_DEADLINE_BEFORE_AMMENDMENT);
 		assertEquals("Woodchip bookings made before the deadline and cancelled after the deadline are £0", 0d, pricer.priceOf(woodchipBooking), 0);
 		
-		woodchipBooking.setBookingCreationDate(TestConstants.DATE_AFTER_DEADLINE);
+		woodchipBooking.setBookingCreationDate(TestConstants.DATE_AFTER_DEADLINE_BEFORE_AMMENDMENT);
 		assertEquals("Woodchip bookings made after the deadline (hence £25) and cancelled after the deadline are £25", 25d, pricer.priceOf(woodchipBooking), 0);
 	}
 	

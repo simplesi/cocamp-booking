@@ -22,6 +22,7 @@ public class TestConstants {
 	
 	public static final Date DATE_BEFORE_EARLY_DEADLINE = DateUtils.getDate(2010, 11, 10);
 	public static final Date DATE_BEFORE_DEADLINE = DateUtils.getDate(2011, 1, 10);
-	public static final Date DATE_AFTER_DEADLINE = DateUtils.getDate(2011, 5, 10);
+	public static final Date DATE_AFTER_DEADLINE_BEFORE_AMMENDMENT = DateUtils.getDate(2011, 5, 10);
+	public static final Date DATE_AFTER_AMMENDMENT_DEADLINE = DateUtils.getDate(2011, 6, 10);
 	
 }

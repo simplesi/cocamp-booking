@@ -17,6 +17,7 @@ import uk.org.woodcraft.bookings.datamodel.User;
 import uk.org.woodcraft.bookings.datamodel.Village;
 import uk.org.woodcraft.bookings.persistence.CoreData;
 import uk.org.woodcraft.bookings.persistence.PMF;
+import uk.org.woodcraft.bookings.pricing.RegisteredPricingStrategy;
 import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.DateUtils;
 import uk.org.woodcraft.bookings.utils.TestClock;
@@ -24,6 +25,7 @@ import uk.org.woodcraft.bookings.utils.TestClock;
 public class BasicCoCampTestDataFixture extends TestFixture {
 	
 	// If you get this failing with an inability to create an abstract class in JDO, ensure the data class has a default constructor...
+	private final TestClock afterEarlyBird = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
 	
 	@Override
 	public void createStorageData() {
@@ -39,18 +41,13 @@ public class BasicCoCampTestDataFixture extends TestFixture {
 			
 			// Events
 			List<Event> events = new ArrayList<Event>();
-			Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true);
-			event1.setEarlyBookingDeadline(DateUtils.getDate(2011, 0, 1));
-			event1.setBookingDeadline(DateUtils.getDate(2011, 4, 2));
-			event1.setBookingAmmendmentDeadline(DateUtils.getDate(2011, 4, 2)); // For CoCamp, this is the same as the booking deadline.
-			event1.setBookingSystemLocked(DateUtils.getDate(2011, 7, 28));
-	 		
+			Event event1 = getTestEvent();
 			
 			events.add(event1);
-	 		Event event2 = new Event("Other event", null, null, true);
+	 		Event event2 = new Event("Other event", null, null, true, RegisteredPricingStrategy.COCAMP);
 			events.add(event2);		
 			
-			events.add(new Event("Closed event", null, null, false));	
+			events.add(new Event("Closed event", null, null, false, RegisteredPricingStrategy.COCAMP));	
 			pm.makePersistentAll(events);
 			
 			// Villages
@@ -97,24 +94,7 @@ public class BasicCoCampTestDataFixture extends TestFixture {
 			pm.makePersistentAll(units);
 			
 			// Bookings
-			List<Booking> bookings = new ArrayList<Booking>();
-			
-			// Before earlybird deadline
-			Booking b = Booking.create("Test person", unit1, event1, testClock);
-			b.setEmail("email@example.com");
-			bookings.add(b);
-			
-			bookings.add(Booking.create("Test person 2", unit1, event1,testClock));
-			bookings.add(Booking.create("Test person in unit 2", unit2, event1,testClock));
-			bookings.add(Booking.create("Second person in unit 2", unit2, event1,testClock));
-			
-			bookings.add(Booking.create("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
-			bookings.add(Booking.create("Person in other org", otherOrgUnit2, event1, testClock));
-			bookings.add(Booking.create("Test person in other event", unit1, events.get(1), testClock));
-			
-			// After earlybird deadline
-			TestClock afterEarlyBird = new TestClock(TestConstants.DATE_BEFORE_DEADLINE);
-			bookings.add(Booking.create("Person booked after earlybird", unit1, event1, afterEarlyBird));
+			List<Booking> bookings = getBookings(event1, event2, unit1, unit2, unapprovedWcfUnit, otherOrgUnit2);
 			pm.makePersistentAll(bookings);
 			
 			
@@ -157,10 +137,7 @@ public class BasicCoCampTestDataFixture extends TestFixture {
 			user5.setUnitKey(otherOrgUnit2.getKeyCheckNotNull());
 			
 			pm.makePersistentAll(user1, user2, user3, user4, user5);
-			
-			
-			
-			
+		
 			
 			// Application settings
 			AppSetting defaultEventSetting = new AppSetting(AppSetting.DEFAULT_EVENT, event1.getWebKey());
@@ -175,4 +152,37 @@ public class BasicCoCampTestDataFixture extends TestFixture {
 		}
 	}
 
+	protected Event getTestEvent() {
+		Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true, RegisteredPricingStrategy.COCAMP);
+		event1.setEarlyBookingDeadline(DateUtils.getDate(2011, 0, 1));
+		event1.setBookingDeadline(DateUtils.getDate(2011, 4, 2));
+		event1.setBookingAmendmentDeadline(DateUtils.getDate(2011, 4, 2)); // For CoCamp, this is the same as the booking deadline.
+		event1.setBookingSystemLocked(DateUtils.getDate(2011, 7, 28));
+		
+		return event1;
+	}
+	
+	protected List<Booking> getBookings(Event event1, Event event2,
+			Unit unit1, Unit unit2, Unit unapprovedWcfUnit, Unit otherOrgUnit2) {
+		
+		List<Booking> bookings = new ArrayList<Booking>();
+		Clock testClock = new TestClock(TestConstants.DATE_BEFORE_EARLY_DEADLINE);
+		
+		// Before earlybird deadline
+		Booking b = Booking.create("Test person", unit1, event1, testClock);
+		b.setEmail("email@example.com");
+		bookings.add(b);
+		
+		bookings.add(Booking.create("Test person 2", unit1, event1,testClock));
+		bookings.add(Booking.create("Test person in unit 2", unit2, event1,testClock));
+		bookings.add(Booking.create("Second person in unit 2", unit2, event1,testClock));
+		
+		bookings.add(Booking.create("Person in unapproved, homeless unit", unapprovedWcfUnit, event1, testClock));
+		bookings.add(Booking.create("Person in other org", otherOrgUnit2, event1, testClock));
+		bookings.add(Booking.create("Test person in other event", unit1, event2, testClock));
+		
+		// After earlybird deadline
+		bookings.add(Booking.create("Person booked after earlybird", unit1, event1, afterEarlyBird));
+		return bookings;
+	}
 }

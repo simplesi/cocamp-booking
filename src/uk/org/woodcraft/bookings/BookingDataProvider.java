@@ -8,6 +8,7 @@ import uk.org.woodcraft.bookings.datamodel.Event;
 import uk.org.woodcraft.bookings.datamodel.Organisation;
 import uk.org.woodcraft.bookings.datamodel.Unit;
 import uk.org.woodcraft.bookings.persistence.CannedQueries;
+import uk.org.woodcraft.bookings.pricing.RegisteredPricingStrategy;
 import uk.org.woodcraft.bookings.utils.SessionUtils;
 
 public class BookingDataProvider {
@@ -47,6 +48,11 @@ public class BookingDataProvider {
 	public Collection<Accesslevel> getAccessLevels()
 	{
 		return Arrays.asList(Accesslevel.values());
+	}
+	
+	public Collection<RegisteredPricingStrategy> getPricingStrategies()
+	{
+		return Arrays.asList(RegisteredPricingStrategy.values());
 	}
 	
 }
