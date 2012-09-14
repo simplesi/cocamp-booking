@@ -75,7 +75,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	private Text otherNeeds;
 
 	@Persistent
-	private boolean becomeMember = true;
+	private boolean becomeMember = false;
 
 	/**
 	 * The price of the booking, in pounds Note - cannot be called price since

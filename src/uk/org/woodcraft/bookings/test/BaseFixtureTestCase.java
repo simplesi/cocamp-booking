@@ -3,8 +3,6 @@ package uk.org.woodcraft.bookings.test;
 import org.junit.After;
 import org.junit.Before;
 
-import uk.org.woodcraft.bookings.persistence.CacheSupport;
-
 public abstract class BaseFixtureTestCase extends BaseAppEngineTestCase{
 		
 	private TestFixture fixture;

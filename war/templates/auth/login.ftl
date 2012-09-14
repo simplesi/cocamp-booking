@@ -14,8 +14,8 @@
     
     </@s.form>
 </div>
-<p><strong>Welcome to the CoCamp group booking system!</strong></p>
-<p>This is a system for booking secretaries only. If you are not the booking secretary for your district, unit or organisation, please contact the booking secretary in order to book in for CoCamp.</p>
+<p><strong>Welcome to the Woodcraft Folk Event group booking system!</strong></p>
+<p>This is a system for booking secretaries only. If you are not the booking secretary for your district, unit or organisation, please contact the booking secretary in order to book in for Woodcraft Folk events.</p>
 
 
 <p>To access the Booking System, you must log in.</p>

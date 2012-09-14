@@ -8,7 +8,7 @@
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-  <title>CoCamp - ${pagetitle}</title>
+  <title>Woodcraft Folk Bookings - ${pagetitle}</title>
   <meta name="description" content="">
   <meta name="author" content="">
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
@@ -49,7 +49,7 @@
                 <div id="headerInner">
             		<div id="nav">
             		  <ul>
-            			<a href="/" title="CoCamp Home"><li id="title">CoCamp Bookings</li></a>
+            			<a href="/" title="Woodcraft Folk Bookings Home"><li id="title">Woodcraft Folk Bookings</li></a>
             			<div class="printhide">
             			<#if (Session?exists && ! Session.USER?? ) || !Session?exists >
             				<li class="right"><@s.url id="signupURL" namespace="/signup" action="signup"/><@s.a href="${signupURL}">Sign Up</@s.a></li>

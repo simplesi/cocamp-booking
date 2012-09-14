@@ -5,7 +5,7 @@
 
 <footer>
     <div id="footerInner">
-        <span>&copy; CoCamp</span> <a href="/privacy">Privacy</a> | <a href="/terms">Terms</a>
+        <span>&copy; Woodcraft Folk</span>
     </div>
 </footer>
         

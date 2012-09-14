@@ -4,8 +4,8 @@
 <@s.actionmessage/>
 <@s.actionerror/>
 
-<h2>Welcome to CoCamp bookings!</h2>
-<p>You are logged into the CoCamp Booking system - please use the menus above to navigate around.</p>
+<h2>Welcome to Woodcraft Folk bookings!</h2>
+<p>You are logged into the Woodcraft Folk Booking system - please use the menus above to navigate around.</p>
 <#if Session.USER.accessLevel.canChangeUnit>
 <p>As an <strong>organisational booking secretary</strong>, you can use the menu in the top-right to change the unit being displayed.</p>
 </#if>

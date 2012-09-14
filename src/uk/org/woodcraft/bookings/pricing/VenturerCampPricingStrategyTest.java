@@ -105,13 +105,13 @@ public class VenturerCampPricingStrategyTest extends BaseFixtureTestCase {
 	public void testCancellation(){
 		VenturerCampPricingStrategy pricer = new VenturerCampPricingStrategy();
 		
-		Event cocamp = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
+		Event vcamp = CannedQueries.eventByName(TestConstants.EVENT1_NAME);
 		Organisation testOrg = CannedQueries.orgByName(TestConstants.ORG1_NAME);
 		Unit testUnit = CannedQueries.unitByName(TestConstants.UNIT1_NAME, testOrg);
 		
 		TestClock testClock = new TestClock(BasicVCampTestDataFixture.DATE_BEFORE_DEADLINE);
 		
-		Booking regularBooking = Booking.create(testUnit, cocamp, testClock);
+		Booking regularBooking = Booking.create(testUnit, vcamp, testClock);
 		regularBooking.setArrivalDate(DateUtils.getDate(2013, 7, 3));
 		regularBooking.setDepartureDate(DateUtils.getDate(2013, 7, 11));
 		assertEquals("Regular bookings are 112", 112d, pricer.priceOf(regularBooking), 0);
@@ -126,7 +126,7 @@ public class VenturerCampPricingStrategyTest extends BaseFixtureTestCase {
 		regularBooking.setDepartureDate(DateUtils.getDate(2013, 7, 4));
 		assertEquals("Cancelled bookings which cost less than £50 are capped at their cost if cancelled after the deadline", 10d + 13, pricer.priceOf(regularBooking), 0);
 		
-		Booking woodchipBooking = Booking.create(testUnit, cocamp, testClock);
+		Booking woodchipBooking = Booking.create(testUnit, vcamp, testClock);
 		woodchipBooking.setArrivalDate(DateUtils.getDate(2013, 7, 3));
 		woodchipBooking.setDepartureDate(DateUtils.getDate(2013, 7, 11));	
 		woodchipBooking.setDob(DateUtils.getDate(2007, 7, 4)); // Latest possible date to be 5 at start of camp

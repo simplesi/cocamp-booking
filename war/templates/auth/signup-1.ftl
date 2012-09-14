@@ -2,7 +2,7 @@
 <#include "/templates/header.ftl">
 <h2>Sign up - Step 1</h2>
 <div class="helpcolumn">
-<p>Signing up for CoCamp bookings is a five step process. It will take 10 minutes to complete.</p>
+<p>Signing up for Woodcraft Folk bookings is a five step process. It will take 10 minutes to complete.</p>
 <ol><li><strong>1) Select/add your organisation</strong></li>
 <li>2) Select/add your unit</li>
 <li>3) Add your personal contact details</li>

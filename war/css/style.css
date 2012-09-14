@@ -466,7 +466,7 @@ header
 }
 
 #booking_arrivalDate, #booking_dob, #booking_departureDate, #event_publicEventStart,
-#event_publicEventEnd, #event_internalEventStart, #event_internalEventEnd, #event_earlyBookingDeadline, #event_bookingDeadline, #event_bookingSystemLocked
+#event_publicEventEnd, #event_internalEventStart, #event_internalEventEnd, #event_earlyBookingDeadline, #event_bookingDeadline, #event_bookingSystemLocked, #event_bookingAmendmentDeadline
 {   background-image: url(/css/custom-theme/images/ui-icon-calendar.png);
 	background-position: 98%;
 	background-repeat: no-repeat;

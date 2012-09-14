@@ -3,7 +3,7 @@
 <#include "/templates/header.ftl">
 <h2>Accounts - ${Session.CURRENT_UNIT.name}</h2>
 <p>This is your current statement of accounts, listing costs for the bookings you have made, and any payments received for your ${viewLevel}.</p>
-<p>Please ensure that any outstanding balance is paid before the end of Camp. You can do this by visiting the CoCamp office.</p>
+<p>Please ensure that any outstanding balance is paid before the end of Camp. You can do this by visiting the office.</p>
 <br/>
 <br/>
 <h3>Costs</h3>
@@ -91,9 +91,9 @@
 
 <#if IsBeforeEarlyBookingDeadline>
 	<#if ( costs.size() == 0)>
-	<p><em>You need to book people into the event and have paid 50% of the fee for them before ${earlyBookingsDate?date} in order to qualify for the early bookings discount.</em></p>
+	<p><em>You need to book people into the event and have paid the deposit for them before ${earlyBookingsDate?date} in order to qualify for the early bookings discount.</em></p>
 	<#else>
-	<p><em>To qualify all of your bookings so far for the discount on early bookings, you need to have paid in total at least ${earlyBookingsAmount?string.currency} before ${earlyBookingsDate?date}. Note that this discount only applies to bookings for the full 10 days of camp.</em></p>   	
+	<p><em>To qualify all of your bookings so far for the discount on early bookings, you need to have paid the deposit for each before ${earlyBookingsDate?date}. Note that this discount only applies to bookings for the full duration of camp.</em></p>   	
 	</#if>
 </#if>
 
