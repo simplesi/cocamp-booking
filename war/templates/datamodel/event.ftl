@@ -10,6 +10,7 @@
   	$( "#event_internalEventEnd" ).datepicker({ dateFormat: 'dd/mm/y' });
   	$( "#event_earlyBookingDeadline" ).datepicker({ dateFormat: 'dd/mm/y' });
   	$( "#event_bookingDeadline" ).datepicker({ dateFormat: 'dd/mm/y' });
+  	$( "#event_bookingAmmendmentDeadline" ).datepicker({ dateFormat: 'dd/mm/y' });
   	$( "#event_bookingSystemLocked" ).datepicker({ dateFormat: 'dd/mm/y' });
   });
 </script>
@@ -18,6 +19,7 @@
 <div class="helpcolumn">
 <p>The <strong>early booking deadline</strong> is used when applying early booking discounts.</p>
 <p>The <strong>booking deadline</strong> is the last date for bookings before a late booking fee is applied. Cancellations after this date will not get a refund.</p>
+<p>The <strong>ammendment deadline</strong> date is the date after which bookings must be unlocked (usually for a fee) to make changes.</p>
 <p>The <strong>booking system locked</strong> date is the date when everything is read-only for all non-admins. This is usually immediately before the event.</p>
 </div>
 <@s.actionmessage/>
@@ -35,6 +37,7 @@
         
         <@s.textfield name="earlyBookingDeadline" value="%{getText('format.date',{earlyBookingDeadline})}" label="Early booking deadline"/>
         <@s.textfield name="bookingDeadline" value="%{getText('format.date',{bookingDeadline})}" label="Booking deadline"/>
+        <@s.textfield name="bookingAmmendmentDeadline" value="%{getText('format.date',{bookingAmmendmentDeadline})}" label="Ammendment deadline"/>
         <@s.textfield name="bookingSystemLocked" value="%{getText('format.date',{bookingSystemLocked})}" label="Booking system locked"/>
         
         

@@ -20,8 +20,7 @@
 <div class="helpcolumn">
 <p>Booking information for this individual should be entered on the left. 
 This information should be as accurate as possible, details cannot be changed after the bookings deadline.</p>
-<p>If an <strong>email address</strong> is supplied, this can be used by the bookings secretary to contact all people they have booked in, and it will be used later to invite people to 'My Village', the online pre-CoCamp community.</p>
-<p>A Woodcraft Folk <strong>membership number</strong> should be provided for all adults in Woodcraft Folk units.</p>
+<p>A Woodcraft Folk <strong>membership number</strong> should be provided for all adults in Woodcraft Folk units. If you are a venturer and not a member already, check the box if you want to become one.</p>
 </div>
 <@s.actionerror/>
 
@@ -29,7 +28,7 @@ This information should be as accurate as possible, details cannot be changed af
 <@s.form id="booking" method="post">
 
 	<#if !isEditable>
-		<p><em>This booking is locked for editing, except for the membership number, health details and contact information. See below for more details.</em></p>
+		<p><em>This booking is locked for editing - you can only change certain fields. See below for more details.</em></p>
 	<#else>
 		<p><em>This booking can be edited until ${editCutoffDate?date}.</em></p>
 	</#if>  
@@ -52,7 +51,7 @@ This information should be as accurate as possible, details cannot be changed af
         <@s.textfield name="dietNotes" label="Additional diet notes" readonly=!isEditable/>
         <@s.textarea name="otherNeeds" label="Other needs (disability, allergies, health conditions)" />
         
-        <@s.checkbox label="Become a CoCamp member?" name="becomeMember"/>
+        <@s.checkbox label="Become a Woodcraft Folk member?" name="becomeMember"/>
         
         <@s.textfield name="arrivalDate" label="Arrival Date" value="%{getText('format.date',{arrivalDate})}" readonly=!isEditable/>
         <@s.textfield name="departureDate" label="Departure Date" value="%{getText('format.date',{departureDate})}" readonly=!isEditable/>
@@ -89,8 +88,8 @@ This information should be as accurate as possible, details cannot be changed af
 		<#if !isEditable>
 		<p>
 		<h3>Booking locked</h3>
-		The booking deadline for this event has passed, and so bookings cannot be edited.
-		If you need to change this booking, you can unlock it for editing for 24 hours - which will incur the late booking fee for this booking, as per the event's booking fees.</p>
+		The booking ammendment deadline for this event has passed, and so bookings cannot be edited.
+		If you need to change this booking, you can unlock it for editing for 24 hours - which will incur the ammendment fee for this booking, as per the event's booking policy.</p>
 		<@s.submit value="Unlock Booking" action="unlockBooking"/>
 		</#if>
 	</@s.push>

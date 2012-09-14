@@ -21,7 +21,7 @@ import uk.org.woodcraft.bookings.utils.Clock;
 import uk.org.woodcraft.bookings.utils.DateUtils;
 import uk.org.woodcraft.bookings.utils.TestClock;
 
-public class BasicTestDataFixture extends TestFixture {
+public class BasicCoCampTestDataFixture extends TestFixture {
 	
 	// If you get this failing with an inability to create an abstract class in JDO, ensure the data class has a default constructor...
 	
@@ -42,6 +42,7 @@ public class BasicTestDataFixture extends TestFixture {
 			Event event1 = new Event(TestConstants.EVENT1_NAME, TestConstants.EVENT1_START, TestConstants.EVENT1_END, true);
 			event1.setEarlyBookingDeadline(DateUtils.getDate(2011, 0, 1));
 			event1.setBookingDeadline(DateUtils.getDate(2011, 4, 2));
+			event1.setBookingAmmendmentDeadline(DateUtils.getDate(2011, 4, 2)); // For CoCamp, this is the same as the booking deadline.
 			event1.setBookingSystemLocked(DateUtils.getDate(2011, 7, 28));
 	 		
 			

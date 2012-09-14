@@ -136,15 +136,20 @@ public class BookingAction extends BasePersistenceAction<Booking>{
 			cutoff.setTime(cutoff.getTime() + (60 * 60 * 1000 * 24));
 			return cutoff;
 		}
-		return getCurrentEvent().getBookingDeadline();	
+		
+		// TODO: This can potentially end up displaying a date in the past for "This booking can be edited until..."
+		//  	 If this is a new booking after the deadline. Need to better handle that case.
+		return getCurrentEvent().getBookingAmmendmentDeadline();	
 	}
 	
 	public boolean getIsEditable() {
 		if (getModel().getKey() == null) return true;
 		
-		if (getCurrentTime().before(getCurrentEvent().getBookingDeadline()) ) return true;
+		if (getCurrentTime().before(getCurrentEvent().getBookingAmmendmentDeadline()) ) return true;
 		if (getCurrentTime().after(getCurrentEvent().getBookingSystemLocked()) ) return false;
 		
+		
+		// If the booking was unlocked, handle the unlock window
 		Date bookingUnlockDate = getModel().getBookingUnlockDate();
 		if (bookingUnlockDate == null) return false;
 		
