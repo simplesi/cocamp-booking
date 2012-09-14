@@ -28,9 +28,9 @@
         
         <h3>Estimate of numbers</h3>
         <p>How may of each of the following will you bring to camp? These numbers are not binding, but please try to be as accurate as possible to help our planning.</p>       
-        <!-- @s.textfield name="estimateWoodchip" 	label="Woodchips"/>
-        <!-- @s.textfield name="estimateElfin" 		label="Elfins"/>
-        <!-- @s.textfield name="estimatePioneer" 	label="Pioneers"/>
+        <!-- @s.textfield name="estimateWoodchip" 	label="Woodchips"/ -->
+        <!-- @s.textfield name="estimateElfin" 		label="Elfins"/ -->
+        <!-- @s.textfield name="estimatePioneer" 	label="Pioneers"/ -->
         <@s.textfield name="estimateVenturer" 	label="Venturers"/>
         <@s.textfield name="estimateDF" 		label="DFs"/>
         <@s.textfield name="estimateAdult" 		label="Adults"/>
