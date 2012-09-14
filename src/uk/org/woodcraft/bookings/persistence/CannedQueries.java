@@ -629,7 +629,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	
 	public static Collection<User> allUnapprovedUsers()
 	{
-		return allUsers(null, null, true);
+		return allUsers(null, null, false);
 	}
 	
 	public static Collection<User> allUsersForOrg(Organisation org)
@@ -646,7 +646,7 @@ private static final Logger log = Logger.getLogger(CannedQueries.class.getName()
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		Query query = pm.newQuery(clazz);
-		return queryDetachAndClose(clazz, query, true);
+		return queryDetachAndClose(clazz, query, false);
 	}
 	
 	
