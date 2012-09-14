@@ -2,7 +2,7 @@ package uk.org.woodcraft.bookings.test;
 
 public abstract class TestFixture {
 
-	public static final TestFixture BASIC_DATA = new BasicTestDataFixture();
+	public static final TestFixture BASIC_DATA = new BasicCoCampTestDataFixture();
 	
 	public void setUp()
 	{

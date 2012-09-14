@@ -34,11 +34,13 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 	private Date internalEventEnd;
 	
 	@Persistent
-	private Date earlyBookingDeadline; // Used for early booking discounts
+	private Date earlyBookingDeadline; 		// Used for early booking discounts
 	@Persistent
-	private Date bookingDeadline; // Lose deposit after this point
+	private Date bookingDeadline; 			// Lose deposit after this point
 	@Persistent
-	private Date bookingSystemLocked; // Absolutely no changes whatsoever after this point
+	private Date bookingAmmendmentDeadline; // Fee to change booking after this point
+	@Persistent
+	private Date bookingSystemLocked; 		// Absolutely no changes whatsoever after this point
 	
 	/**
 	 * Is the event currently open for booking?
@@ -174,6 +176,16 @@ public class Event extends KeyBasedDataWithAudit implements NamedEntity, DeleteR
 		this.bookingDeadline = bookingDeadline;
 	}
 
+	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Booking ammendment deadline must be provided")
+	public Date getBookingAmmendmentDeadline() {
+		return bookingAmmendmentDeadline;
+	}
+
+	public void setBookingAmmendmentDeadline(Date bookingAmmendementDeadline) {
+		this.bookingAmmendmentDeadline = bookingAmmendementDeadline;
+	}
+
+	
 	@RequiredFieldValidator(type = ValidatorType.FIELD, message = "Booking system lock date must be provided")
 	public Date getBookingSystemLocked() {
 		return bookingSystemLocked;
