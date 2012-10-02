@@ -73,6 +73,9 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 
 	@Persistent
 	private Text otherNeeds;
+	
+	@Persistent
+	private String role;
 
 	@Persistent
 	private boolean becomeMember = false;
@@ -466,5 +469,13 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	
 	public static final Booking create(Unit unit, Event event) {
 		return create(unit, event, new SystemClock());
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 }

@@ -50,13 +50,12 @@
     	<@s.checkbox name="canvasStore" 	label="Store tent"/>
     	<@s.textarea name="canvasOther" 	label="Other canvas offers for village"/>
  
- 		<h3>Shared large canvas</h3>
- 		<p>What large canvas can your unit offer (for use centrally)?</p>
- 		<@s.checkbox name="largeCanvasTown" 		label="Main marquee (for approx 700 people)"/>
- 		<@s.checkbox name="largeCanvasActivity" 	label="Activity marquee"/>
- 		<@s.checkbox name="largeCanvasCafe" 		label="Cafe marquee"/>
- 		<@s.textarea name="largeCanvasOther" 		label="Other large canvas offers for event"/>
-	
+ 		<h3>Shared equipment &amp; canvas</h3>
+ 		<p>What canvas can your unit offer (for use centrally)? Please specify dimensions.</p>
+ 		<@s.textarea name="sharedCanvas" 		label="Details"/>		 
+ 		<p>What equipment can your unit offer (for use in centres)? Please specify.</p>
+ 		<@s.textarea name="sharedEquipment" 		label="Details"/>
+ 	
 		<h3>Partners and hosting</h3>
 		<@s.textfield name="villagePartner" 	label="Is there another district you would like to be in a village with - if so, who?"/>
 		<@s.textarea name="delegation" 			label="Do you have a delegation in mind that you wish to host? This could be international or from another organisation in this country."/>	

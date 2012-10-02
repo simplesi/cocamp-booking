@@ -126,6 +126,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	private Text canvasOther;
 	
 /*
+ *  LEGACY COCAMP
 	What large canvas can your district offer (for use in town centre etc.)?
 	1.	Town Marquee (for approx 500 people)
 	2.	Activity Marquee
@@ -140,6 +141,12 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	private boolean largeCanvasCafe=false;
 	@Persistent
 	private Text largeCanvasOther;
+	
+	/* VCamp */
+	@Persistent
+	private Text sharedCanvas;
+	@Persistent
+	private Text sharedEquipment;
 	
 	
 /*	Is there another district you would like to be in a village with?
@@ -432,7 +439,25 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 	public void setLargeCanvasOther(String largeCanvasOther) {
 		this.largeCanvasOther = new Text(largeCanvasOther);
 	}
+	
+	@CannedReportColumn(priority = 58)
+	public String getSharedCanvas() {
+		return sharedCanvas.getValue();
+	}
 
+	public void setSharedCanvas(String sharedCanvas) {
+		this.sharedCanvas = new Text(sharedCanvas);
+	}
+
+	@CannedReportColumn(priority = 59)
+	public String getSharedEquipment() {
+		return sharedEquipment.getValue();
+	}
+
+	public void setSharedEquipment(String sharedEquipment) {
+		this.sharedEquipment = new Text(sharedEquipment);
+	}
+	
 	@CannedReportColumn(priority = 60)
 	public String getVillagePartner() {
 		return villagePartner;
@@ -475,5 +500,7 @@ public class Unit extends KeyBasedDataWithContactInfo implements NamedEntity, De
 		if (villageKey == null) return null;
 		return CannedQueries.villageByKey(villageKey);
 	}
+
+
 	
 }
