@@ -14,7 +14,7 @@
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
 
   <!-- Place favicon.ico and apple-touch-icon.png in the root of your domain and delete these references -->
-  <link rel="shortcut icon" href="/graphics/favicon.png">
+  <link rel="shortcut icon" href="/graphics/favicon.ico">
 
   <!-- CSS : implied media="all" -->
   <link rel="stylesheet" href="/css/style.css?v=1">
