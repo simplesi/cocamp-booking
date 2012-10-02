@@ -19,7 +19,7 @@
 <h2>Booking Edit</h2>
 <div class="helpcolumn">
 <p>Booking information for this individual should be entered on the left. 
-This information should be as accurate as possible, details cannot be changed after the bookings deadline.</p>
+This information should be as accurate as possible, details cannot be changed after the booking deadline without incurring an administrative fee - see event booking policy for details.</p>
 <p>A Woodcraft Folk <strong>membership number</strong> should be provided for all adults in Woodcraft Folk units. If you are a venturer and not a member already, check the box if you want to become one.</p>
 </div>
 <@s.actionerror/>
@@ -37,7 +37,7 @@ This information should be as accurate as possible, details cannot be changed af
         <@s.textfield name="name" label="Name" readonly=!isEditable/>
         <@s.textfield name="dob" label="Date Of Birth (dd/mm/yyyy)" value="%{getText('format.date',{dob})}" readonly=!isEditable/>
         <#if model.dob?exists && model.ageGroup!="" >Age group for event: ${model.ageGroup}<br/></#if>
-        
+        <@s.textfield name="role" label="Role (if over 16)"/>        
         <@s.textfield name="email" label="Email"/>
         <@s.textfield name="phoneNumber" label="Phone Number" />
       	<@s.textfield name="membershipNumber" label="Wcf Membership Number (if a member)"/> 
@@ -51,7 +51,7 @@ This information should be as accurate as possible, details cannot be changed af
         <@s.textfield name="dietNotes" label="Additional diet notes" readonly=!isEditable/>
         <@s.textarea name="otherNeeds" label="Other needs (disability, allergies, health conditions)" />
         
-        <@s.checkbox label="Become a Woodcraft Folk member?" name="becomeMember"/>
+        <@s.checkbox label="Become a Woodcraft Folk member? (Venturers only)" name="becomeMember"/>
         
         <@s.textfield name="arrivalDate" label="Arrival Date" value="%{getText('format.date',{arrivalDate})}" readonly=!isEditable/>
         <@s.textfield name="departureDate" label="Departure Date" value="%{getText('format.date',{departureDate})}" readonly=!isEditable/>
