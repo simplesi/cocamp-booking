@@ -96,13 +96,13 @@ public class SignupAction extends BasePersistenceAction<User>{
 	private void sendUserConfirmEmail(User user)
 	{
 		
-		String subject = "Woodcraft Folk Booking - Activate your account";
-		String body = "Someone signed up for Woodcraft Folk bookings using your email address. \n\n" 
+		String subject = "Woodcraft Folk Bookings - Activate your account";
+		String body = "Someone signed up for Woodcraft Folk Bookings using your email address. \n\n" 
 					+ "If this was you, please go to the following link to confirm this email. " 
 					+ "If this was not you, please disregard this email. \n"
 					+"Once you have confirmed your email address, your account will be checked and approved.  Please note that this approval is checked by our staff so there may be a delay, especially if you have signed up outside of office hours.\n\n"
 					+ buildUserConfirmData(user)
-					+ "\n\nThanks,The Bookings Team";
+					+ "\n\nThanks,\nThe Bookings Team";
 		System.out.println(body);
 		EmailUtils.emailUser(user, subject, body);
 	}
