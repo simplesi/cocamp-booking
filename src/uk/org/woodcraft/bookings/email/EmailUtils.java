@@ -24,11 +24,10 @@ public class EmailUtils {
         try {
             Message msg = new MimeMessage(session);
             
-            // FIXME: Change to proper admin address / Event name
-            //msg.setFrom(new InternetAddress("no-reply@woodcraft.org.uk", "CoCamp Bookings Admin"));
-            msg.setFrom(new InternetAddress("simon@simplesi.org", "CoCamp Bookings Admin"));
+            msg.setFrom(new InternetAddress("bookings-no-reply@woodcraft.org.uk", "Woodcraft Folk Bookings"));
+           // msg.setFrom(new InternetAddress("simon@simplesi.org", "CoCamp Bookings Admin"));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail(), user.getName()));
-            msg.addRecipient(Message.RecipientType.BCC, new InternetAddress("cocamp-email-archive@woodcraft.org.uk", user.getName()));
+            msg.addRecipient(Message.RecipientType.BCC, new InternetAddress("bookings-email-archive@woodcraft.org.uk", user.getName()));
             msg.setSubject(subject);
             msg.setText(body);
             Transport.send(msg);
