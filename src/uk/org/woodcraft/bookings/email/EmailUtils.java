@@ -24,7 +24,7 @@ public class EmailUtils {
         try {
             Message msg = new MimeMessage(session);
             
-            msg.setFrom(new InternetAddress("bookings-no-reply@woodcraft.org.uk", "Woodcraft Folk Bookings"));
+            msg.setFrom(new InternetAddress("bookings-email-archive@woodcraft.org.uk", "Woodcraft Folk Bookings"));
            // msg.setFrom(new InternetAddress("simon@simplesi.org", "CoCamp Bookings Admin"));
             msg.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail(), user.getName()));
             msg.addRecipient(Message.RecipientType.BCC, new InternetAddress("bookings-email-archive@woodcraft.org.uk", user.getName()));
