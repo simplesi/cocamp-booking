@@ -71,7 +71,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 		for(Unit unit : getUnits())
 		{
 			
-			String proposedNewVillageKey = map.get(Base64.encode(unit.getWebKey().getBytes()));
+			String proposedNewVillageKey = map.get(Base64.encode(unit.getWebKey()));
 			if (proposedNewVillageKey == null || proposedNewVillageKey.equals("")) 
 			{
 				log.info(String.format("Skipping %s as proposedKey was %s", unit.getName(), proposedNewVillageKey) );
