@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.apache.commons.codec.base64.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 import uk.org.woodcraft.bookings.auth.SecurityModel;
 import uk.org.woodcraft.bookings.auth.SessionConstants;
@@ -40,7 +40,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 		map.clear();
 		for(Unit unit : CannedQueries.allUnits(false, false))
 		{
-			map.put(Base64.encode(unit.getWebKey()), unit.getVillageWebKey());
+			map.put(new String(Base64.encodeBase64(unit.getWebKey().getBytes())), unit.getVillageWebKey());
 		}
 	}
 	
@@ -70,11 +70,11 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 		
 		for(Unit unit : getUnits())
 		{
-			
-			String proposedNewVillageKey = map.get(Base64.encode(unit.getWebKey()));
+
+			String proposedNewVillageKey = map.get(new String(Base64.encodeBase64(unit.getWebKey().getBytes())));
 			if (proposedNewVillageKey == null || proposedNewVillageKey.equals("")) 
 			{
-				log.info(String.format("Skipping %s as proposedKey was %s", unit.getName(), proposedNewVillageKey) );
+				log.info(String.format("Skipping %s (%s) as proposedKey was %s", unit.getName(), new String(Base64.encodeBase64(unit.getWebKey().getBytes())), proposedNewVillageKey) );
 				continue;
 			}
 			
