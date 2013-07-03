@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.apache.commons.codec.base64.Base64;
 
@@ -20,6 +21,7 @@ import com.google.appengine.api.datastore.KeyFactory;
 public class UnitVillageMappingAction extends SessionBasedAction{
 
 	private static final long serialVersionUID = 1L;
+	private static final Logger log = Logger.getLogger(UnitVillageMappingAction.class.getName());
 	
 	private Map<String, String> map = new HashMap<String,String>();
 	private Collection<Booking> problemBookings = new ArrayList<Booking>();
@@ -64,11 +66,17 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 		
 		problemBookings = new ArrayList<Booking>();
 		
+		log.info("Map of unit mappings to change " + map.toString() );
+		
 		for(Unit unit : getUnits())
 		{
 			
 			String proposedNewVillageKey = map.get(Base64.encode(unit.getWebKey().getBytes()));
-			if (proposedNewVillageKey == null || proposedNewVillageKey.equals("")) continue;
+			if (proposedNewVillageKey == null || proposedNewVillageKey.equals("")) 
+			{
+				log.info(String.format("Skipping %s as proposedKey was %s", unit.getName(), proposedNewVillageKey) );
+				continue;
+			}
 			
 			Key newKey = KeyFactory.stringToKey(proposedNewVillageKey);
 			
@@ -102,6 +110,10 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 				
 				unitsChanged++;
 				bookingsChanged += bookingsToUpdate.size();
+			}
+			else
+			{
+				log.info(String.format("Skipping %s as existing key was %s and new key %s", unit.getName(), unit.getVillageKey(), newKey.toString()) );
 			}
 		}
 		
