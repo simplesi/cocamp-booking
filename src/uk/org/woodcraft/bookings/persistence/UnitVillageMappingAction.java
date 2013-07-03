@@ -66,7 +66,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 		
 		problemBookings = new ArrayList<Booking>();
 		
-		log.info("Map of unit mappings to change " + map.toString() );
+		log.fine("Map of unit mappings to change " + map.toString() );
 		
 		for(Unit unit : getUnits())
 		{
@@ -74,7 +74,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 			String proposedNewVillageKey = map.get(new String(Base64.encodeBase64(unit.getWebKey().getBytes())));
 			if (proposedNewVillageKey == null || proposedNewVillageKey.equals("")) 
 			{
-				log.info(String.format("Skipping %s (%s) as proposedKey was %s", unit.getName(), new String(Base64.encodeBase64(unit.getWebKey().getBytes())), proposedNewVillageKey) );
+				log.fine(String.format("Skipping %s (%s) as proposedKey was %s", unit.getName(), new String(Base64.encodeBase64(unit.getWebKey().getBytes())), proposedNewVillageKey) );
 				continue;
 			}
 			
@@ -113,7 +113,7 @@ public class UnitVillageMappingAction extends SessionBasedAction{
 			}
 			else
 			{
-				log.info(String.format("Skipping %s as existing key was %s and new key %s", unit.getName(), unit.getVillageKey(), newKey.toString()) );
+				log.fine(String.format("Skipping %s as existing key was %s and new key %s", unit.getName(), unit.getVillageKey(), newKey.toString()) );
 			}
 		}
 		
