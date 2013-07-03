@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.jdo.annotations.NotPersistent;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -45,6 +46,7 @@ public class Booking extends KeyBasedDataWithAudit implements NamedEntity,
 	@Persistent
 	private Date dob;
 	
+	@NotPersistent
 	private Integer age;
 
 	@Persistent
